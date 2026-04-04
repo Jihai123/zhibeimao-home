@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ArrowRight, Search } from 'lucide-react';
+import { Search } from 'lucide-react';
 
 import { quickEntries } from '@/data/home-data';
 import { siteLinks } from '@/data/site-links';
@@ -12,10 +12,10 @@ export function HeroSection() {
           AI Decision Hub
         </p>
         <h1 className="text-3xl font-black leading-tight tracking-tight text-white md:text-5xl">
-          发现好用的 AI 工具，也找到真正能帮你做决定的工具
+          发现好用的 AI 工具，也找到真正能帮你做决策的工具
         </h1>
         <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-slate-300 md:text-base">
-          AI 工具推荐、实时榜单、决策工具，一站直达
+          AI 工具导航、实时推荐、决策工具，一站式入口
         </p>
 
         <form
@@ -35,13 +35,36 @@ export function HeroSection() {
           </button>
         </form>
 
-        <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
+        <div className="mt-6 rounded-2xl border border-white/10 bg-slate-900/40 p-4 text-left">
+          <p className="text-sm font-medium text-slate-200">你可以先做这 3 件事：</p>
+          <div className="mt-3 grid gap-2 sm:grid-cols-3">
+            <Link
+              href={siteLinks.hongKongIPO}
+              className="rounded-xl bg-amber-300 px-4 py-2.5 text-sm font-semibold text-slate-900 transition-all duration-300 hover:bg-amber-200"
+            >
+              查新股评分
+            </Link>
+            <Link
+              href={siteLinks.nav}
+              className="rounded-xl border border-white/15 bg-white/5 px-4 py-2.5 text-sm font-semibold text-slate-100 transition-all duration-300 hover:border-cyan-300/40 hover:bg-cyan-400/10"
+            >
+              找 AI 工具
+            </Link>
+            <Link
+              href={siteLinks.pensionCalculator}
+              className="rounded-xl border border-white/15 bg-white/5 px-4 py-2.5 text-sm font-semibold text-slate-100 transition-all duration-300 hover:border-cyan-300/40 hover:bg-cyan-400/10"
+            >
+              算养老金
+            </Link>
+          </div>
+        </div>
+
+        <div className="mt-5 flex flex-col items-center justify-center gap-3 sm:flex-row">
           <Link
             href={siteLinks.discover}
-            className="group inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 via-violet-500 to-cyan-500 px-7 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/20 transition-all duration-300 hover:-translate-y-1 hover:shadow-glow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 sm:w-auto"
+            className="w-full rounded-xl border border-white/20 bg-white/5 px-7 py-3 text-sm font-semibold text-slate-100 transition-all duration-300 hover:-translate-y-1 hover:border-cyan-300/40 hover:bg-cyan-400/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 sm:w-auto"
           >
-            探索 AI 工具
-            <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+            浏览全部入口
           </Link>
           <Link
             href="#tools"
@@ -58,7 +81,7 @@ export function HeroSection() {
             <Link
               key={entry.label}
               href={entry.href}
-              className="rounded-xl border border-white/15 bg-slate-900/60 px-4 py-2.5 text-sm font-medium text-slate-200 transition-all duration-300 hover:-translate-y-1 hover:border-cyan-300/40 hover:bg-cyan-400/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300"
+              className="rounded-xl border border-white/10 bg-slate-900/45 px-3 py-2 text-xs font-medium text-slate-300 transition-all duration-300 hover:border-cyan-300/30 hover:bg-cyan-400/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300"
             >
               {entry.label}
             </Link>

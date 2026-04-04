@@ -9,7 +9,7 @@ export function ToolCards() {
       <div className="flex items-center justify-between gap-3">
         <div>
           <h2 className="text-2xl font-bold text-white md:text-3xl">决策工具</h2>
-          <p className="mt-2 text-sm text-slate-300">围绕真实决策场景打造，把复杂问题拆成可执行动作。</p>
+          <p className="mt-2 text-sm text-slate-300">直接可用的判断工具，优先给你高频、可执行的下一步。</p>
         </div>
         <Link
           href={siteLinks.tools}
@@ -20,8 +20,9 @@ export function ToolCards() {
       </div>
 
       <div className="mt-7 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {toolAssets.map((tool) => {
+        {toolAssets.map((tool, index) => {
           const Icon = tool.icon;
+          const isLowerPriority = index > 2;
 
           return (
             <Link
@@ -29,9 +30,11 @@ export function ToolCards() {
               href={tool.href}
               className={[
                 'group rounded-2xl border p-5 backdrop-blur transition-all duration-300 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300',
+                tool.highlighted ? 'sm:col-span-2 lg:col-span-2' : '',
                 tool.highlighted
                   ? 'border-amber-300/50 bg-gradient-to-br from-amber-400/10 via-slate-900/90 to-slate-950 shadow-lg shadow-amber-500/15 hover:shadow-xl hover:shadow-amber-400/20'
-                  : 'border-white/10 bg-white/[0.03] shadow-sm hover:border-violet-200/30 hover:shadow-xl hover:shadow-violet-500/10'
+                  : 'border-white/10 bg-white/[0.03] shadow-sm hover:border-violet-200/30 hover:shadow-xl hover:shadow-violet-500/10',
+                isLowerPriority ? 'opacity-90' : ''
               ].join(' ')}
             >
               <article>
