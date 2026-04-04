@@ -3,64 +3,66 @@ import { BadgeDollarSign, Bot, Compass, Newspaper, PiggyBank, Sparkles, Star, Wo
 import { siteLinks } from '@/data/site-links';
 
 export const quickEntries = [
-  { label: '港股打新', href: siteLinks.hongKongIPO },
-  { label: '养老金计算器', href: siteLinks.pensionCalculator },
-  { label: '宜居城市', href: siteLinks.livableCity },
-  { label: 'AI 榜单', href: siteLinks.aiLeaderboard },
-  { label: 'AI 资讯', href: siteLinks.news },
-  { label: '工具导航', href: siteLinks.nav }
+  { label: 'AI 工具导航', href: siteLinks.nav },
+  { label: '实时 AI 榜单', href: siteLinks.aiLeaderboard },
+  { label: '热门分类', href: siteLinks.discover },
+  { label: '专题精选', href: siteLinks.topics }
 ];
 
 export const featuredAssets = [
   {
-    title: '港股打新助手',
-    description: '覆盖融资倍数、预期中签率与盈亏平衡点，帮助你做更稳健的新股决策。',
-    tag: '决策工具',
-    cta: '立即评估',
-    href: siteLinks.hongKongIPO,
-    icon: BadgeDollarSign
-  },
-  {
-    title: '养老金计算器',
-    description: '输入地区、缴费基数与预期退休年龄，快速预估退休现金流。',
-    tag: '实用工具',
-    cta: '开始测算',
-    href: siteLinks.pensionCalculator,
-    icon: PiggyBank
-  },
-  {
-    title: '今日 AI 快讯',
-    description: '聚合模型发布、产品更新与行业动向，3 分钟看完今日重点。',
-    tag: '每日更新',
-    cta: '阅读快讯',
-    href: siteLinks.news,
-    icon: Newspaper
-  }
-];
-
-export const toolAssets = [
-  {
-    title: '港股打新助手',
-    description: '主打新股估值与申购策略，支持风险偏好分层建议。',
-    tag: '主推工具',
-    cta: '进入工具',
+    title: '港股打新',
+    subtitle: '今日可关注',
+    description: '若你在关注近期港股申购，这里可以快速判断一只新股是否值得参与。',
+    tag: '结论推荐',
+    cta: '立即评分',
     href: siteLinks.hongKongIPO,
     icon: BadgeDollarSign,
     highlighted: true
   },
   {
     title: '养老金计算器',
-    description: '估算个人账户与统筹账户收益，直观看到退休资金缺口。',
+    subtitle: '退休规划',
+    description: '快速估算退休时间、养老金区间与未来生活水平。',
+    tag: '规划建议',
+    cta: '开始测算',
+    href: siteLinks.pensionCalculator,
+    icon: PiggyBank
+  },
+  {
+    title: '今日 AI 机会',
+    subtitle: '热门方向',
+    description: '看看本周最热的 AI 工具和正在上升的热门方向。',
+    tag: '趋势观察',
+    cta: '跳转查看',
+    href: siteLinks.aiLeaderboard,
+    icon: Newspaper
+  }
+];
+
+export const toolAssets = [
+  {
+    title: '港股打新评分',
+    description: '基于申购热度、估值区间和风险偏好，给出是否参与的快速判断。',
+    tag: '最受关注',
+    cta: '立即评分',
+    href: siteLinks.hongKongIPO,
+    icon: BadgeDollarSign,
+    highlighted: true
+  },
+  {
+    title: '养老金计算器',
+    description: '估算退休时间、养老金区间与资金缺口，提前规划未来现金流。',
     tag: '退休规划',
-    cta: '开始计算',
+    cta: '开始测算',
     href: siteLinks.pensionCalculator,
     icon: PiggyBank
   },
   {
     title: '中国宜居城市排行',
-    description: '按就业、生活成本、医疗与教育综合评分选城。',
+    description: '按就业、生活成本、医疗与教育等维度，快速筛选更适合长期发展的城市。',
     tag: '城市决策',
-    cta: '查看排行',
+    cta: '查看趋势',
     href: siteLinks.livableCity,
     icon: Compass
   },
