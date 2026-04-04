@@ -1,5 +1,6 @@
 import { FeaturedCards } from '@/components/FeaturedCards';
 import { HeroSection } from '@/components/HeroSection';
+import { NewsSection } from '@/components/NewsSection';
 import { RankingList } from '@/components/RankingList';
 import { ToolCards } from '@/components/ToolCards';
 
@@ -10,6 +11,7 @@ export default function HomePage() {
       <FeaturedCards />
       <ToolCards />
       <RankingList />
+      <NewsSection />
     </main>
   );
 }
