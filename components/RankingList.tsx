@@ -1,4 +1,4 @@
-import { rankingGroups, topicPicks } from '@/data/home-data';
+import { getDailyTopicPicks, rankingGroups } from '@/data/home-data';
 import { siteLinks } from '@/data/site-links';
 
 const externalLinkProps = {
@@ -8,6 +8,7 @@ const externalLinkProps = {
 
 export function RankingList() {
   let rank = 1;
+  const topicPicks = getDailyTopicPicks();
 
   return (
     <section className="mt-16" aria-label="AI 榜单与专题精选">
@@ -84,11 +85,12 @@ export function RankingList() {
                 >
                   <article>
                     <p className="inline-flex items-center gap-2 text-sm text-slate-400">
-                      <Icon className="h-4 w-4" /> 精选主题
+                      <Icon className="h-4 w-4" />
+                      <span>{pick.source}</span>
                     </p>
                     <h4 className="mt-2 text-base font-semibold leading-relaxed text-white">{pick.title}</h4>
                     <span className="mt-5 inline-flex text-sm font-medium text-fuchsia-300 transition-all duration-300 group-hover:tracking-wide">
-                      去体验 →
+                      去阅读 →
                     </span>
                   </article>
                 </a>

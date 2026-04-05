@@ -1,4 +1,4 @@
-import { BadgeDollarSign, Bot, Compass, Newspaper, PiggyBank, Sparkles, Star, Workflow } from 'lucide-react';
+import { BadgeDollarSign, Bot, Compass, PiggyBank, Sparkles, Star, Workflow } from 'lucide-react';
 
 import { siteLinks } from '@/data/site-links';
 
@@ -39,7 +39,7 @@ export const featuredAssets = [
     useCount: '已有 2.1w 人使用',
     cta: '去体验',
     href: siteLinks.aiLeaderboard,
-    icon: Newspaper
+    icon: Bot
   }
 ];
 
@@ -100,25 +100,25 @@ export const rankingGroups = [
     title: '今日热门 AI 工具',
     items: [
       {
-        name: 'Claude Workspace',
-        description: '长文分析与团队知识整理效率持续领先。',
+        name: 'Claude',
+        description: '长文本和复杂推理能力稳定，适合知识整理与写作场景。',
         status: '↑ 上升',
         cta: '去体验',
-        href: siteLinks.aiLeaderboard
+        href: 'https://claude.ai/'
       },
       {
         name: 'Cursor',
-        description: '开发者人均提效显著，代码生成与审阅闭环成熟。',
+        description: '编辑器内协作式编程体验成熟，开发提效明显。',
         status: 'NEW',
         cta: '去体验',
-        href: siteLinks.aiLeaderboard
+        href: 'https://cursor.com/'
       },
       {
         name: 'Midjourney',
-        description: '创意素材产能稳定，视觉质量和风格控制能力强。',
+        description: '在创意图像生成场景中持续保持高质量输出。',
         status: '↑ 上升',
         cta: '去体验',
-        href: siteLinks.aiLeaderboard
+        href: 'https://www.midjourney.com/'
       }
     ]
   },
@@ -127,79 +127,102 @@ export const rankingGroups = [
     items: [
       {
         name: 'Perplexity',
-        description: '搜索问答渗透率提升，知识工作场景增长迅速。',
+        description: '检索增强问答体验持续优化，知识获取效率高。',
         status: '↑ 上升',
         cta: '去体验',
-        href: siteLinks.aiLeaderboard
+        href: 'https://www.perplexity.ai/'
       },
       {
         name: 'HeyGen',
-        description: '视频出海和营销自动化需求持续拉升。',
+        description: 'AI 视频与数字人创作能力较强，适合营销场景。',
         status: 'NEW',
         cta: '去体验',
-        href: siteLinks.aiLeaderboard
-      },
-      {
-        name: 'Manus',
-        description: 'Agent 自动化流程的使用率持续走高。',
-        status: '↑ 上升',
-        cta: '去体验',
-        href: siteLinks.aiLeaderboard
-      }
-    ]
-  },
-  {
-    title: '编辑精选',
-    items: [
-      {
-        name: 'Notion AI',
-        description: '从知识库到协作任务，适合中小团队一体化部署。',
-        status: 'NEW',
-        cta: '去体验',
-        href: siteLinks.aiLeaderboard
+        href: 'https://www.heygen.com/'
       },
       {
         name: 'Runway',
-        description: '视频生成与后期编辑能力适合内容团队快速起量。',
+        description: '视频生成和剪辑工作流较完整，适合内容团队。',
         status: '↑ 上升',
         cta: '去体验',
-        href: siteLinks.aiLeaderboard
-      },
-      {
-        name: 'Gamma',
-        description: '演示内容快速生成，适合产品与运营汇报场景。',
-        status: 'NEW',
-        cta: '去体验',
-        href: siteLinks.aiLeaderboard
+        href: 'https://runwayml.com/'
       }
     ]
   }
 ];
 
-export const topicPicks = [
-  { title: '金工 Agent 自动化方案', href: siteLinks.forum, icon: Workflow },
-  { title: 'A/B 测试实验流', href: siteLinks.forum, icon: Workflow },
-  { title: '内容创作工具流', href: siteLinks.forum, icon: Workflow },
-  { title: '开发者 AI 工具流', href: siteLinks.forum, icon: Workflow }
-];
+export type TopicPick = {
+  title: string;
+  href: string;
+  icon: typeof Workflow;
+  source: '论坛热议' | 'AI江湖';
+};
 
-export const aiNews = [
+const topicPool: TopicPick[] = [
   {
-    title: '多家 AI 厂商发布企业版 API 更新',
-    summary: '计费策略与推理性能同步调整，企业集成门槛进一步下降。',
-    time: '10:20',
-    href: siteLinks.news
+    title: 'Claude 讨论帖：日常使用与能力反馈',
+    href: 'https://forum.chatgpt5x.com/d/261-236-claudetao-lun-tie',
+    icon: Workflow,
+    source: '论坛热议'
   },
   {
-    title: '开源 Agent 框架进入稳定迭代期',
-    summary: '社区发布标准化工作流模板，Agent 落地速度明显提升。',
-    time: '09:10',
-    href: siteLinks.news
+    title: 'Perplexity 讨论帖：搜索问答效果实测',
+    href: 'https://forum.chatgpt5x.com/d/290-267-perplexity-aitao-lun-tie',
+    icon: Workflow,
+    source: '论坛热议'
   },
   {
-    title: '内容团队加速接入 AI 工作台',
-    summary: '从选题到分发逐步自动化，单人内容产能持续增长。',
-    time: '08:30',
-    href: siteLinks.news
+    title: 'Midjourney 讨论帖：出图质量和风格控制',
+    href: 'https://forum.chatgpt5x.com/d/297-274-midjourneytao-lun-tie',
+    icon: Workflow,
+    source: '论坛热议'
+  },
+  {
+    title: 'Cursor 讨论帖：开发提效体验汇总',
+    href: 'https://forum.chatgpt5x.com/d/401-378-cursortao-lun-tie',
+    icon: Workflow,
+    source: '论坛热议'
+  },
+  {
+    title: '盗脸术覆灭记',
+    href: 'https://news.chatgpt5x.com/aijianghu/ai短剧偷脸翻车-红果平台下架-桃花簪-重罚出品方',
+    icon: Workflow,
+    source: 'AI江湖'
+  },
+  {
+    title: 'AI京华令：十五剑破关',
+    href: 'https://news.chatgpt5x.com/aijianghu/北京ai服务大爆发-15款新应用通过备案即日起可用',
+    icon: Workflow,
+    source: 'AI江湖'
+  },
+  {
+    title: '暗资盟',
+    href: 'https://news.chatgpt5x.com/aijianghu/openai偷偷砸钱搞儿童ai安全联盟-多家组织发现后集体退群',
+    icon: Workflow,
+    source: 'AI江湖'
+  },
+  {
+    title: '算力围城：谷歌百亿铸剑',
+    href: 'https://news.chatgpt5x.com/aijianghu/谷歌砸百亿-给ai独角兽建-专属机房-算力大战进入白热化',
+    icon: Workflow,
+    source: 'AI江湖'
   }
 ];
+
+export function getDailyTopicPicks(): TopicPick[] {
+  const forumItems = topicPool.filter((item) => item.source === '论坛热议');
+  const jianghuItems = topicPool.filter((item) => item.source === 'AI江湖');
+
+  const now = new Date();
+  const dateKey = `${now.getUTCFullYear()}-${now.getUTCMonth() + 1}-${now.getUTCDate()}`;
+  const seed = [...dateKey].reduce((acc, char) => acc + char.charCodeAt(0), 0);
+
+  const forumOffset = seed % forumItems.length;
+  const jianghuOffset = seed % jianghuItems.length;
+
+  return [
+    forumItems[forumOffset],
+    forumItems[(forumOffset + 1) % forumItems.length],
+    jianghuItems[jianghuOffset],
+    jianghuItems[(jianghuOffset + 1) % jianghuItems.length]
+  ];
+}
