@@ -11,30 +11,33 @@ export const quickEntries = [
 
 export const featuredAssets = [
   {
-    title: '港股打新',
-    subtitle: '今日可关注',
-    description: '若你在关注近期港股申购，这里可以快速判断一只新股是否值得参与。',
-    tag: '结论推荐',
-    cta: '立即评分',
+    title: '今日新股：建议关注',
+    subtitle: '结论推荐',
+    reason: '认购热度上升 + 基石较强',
+    badge: '🔥',
+    useCount: '已有 2.3w 人使用',
+    cta: '立即判断',
     href: siteLinks.hongKongIPO,
     icon: BadgeDollarSign,
     highlighted: true
   },
   {
-    title: '养老金计算器',
-    subtitle: '退休规划',
-    description: '快速估算退休时间、养老金区间与未来生活水平。',
-    tag: '规划建议',
-    cta: '开始测算',
+    title: '养老金：建议先算缺口',
+    subtitle: '规划建议',
+    reason: '越早测算，越容易补齐退休资金缺口',
+    badge: 'NEW',
+    useCount: '已有 1.8w 人使用',
+    cta: '去测算',
     href: siteLinks.pensionCalculator,
     icon: PiggyBank
   },
   {
-    title: '今日 AI 机会',
-    subtitle: '热门方向',
-    description: '看看本周最热的 AI 工具和正在上升的热门方向。',
-    tag: '趋势观察',
-    cta: '跳转查看',
+    title: 'AI工具：优先看上升榜',
+    subtitle: '趋势观察',
+    reason: '本周新增工具增多，先看上升项更省时间',
+    badge: 'NEW',
+    useCount: '已有 2.1w 人使用',
+    cta: '立即查看',
     href: siteLinks.aiLeaderboard,
     icon: Newspaper
   }
@@ -44,8 +47,8 @@ export const toolAssets = [
   {
     title: '港股打新评分',
     description: '基于申购热度、估值区间和风险偏好，给出是否参与的快速判断。',
-    tag: '最受关注',
-    cta: '立即评分',
+    tag: '🔥爆款',
+    cta: '立即判断',
     href: siteLinks.hongKongIPO,
     icon: BadgeDollarSign,
     highlighted: true
@@ -54,7 +57,7 @@ export const toolAssets = [
     title: '养老金计算器',
     description: '估算退休时间、养老金区间与资金缺口，提前规划未来现金流。',
     tag: '退休规划',
-    cta: '开始测算',
+    cta: '立即使用',
     href: siteLinks.pensionCalculator,
     icon: PiggyBank
   },
@@ -62,7 +65,7 @@ export const toolAssets = [
     title: '中国宜居城市排行',
     description: '按就业、生活成本、医疗与教育等维度，快速筛选更适合长期发展的城市。',
     tag: '城市决策',
-    cta: '查看趋势',
+    cta: '立即使用',
     href: siteLinks.livableCity,
     icon: Compass
   },
@@ -70,7 +73,7 @@ export const toolAssets = [
     title: '这B班值不值',
     description: '从通勤、薪酬、成长与压力四维度评估当前工作质量。',
     tag: '职业决策',
-    cta: '立即评估',
+    cta: '立即使用',
     href: siteLinks.workValue,
     icon: Sparkles
   },
@@ -78,7 +81,7 @@ export const toolAssets = [
     title: '星命通',
     description: '多维命理信息查询与运势建议，做长期规划辅助参考。',
     tag: '生活决策',
-    cta: '开始查询',
+    cta: '立即使用',
     href: siteLinks.xingmingtong,
     icon: Star
   },
@@ -86,7 +89,7 @@ export const toolAssets = [
     title: 'AI 工具导航',
     description: '按场景筛选写作、设计、开发与运营工具，快速直达。',
     tag: '效率工具',
-    cta: '立即浏览',
+    cta: '立即使用',
     href: siteLinks.nav,
     icon: Bot
   }
@@ -99,16 +102,22 @@ export const rankingGroups = [
       {
         name: 'Claude Workspace',
         description: '长文分析与团队知识整理效率持续领先。',
+        status: '↑ 上升',
+        cta: '去体验',
         href: siteLinks.aiLeaderboard
       },
       {
         name: 'Cursor',
         description: '开发者人均提效显著，代码生成与审阅闭环成熟。',
+        status: 'NEW',
+        cta: '立即使用',
         href: siteLinks.aiLeaderboard
       },
       {
         name: 'Midjourney',
         description: '创意素材产能稳定，视觉质量和风格控制能力强。',
+        status: '↑ 上升',
+        cta: '去体验',
         href: siteLinks.aiLeaderboard
       }
     ]
@@ -119,16 +128,22 @@ export const rankingGroups = [
       {
         name: 'Perplexity',
         description: '搜索问答渗透率提升，知识工作场景增长迅速。',
+        status: '↑ 上升',
+        cta: '去体验',
         href: siteLinks.aiLeaderboard
       },
       {
         name: 'HeyGen',
         description: '视频出海和营销自动化需求持续拉升。',
+        status: 'NEW',
+        cta: '立即使用',
         href: siteLinks.aiLeaderboard
       },
       {
         name: 'Manus',
         description: 'Agent 自动化流程的使用率持续走高。',
+        status: '↑ 上升',
+        cta: '去体验',
         href: siteLinks.aiLeaderboard
       }
     ]
@@ -139,16 +154,22 @@ export const rankingGroups = [
       {
         name: 'Notion AI',
         description: '从知识库到协作任务，适合中小团队一体化部署。',
+        status: 'NEW',
+        cta: '立即使用',
         href: siteLinks.aiLeaderboard
       },
       {
         name: 'Runway',
         description: '视频生成与后期编辑能力适合内容团队快速起量。',
+        status: '↑ 上升',
+        cta: '去体验',
         href: siteLinks.aiLeaderboard
       },
       {
         name: 'Gamma',
         description: '演示内容快速生成，适合产品与运营汇报场景。',
+        status: 'NEW',
+        cta: '立即使用',
         href: siteLinks.aiLeaderboard
       }
     ]

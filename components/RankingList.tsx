@@ -7,7 +7,7 @@ export function RankingList() {
   let rank = 1;
 
   return (
-    <section className="mt-20" aria-label="AI 榜单与专题精选">
+    <section className="mt-16" aria-label="AI 榜单与专题精选">
       <div className="mb-6 flex items-center justify-between gap-3">
         <div>
           <h2 className="text-2xl font-bold text-white md:text-3xl">AI 榜单与精选</h2>
@@ -42,12 +42,17 @@ export function RankingList() {
                               {String(currentRank).padStart(2, '0')}
                             </span>
                             <div>
-                              <h4 className="font-semibold text-white">{item.name}</h4>
+                              <div className="flex items-center gap-2">
+                                <h4 className="font-semibold text-white">{item.name}</h4>
+                                <span className="rounded-md bg-cyan-400/20 px-1.5 py-0.5 text-[11px] font-semibold text-cyan-200">
+                                  {item.status}
+                                </span>
+                              </div>
                               <p className="mt-1 text-sm text-slate-300">{item.description}</p>
                             </div>
                           </div>
-                          <span className="shrink-0 rounded-lg border border-white/15 bg-white/5 px-3 py-2 text-xs font-semibold text-slate-200">
-                            查看
+                          <span className="shrink-0 rounded-lg bg-violet-500 px-3 py-2 text-xs font-semibold text-white">
+                            {item.cta}
                           </span>
                         </Link>
                       </li>

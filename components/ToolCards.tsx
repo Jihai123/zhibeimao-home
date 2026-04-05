@@ -5,7 +5,7 @@ import { siteLinks } from '@/data/site-links';
 
 export function ToolCards() {
   return (
-    <section id="tools" className="mt-16 scroll-mt-24">
+    <section id="tools" className="mt-14 scroll-mt-24">
       <div className="flex items-center justify-between gap-3">
         <div>
           <h2 className="text-2xl font-bold text-white md:text-3xl">决策工具</h2>
@@ -55,16 +55,9 @@ export function ToolCards() {
                 </div>
                 <h3 className="text-lg font-semibold text-white">{tool.title}</h3>
                 <p className="mt-2 min-h-20 text-sm leading-relaxed text-slate-300">{tool.description}</p>
-                <span
-                  className={[
-                    'mt-6 inline-flex w-full items-center justify-center rounded-xl px-4 py-2.5 text-sm font-semibold transition-all duration-300',
-                    tool.highlighted
-                      ? 'bg-amber-300 text-slate-900 group-hover:bg-amber-200'
-                      : 'border border-white/15 bg-white/5 text-slate-100 group-hover:border-violet-300/30 group-hover:bg-violet-400/10'
-                  ].join(' ')}
-                >
-                  {tool.cta}
-                </span>
+                  <span className="mt-6 inline-flex w-full items-center justify-center rounded-xl bg-gradient-to-r from-indigo-500 via-violet-500 to-cyan-500 px-4 py-2.5 text-sm font-semibold text-white transition-all duration-300 group-hover:brightness-110">
+                    {tool.cta}
+                  </span>
               </article>
             </Link>
           );
