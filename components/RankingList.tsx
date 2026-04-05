@@ -1,14 +1,36 @@
-import { getDailyTopicPicks, rankingGroups } from '@/data/home-data';
+import { rankingGroups } from '@/data/home-data';
+import { featuredTopics, type FeaturedTopic } from '@/src/data/featuredTopics';
 import { siteLinks } from '@/data/site-links';
+import Image from 'next/image';
 
 const externalLinkProps = {
   target: '_blank',
   rel: 'noopener noreferrer'
 };
 
+function getTopicThumbnail(item: FeaturedTopic, index: number) {
+  if (item.thumbnail) return item.thumbnail;
+
+  if (item.source === 'forum') {
+    return '/images/topics/forum/default-forum.jpg';
+  }
+
+  if (item.source === 'aijianghu') {
+    return '/images/topics/aijianghu/default-aijianghu.jpg';
+  }
+
+  return index >= 0 ? '/images/topics/common/default-topic.jpg' : '/images/topics/common/default-topic.jpg';
+}
+
+function getTopicSourceLabel(source: FeaturedTopic['source']) {
+  if (source === 'forum') return '论坛热议';
+  if (source === 'aijianghu') return 'AI江湖';
+  return '专题推荐';
+}
+
 export function RankingList() {
   let rank = 1;
-  const topicPicks = getDailyTopicPicks();
+  const topicPicks = [...featuredTopics].sort((a, b) => b.priority - a.priority);
 
   return (
     <section className="mt-16" aria-label="AI 榜单与专题精选">
@@ -73,7 +95,7 @@ export function RankingList() {
         <div>
           <h3 className="mb-4 text-base font-semibold text-white">专题精选</h3>
           <div className="grid gap-4 sm:grid-cols-2">
-            {topicPicks.map((pick) => (
+            {topicPicks.map((pick, index) => (
               <a
                 href={pick.href}
                 key={`${pick.source}-${pick.title}`}
@@ -82,11 +104,15 @@ export function RankingList() {
               >
                 <article className="flex h-full flex-col">
                   <span className="inline-flex w-fit rounded-full border border-white/10 bg-slate-800/80 px-2.5 py-1 text-xs font-medium text-slate-200">
-                    {pick.source}
+                    {getTopicSourceLabel(pick.source)}
                   </span>
-                  <div className="mt-3 flex h-24 items-center justify-center rounded-xl border border-dashed border-white/15 bg-slate-900/50 text-xs text-slate-400">
-                    专题缩略图
-                  </div>
+                  <Image
+                    src={getTopicThumbnail(pick, index)}
+                    alt={pick.title}
+                    width={480}
+                    height={160}
+                    className="mt-3 h-20 w-full rounded-xl object-cover"
+                  />
                   <h4 className="mt-3 text-base font-semibold leading-6 text-white [display:-webkit-box] [-webkit-line-clamp:2] [-webkit-box-orient:vertical] overflow-hidden">
                     {pick.title}
                   </h4>
