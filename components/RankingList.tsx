@@ -1,7 +1,10 @@
-import Link from 'next/link';
-
 import { rankingGroups, topicPicks } from '@/data/home-data';
 import { siteLinks } from '@/data/site-links';
+
+const externalLinkProps = {
+  target: '_blank',
+  rel: 'noopener noreferrer'
+};
 
 export function RankingList() {
   let rank = 1;
@@ -13,12 +16,13 @@ export function RankingList() {
           <h2 className="text-2xl font-bold text-white md:text-3xl">AI 榜单与精选</h2>
           <p className="mt-2 text-sm text-slate-400">作为浏览层，帮你继续筛选值得深入了解的 AI 工具与方向。</p>
         </div>
-        <Link
+        <a
           href={siteLinks.rankings}
+          {...externalLinkProps}
           className="text-sm font-medium text-cyan-300 transition-colors hover:text-cyan-200"
         >
-          查看全部 →
-        </Link>
+          查看结果 →
+        </a>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-[1.1fr_1fr]">
@@ -33,8 +37,9 @@ export function RankingList() {
                     const currentRank = rank++;
                     return (
                       <li key={item.name}>
-                        <Link
+                        <a
                           href={item.href}
+                          {...externalLinkProps}
                           className="flex items-center justify-between gap-3 rounded-xl border border-white/5 bg-slate-900/40 p-3.5 transition-all duration-300 hover:-translate-y-0.5 hover:border-indigo-300/30 hover:bg-slate-900/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300"
                         >
                           <div className="flex items-start gap-3">
@@ -54,7 +59,7 @@ export function RankingList() {
                           <span className="shrink-0 rounded-lg bg-violet-500 px-3 py-2 text-xs font-semibold text-white">
                             {item.cta}
                           </span>
-                        </Link>
+                        </a>
                       </li>
                     );
                   })}
@@ -71,9 +76,10 @@ export function RankingList() {
               const Icon = pick.icon;
 
               return (
-                <Link
+                <a
                   href={pick.href}
                   key={pick.title}
+                  {...externalLinkProps}
                   className="group rounded-2xl border border-white/10 bg-gradient-to-br from-slate-900/60 to-slate-950 p-5 transition-all duration-300 hover:-translate-y-1 hover:border-fuchsia-300/30 hover:shadow-xl hover:shadow-fuchsia-500/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300"
                 >
                   <article>
@@ -82,10 +88,10 @@ export function RankingList() {
                     </p>
                     <h4 className="mt-2 text-base font-semibold leading-relaxed text-white">{pick.title}</h4>
                     <span className="mt-5 inline-flex text-sm font-medium text-fuchsia-300 transition-all duration-300 group-hover:tracking-wide">
-                      查看详情 →
+                      去体验 →
                     </span>
                   </article>
-                </Link>
+                </a>
               );
             })}
           </div>

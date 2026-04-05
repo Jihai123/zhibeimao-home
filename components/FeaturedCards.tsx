@@ -1,7 +1,11 @@
-import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
 
 import { featuredAssets } from '@/data/home-data';
+
+const externalLinkProps = {
+  target: '_blank',
+  rel: 'noopener noreferrer'
+};
 
 export function FeaturedCards() {
   return (
@@ -17,9 +21,10 @@ export function FeaturedCards() {
           const Icon = item.icon;
 
           return (
-            <Link
+            <a
               key={item.title}
               href={item.href}
+              {...externalLinkProps}
               className={[
                 'group rounded-2xl border p-6 shadow-sm backdrop-blur transition-all duration-300 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300',
                 item.highlighted
@@ -44,7 +49,7 @@ export function FeaturedCards() {
                   {item.cta} <ArrowUpRight className="h-4 w-4" />
                 </span>
               </article>
-            </Link>
+            </a>
           );
         })}
       </div>
