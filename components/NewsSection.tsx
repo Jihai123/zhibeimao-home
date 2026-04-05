@@ -27,7 +27,7 @@ const externalLinkProps = {
   rel: 'noopener noreferrer'
 };
 
-const NEWS_API = 'https://news.chatgpt5x.com/zh/api/news';
+const NEWS_API = '/api/news';
 const NEWS_HOME = 'https://news.chatgpt5x.com/zh/news';
 
 const fallbackNews: DisplayNewsItem[] = [
