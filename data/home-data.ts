@@ -5,8 +5,8 @@ import { siteLinks } from '@/data/site-links';
 export const quickEntries = [
   { label: 'AI 工具导航', href: siteLinks.nav },
   { label: '实时 AI 榜单', href: siteLinks.aiLeaderboard },
-  { label: '热门分类', href: siteLinks.discover },
-  { label: '专题精选', href: siteLinks.topics }
+  { label: '宜居城市', href: siteLinks.livableCity },
+  { label: '论坛讨论', href: siteLinks.forum }
 ];
 
 export const featuredAssets = [
@@ -27,7 +27,7 @@ export const featuredAssets = [
     reason: '越早测算，越容易补齐退休资金缺口',
     badge: 'NEW',
     useCount: '已有 1.8w 人使用',
-    cta: '去测算',
+    cta: '开始测算',
     href: siteLinks.pensionCalculator,
     icon: PiggyBank
   },
@@ -37,7 +37,7 @@ export const featuredAssets = [
     reason: '本周新增工具增多，先看上升项更省时间',
     badge: 'NEW',
     useCount: '已有 2.1w 人使用',
-    cta: '立即查看',
+    cta: '去体验',
     href: siteLinks.aiLeaderboard,
     icon: Newspaper
   }
@@ -45,8 +45,8 @@ export const featuredAssets = [
 
 export const toolAssets = [
   {
-    title: '港股打新评分',
-    description: '基于申购热度、估值区间和风险偏好，给出是否参与的快速判断。',
+    title: '新股值不值得参与？',
+    description: '输入股票代码，快速判断是否值得申购',
     tag: '🔥爆款',
     cta: '立即判断',
     href: siteLinks.hongKongIPO,
@@ -57,7 +57,7 @@ export const toolAssets = [
     title: '养老金计算器',
     description: '估算退休时间、养老金区间与资金缺口，提前规划未来现金流。',
     tag: '退休规划',
-    cta: '立即使用',
+    cta: '开始测算',
     href: siteLinks.pensionCalculator,
     icon: PiggyBank
   },
@@ -65,7 +65,7 @@ export const toolAssets = [
     title: '中国宜居城市排行',
     description: '按就业、生活成本、医疗与教育等维度，快速筛选更适合长期发展的城市。',
     tag: '城市决策',
-    cta: '立即使用',
+    cta: '查看结果',
     href: siteLinks.livableCity,
     icon: Compass
   },
@@ -73,7 +73,7 @@ export const toolAssets = [
     title: '这B班值不值',
     description: '从通勤、薪酬、成长与压力四维度评估当前工作质量。',
     tag: '职业决策',
-    cta: '立即使用',
+    cta: '立即判断',
     href: siteLinks.workValue,
     icon: Sparkles
   },
@@ -81,7 +81,7 @@ export const toolAssets = [
     title: '星命通',
     description: '多维命理信息查询与运势建议，做长期规划辅助参考。',
     tag: '生活决策',
-    cta: '立即使用',
+    cta: '去体验',
     href: siteLinks.xingmingtong,
     icon: Star
   },
@@ -89,7 +89,7 @@ export const toolAssets = [
     title: 'AI 工具导航',
     description: '按场景筛选写作、设计、开发与运营工具，快速直达。',
     tag: '效率工具',
-    cta: '立即使用',
+    cta: '去体验',
     href: siteLinks.nav,
     icon: Bot
   }
@@ -110,7 +110,7 @@ export const rankingGroups = [
         name: 'Cursor',
         description: '开发者人均提效显著，代码生成与审阅闭环成熟。',
         status: 'NEW',
-        cta: '立即使用',
+        cta: '去体验',
         href: siteLinks.aiLeaderboard
       },
       {
@@ -136,7 +136,7 @@ export const rankingGroups = [
         name: 'HeyGen',
         description: '视频出海和营销自动化需求持续拉升。',
         status: 'NEW',
-        cta: '立即使用',
+        cta: '去体验',
         href: siteLinks.aiLeaderboard
       },
       {
@@ -155,7 +155,7 @@ export const rankingGroups = [
         name: 'Notion AI',
         description: '从知识库到协作任务，适合中小团队一体化部署。',
         status: 'NEW',
-        cta: '立即使用',
+        cta: '去体验',
         href: siteLinks.aiLeaderboard
       },
       {
@@ -169,7 +169,7 @@ export const rankingGroups = [
         name: 'Gamma',
         description: '演示内容快速生成，适合产品与运营汇报场景。',
         status: 'NEW',
-        cta: '立即使用',
+        cta: '去体验',
         href: siteLinks.aiLeaderboard
       }
     ]
@@ -177,10 +177,10 @@ export const rankingGroups = [
 ];
 
 export const topicPicks = [
-  { title: '金工 Agent 自动化方案', href: siteLinks.topics, icon: Workflow },
-  { title: 'A/B 测试实验流', href: siteLinks.topics, icon: Workflow },
-  { title: '内容创作工具流', href: siteLinks.topics, icon: Workflow },
-  { title: '开发者 AI 工具流', href: siteLinks.topics, icon: Workflow }
+  { title: '金工 Agent 自动化方案', href: siteLinks.forum, icon: Workflow },
+  { title: 'A/B 测试实验流', href: siteLinks.forum, icon: Workflow },
+  { title: '内容创作工具流', href: siteLinks.forum, icon: Workflow },
+  { title: '开发者 AI 工具流', href: siteLinks.forum, icon: Workflow }
 ];
 
 export const aiNews = [

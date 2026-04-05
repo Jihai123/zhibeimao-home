@@ -1,7 +1,10 @@
-import Link from 'next/link';
-
 import { toolAssets } from '@/data/home-data';
 import { siteLinks } from '@/data/site-links';
+
+const externalLinkProps = {
+  target: '_blank',
+  rel: 'noopener noreferrer'
+};
 
 export function ToolCards() {
   return (
@@ -11,12 +14,13 @@ export function ToolCards() {
           <h2 className="text-2xl font-bold text-white md:text-3xl">决策工具</h2>
           <p className="mt-2 text-sm text-slate-300">直接可用的判断工具，优先给你高频、可执行的下一步。</p>
         </div>
-        <Link
+        <a
           href={siteLinks.tools}
+          {...externalLinkProps}
           className="text-sm font-medium text-cyan-300 transition-colors hover:text-cyan-200"
         >
-          查看全部 →
-        </Link>
+          去体验全部 →
+        </a>
       </div>
 
       <div className="mt-7 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -25,9 +29,10 @@ export function ToolCards() {
           const isLowerPriority = index > 2;
 
           return (
-            <Link
+            <a
               key={tool.title}
               href={tool.href}
+              {...externalLinkProps}
               className={[
                 'group rounded-2xl border p-5 backdrop-blur transition-all duration-300 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300',
                 tool.highlighted ? 'sm:col-span-2 lg:col-span-2' : '',
@@ -59,7 +64,7 @@ export function ToolCards() {
                     {tool.cta}
                   </span>
               </article>
-            </Link>
+            </a>
           );
         })}
       </div>
