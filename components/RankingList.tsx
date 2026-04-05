@@ -73,29 +73,32 @@ export function RankingList() {
         <div>
           <h3 className="mb-4 text-base font-semibold text-white">专题精选</h3>
           <div className="grid gap-4 sm:grid-cols-2">
-            {topicPicks.map((pick) => {
-              const Icon = pick.icon;
-
-              return (
-                <a
-                  href={pick.href}
-                  key={pick.title}
-                  {...externalLinkProps}
-                  className="group rounded-2xl border border-white/10 bg-gradient-to-br from-slate-900/60 to-slate-950 p-5 transition-all duration-300 hover:-translate-y-1 hover:border-fuchsia-300/30 hover:shadow-xl hover:shadow-fuchsia-500/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300"
-                >
-                  <article>
-                    <p className="inline-flex items-center gap-2 text-sm text-slate-400">
-                      <Icon className="h-4 w-4" />
-                      <span>{pick.source}</span>
-                    </p>
-                    <h4 className="mt-2 text-base font-semibold leading-relaxed text-white">{pick.title}</h4>
-                    <span className="mt-5 inline-flex text-sm font-medium text-fuchsia-300 transition-all duration-300 group-hover:tracking-wide">
-                      去阅读 →
-                    </span>
-                  </article>
-                </a>
-              );
-            })}
+            {topicPicks.map((pick) => (
+              <a
+                href={pick.href}
+                key={`${pick.source}-${pick.title}`}
+                {...externalLinkProps}
+                className="group h-full min-h-[252px] rounded-2xl border border-white/10 bg-gradient-to-br from-slate-900/70 to-slate-950 p-4 transition-all duration-300 hover:-translate-y-1 hover:border-fuchsia-300/30 hover:shadow-xl hover:shadow-fuchsia-500/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300"
+              >
+                <article className="flex h-full flex-col">
+                  <span className="inline-flex w-fit rounded-full border border-white/10 bg-slate-800/80 px-2.5 py-1 text-xs font-medium text-slate-200">
+                    {pick.source}
+                  </span>
+                  <div className="mt-3 flex h-24 items-center justify-center rounded-xl border border-dashed border-white/15 bg-slate-900/50 text-xs text-slate-400">
+                    专题缩略图
+                  </div>
+                  <h4 className="mt-3 text-base font-semibold leading-6 text-white [display:-webkit-box] [-webkit-line-clamp:2] [-webkit-box-orient:vertical] overflow-hidden">
+                    {pick.title}
+                  </h4>
+                  <p className="mt-2 text-sm text-slate-300 [display:-webkit-box] [-webkit-line-clamp:2] [-webkit-box-orient:vertical] overflow-hidden">
+                    {pick.summary}
+                  </p>
+                  <span className="mt-auto pt-4 text-sm font-medium text-fuchsia-300 transition-all duration-300 group-hover:tracking-wide">
+                    去阅读 →
+                  </span>
+                </article>
+              </a>
+            ))}
           </div>
         </div>
       </div>
