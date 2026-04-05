@@ -1,4 +1,4 @@
-import { BadgeDollarSign, Bot, Compass, PiggyBank, Sparkles, Star, Workflow } from 'lucide-react';
+import { BadgeDollarSign, Bot, Compass, PiggyBank, Sparkles, Star } from 'lucide-react';
 
 import { siteLinks } from '@/data/site-links';
 
@@ -153,58 +153,71 @@ export const rankingGroups = [
 export type TopicPick = {
   title: string;
   href: string;
-  icon: typeof Workflow;
   source: '论坛热议' | 'AI江湖';
+  summary: string;
+  cover?: string;
 };
 
 const topicPool: TopicPick[] = [
   {
     title: 'Claude 讨论帖：日常使用与能力反馈',
     href: 'https://forum.chatgpt5x.com/d/261-236-claudetao-lun-tie',
-    icon: Workflow,
-    source: '论坛热议'
+    source: '论坛热议',
+    summary: '社区用户集中讨论 Claude 在复杂任务、多轮问答和写作场景中的真实稳定性。'
   },
   {
     title: 'Perplexity 讨论帖：搜索问答效果实测',
     href: 'https://forum.chatgpt5x.com/d/290-267-perplexity-aitao-lun-tie',
-    icon: Workflow,
-    source: '论坛热议'
+    source: '论坛热议',
+    summary: '围绕检索准确度、引用质量和回答速度，整理多位用户近期体验与对比结论。'
   },
   {
     title: 'Midjourney 讨论帖：出图质量和风格控制',
     href: 'https://forum.chatgpt5x.com/d/297-274-midjourneytao-lun-tie',
-    icon: Workflow,
-    source: '论坛热议'
+    source: '论坛热议',
+    summary: '从提示词结构、风格一致性和商业可用性角度总结图像生成实践心得。'
   },
   {
     title: 'Cursor 讨论帖：开发提效体验汇总',
     href: 'https://forum.chatgpt5x.com/d/401-378-cursortao-lun-tie',
-    icon: Workflow,
-    source: '论坛热议'
+    source: '论坛热议',
+    summary: '开发者分享真实编码场景中的补全质量、重构效率以及团队落地建议。'
   },
   {
     title: '盗脸术覆灭记',
     href: 'https://news.chatgpt5x.com/aijianghu/ai短剧偷脸翻车-红果平台下架-桃花簪-重罚出品方',
-    icon: Workflow,
-    source: 'AI江湖'
+    source: 'AI江湖',
+    summary: '短剧“AI 换脸”争议发酵，平台下架并追责，折射内容合规与版权红线。'
   },
   {
     title: 'AI京华令：十五剑破关',
     href: 'https://news.chatgpt5x.com/aijianghu/北京ai服务大爆发-15款新应用通过备案即日起可用',
-    icon: Workflow,
-    source: 'AI江湖'
+    source: 'AI江湖',
+    summary: '北京新增 15 款备案 AI 服务，应用场景继续扩大，行业竞争进入快节奏阶段。'
   },
   {
     title: '暗资盟',
     href: 'https://news.chatgpt5x.com/aijianghu/openai偷偷砸钱搞儿童ai安全联盟-多家组织发现后集体退群',
-    icon: Workflow,
-    source: 'AI江湖'
+    source: 'AI江湖',
+    summary: '围绕儿童 AI 安全联盟的争议升级，多方组织态度分化，治理路径再被审视。'
   },
   {
     title: '算力围城：谷歌百亿铸剑',
     href: 'https://news.chatgpt5x.com/aijianghu/谷歌砸百亿-给ai独角兽建-专属机房-算力大战进入白热化',
-    icon: Workflow,
-    source: 'AI江湖'
+    source: 'AI江湖',
+    summary: '超大规模算力投入持续加码，云厂商与独角兽绑定更深，基础设施竞争升温。'
+  },
+  {
+    title: '多模态工作流：谁能接住企业需求',
+    href: 'https://forum.chatgpt5x.com',
+    source: '论坛热议',
+    summary: '聚焦企业在文本、图片、视频协同生产中的痛点，讨论可落地的多模态方案。'
+  },
+  {
+    title: '模型价格战之后，应用层如何活下来',
+    href: 'https://news.chatgpt5x.com/zh/',
+    source: 'AI江湖',
+    summary: '模型能力趋同后，应用层开始拼场景深耕与交付效率，商业化逻辑加速重塑。'
   }
 ];
 
@@ -222,7 +235,9 @@ export function getDailyTopicPicks(): TopicPick[] {
   return [
     forumItems[forumOffset],
     forumItems[(forumOffset + 1) % forumItems.length],
+    forumItems[(forumOffset + 2) % forumItems.length],
     jianghuItems[jianghuOffset],
-    jianghuItems[(jianghuOffset + 1) % jianghuItems.length]
+    jianghuItems[(jianghuOffset + 1) % jianghuItems.length],
+    jianghuItems[(jianghuOffset + 2) % jianghuItems.length]
   ];
 }
