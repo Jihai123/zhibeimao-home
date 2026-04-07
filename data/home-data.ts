@@ -77,6 +77,15 @@ export const toolAssets = [
     href: siteLinks.workValue,
     icon: Sparkles
   },
+
+  {
+    title: '您的专业AI工作场景分析师',
+    description: 'AI 时代，AI 到底能帮我做什么：基于您的具体工作进行 AI 深度分析，为您释放工作压力。',
+    tag: '工作分析',
+    cta: '立即分析',
+    href: siteLinks.aiWorkAnalyst,
+    icon: Sparkles
+  },
   {
     title: '星命通',
     description: '多维命理信息查询与运势建议，做长期规划辅助参考。',

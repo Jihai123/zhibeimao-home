@@ -6,12 +6,13 @@ export const siteLinks = {
   news: 'https://news.chatgpt5x.com/',
   nav: 'https://www.chatgpt5x.com/#/',
   forum: 'https://forum.chatgpt5x.com/',
-  hongKongIPO: 'https://zhibeimao.com/hk/',
+  hongKongIPO: 'https://yiju.zhibeimao.com/',
   pensionCalculator: 'https://yanglao.zhibeimao.com/',
-  livableCity: 'https://zhibeimao.com/yiju/',
+  livableCity: 'https://yiju.zhibeimao.com/',
   workValue: 'https://jobtest.chatgpt5x.com/',
   xingmingtong: 'https://astrologer.chatgpt5x.com/',
-  aiLeaderboard: 'https://news.chatgpt5x.com/ai-rankings'
+  aiLeaderboard: 'https://news.chatgpt5x.com/ai-rankings',
+  aiWorkAnalyst: 'https://helpwork.zhibeimao.com'
 } as const;
 
 export type SiteLinkKey = keyof typeof siteLinks;
