@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
+import { SiteHeader } from '@/components/SiteHeader';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'AI 与数据决策平台',
-  description: '发现与连接全球前沿 AI 工具'
+  title: '指北猫 - AI决策平台 | 新股分析 · 养老金测算 · AI工具推荐',
+  description: '用AI帮你做决策：新股、养老金、AI工具选择等'
 };
 
 export default function RootLayout({
@@ -13,7 +14,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="zh-CN">
-      <body className="bg-slate-950 text-slate-100 antialiased">{children}</body>
+      <body className="bg-slate-950 text-slate-100 antialiased">
+        <SiteHeader />
+        {children}
+      </body>
     </html>
   );
 }

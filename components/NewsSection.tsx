@@ -141,7 +141,7 @@ export function NewsSection() {
           {...externalLinkProps}
           className="text-sm font-medium text-cyan-300 transition-colors hover:text-cyan-200"
         >
-          查看结果 →
+          阅读更多 →
         </a>
       </div>
 

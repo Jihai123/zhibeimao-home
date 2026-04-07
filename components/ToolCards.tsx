@@ -34,7 +34,7 @@ export function ToolCards() {
               href={tool.href}
               {...externalLinkProps}
               className={[
-                'group rounded-2xl border p-5 backdrop-blur transition-all duration-300 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300',
+                'group h-full min-h-[272px] rounded-2xl border p-5 backdrop-blur transition-all duration-300 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300',
                 tool.highlighted ? 'sm:col-span-2 lg:col-span-2' : '',
                 tool.highlighted
                   ? 'border-amber-300/50 bg-gradient-to-br from-amber-400/10 via-slate-900/90 to-slate-950 shadow-lg shadow-amber-500/15 hover:shadow-xl hover:shadow-amber-400/20'
@@ -42,7 +42,7 @@ export function ToolCards() {
                 isLowerPriority ? 'opacity-90' : ''
               ].join(' ')}
             >
-              <article>
+              <article className="flex h-full flex-col">
                 <div className="mb-4 flex items-center justify-between">
                   <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-slate-900/80 text-violet-200">
                     <Icon className="h-5 w-5" />
@@ -58,11 +58,11 @@ export function ToolCards() {
                     {tool.tag}
                   </span>
                 </div>
-                <h3 className="text-lg font-semibold text-white">{tool.title}</h3>
-                <p className="mt-2 min-h-20 text-sm leading-relaxed text-slate-300">{tool.description}</p>
-                  <span className="mt-6 inline-flex w-full items-center justify-center rounded-xl bg-gradient-to-r from-indigo-500 via-violet-500 to-cyan-500 px-4 py-2.5 text-sm font-semibold text-white transition-all duration-300 group-hover:brightness-110">
-                    {tool.cta}
-                  </span>
+                <h3 className="line-clamp-2 text-lg font-semibold text-white">{tool.title}</h3>
+                <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-slate-300">{tool.description}</p>
+                <span className="mt-auto inline-flex w-full items-center justify-center rounded-xl bg-gradient-to-r from-indigo-500 via-violet-500 to-cyan-500 px-4 py-2.5 text-sm font-semibold text-white transition-all duration-300 group-hover:brightness-110">
+                  {tool.cta}
+                </span>
               </article>
             </a>
           );
