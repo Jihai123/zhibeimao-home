@@ -125,7 +125,7 @@ export function RankingList() {
         const parsedPayload = payload as RankingsApiResponse;
         const candidateTools = parsedPayload?.rankings?.popularTools || parsedPayload?.popularTools || [];
         const toolsSource = Array.isArray(candidateTools) ? candidateTools : [];
-        const tools = toolsSource.slice(0, 8);
+        const tools = toolsSource.slice(0, 9);
 
         console.log('ai-rankings response top-level keys', Object.keys(raw || {}));
         console.log('ai-rankings payload top-level keys', Object.keys((payload as Record<string, unknown>) || {}));
