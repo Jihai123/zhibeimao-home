@@ -29,6 +29,7 @@ type RankingItem = {
 };
 
 type RankingsApiResponse = {
+  popularTools?: RankingItem[];
   rankings?: {
     popularTools?: RankingItem[];
   };
@@ -48,7 +49,7 @@ function toNumber(value: unknown): number | null {
   return null;
 }
 
-function formatCount(value: unknown): string {
+function formatCompactNumber(value: unknown): string {
   const num = toNumber(value);
   if (num === null) return '--';
 
@@ -58,7 +59,7 @@ function formatCount(value: unknown): string {
   return new Intl.NumberFormat('zh-CN').format(num);
 }
 
-function formatGrowth(raw: unknown) {
+function formatGrowthRate(raw: unknown) {
   const num = toNumber(raw);
 
   if (num === null) {
@@ -70,20 +71,20 @@ function formatGrowth(raw: unknown) {
 
   if (num > 0) {
     return {
-      text: `+${formatCount(num)}`,
+      text: `+${num.toFixed(2)}%`,
       className: 'text-emerald-300'
     };
   }
 
   if (num < 0) {
     return {
-      text: `-${formatCount(Math.abs(num))}`,
+      text: `${num.toFixed(2)}%`,
       className: 'text-rose-300'
     };
   }
 
   return {
-    text: '0',
+    text: '+0.00%',
     className: 'text-slate-300'
   };
 }
@@ -105,7 +106,20 @@ export function RankingList() {
           throw new Error(data?.error || 'Failed to fetch rankings');
         }
 
-        const tools = Array.isArray(data?.rankings?.popularTools) ? data.rankings.popularTools.slice(0, 5) : [];
+        const toolsSource = Array.isArray(data?.rankings?.popularTools)
+          ? data.rankings.popularTools
+          : Array.isArray(data?.popularTools)
+            ? data.popularTools
+            : [];
+        const tools = toolsSource.slice(0, 5);
+
+        console.log('ai-rankings response top-level keys', data && typeof data === 'object' ? Object.keys(data) : []);
+        console.log(
+          'rankings keys',
+          data?.rankings && typeof data.rankings === 'object' ? Object.keys(data.rankings) : []
+        );
+        console.log('popularTools length', toolsSource.length);
+        console.log('first item sample', toolsSource[0] ?? null);
 
         if (active) {
           if (tools.length === 0) {
@@ -160,9 +174,9 @@ export function RankingList() {
               <div className="mt-4 space-y-2.5">
                 {popularTools.map((tool, index) => {
                   const rank = toNumber(tool.rank) ?? index + 1;
-                  const usersValue = tool.users ?? tool.monthly_visits ?? tool.monthlyVisits ?? tool.visits;
-                  const growthValue = tool.change ?? tool.growth_rate ?? tool.growthRate;
-                  const growth = formatGrowth(growthValue);
+                  const heatValue = tool.change ?? tool.monthly_visits ?? tool.monthlyVisits ?? tool.visits ?? tool.users;
+                  const growthValue = tool.growth_rate ?? tool.growthRate;
+                  const growth = formatGrowthRate(growthValue);
 
                   return (
                     <div
@@ -171,7 +185,7 @@ export function RankingList() {
                     >
                       <span className="text-sm font-semibold text-cyan-300">#{rank}</span>
                       <span className="truncate text-sm font-medium text-white">{tool.name || '未知工具'}</span>
-                      <span className="text-right text-xs text-slate-300">{formatCount(usersValue)}</span>
+                      <span className="text-right text-xs text-slate-300">{formatCompactNumber(heatValue)}</span>
                       <span className={`text-right text-xs font-semibold ${growth.className}`}>{growth.text}</span>
                     </div>
                   );
@@ -181,8 +195,8 @@ export function RankingList() {
               <div className="mt-3 grid grid-cols-[30px_minmax(0,1fr)_88px_86px] gap-3 px-3 text-[11px] text-slate-400">
                 <span>排名</span>
                 <span>工具</span>
-                <span className="text-right">用户数/访问量</span>
-                <span className="text-right">增长/热度</span>
+                <span className="text-right">热度值</span>
+                <span className="text-right">增长率</span>
               </div>
 
               <a
@@ -196,7 +210,7 @@ export function RankingList() {
           ) : (
             <article className="flex h-full min-h-[252px] flex-col rounded-2xl border border-cyan-300/20 bg-gradient-to-br from-cyan-500/10 via-slate-900/70 to-slate-950 p-5">
               <h3 className="text-xl font-bold text-white">真实 AI 排行榜</h3>
-              <p className="mt-3 text-sm leading-relaxed text-slate-300">查看热门 AI 工具、模型趋势与最新变化</p>
+              <p className="mt-3 text-sm leading-relaxed text-slate-300">当前榜单数据暂时不可用，请点击查看完整榜单</p>
               <a
                 href={siteLinks.aiLeaderboard}
                 {...externalLinkProps}
