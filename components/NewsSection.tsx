@@ -151,7 +151,7 @@ export function NewsSection() {
             key={`${item.href}-${item.title}`}
             href={item.href}
             {...externalLinkProps}
-            className="group h-full rounded-2xl border border-white/10 bg-white/[0.03] p-4 transition-all duration-300 hover:-translate-y-1 hover:border-cyan-300/30 hover:shadow-xl hover:shadow-cyan-500/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300"
+            className="group h-full min-h-[320px] rounded-2xl border border-white/10 bg-white/[0.03] p-4 transition-all duration-300 hover:-translate-y-1 hover:border-cyan-300/30 hover:shadow-xl hover:shadow-cyan-500/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300"
           >
             <article className="flex h-full flex-col">
               {item.cover ? (
@@ -168,7 +168,7 @@ export function NewsSection() {
               )}
               <p className="mt-3 text-xs text-slate-400">{item.time}</p>
               <h3 className="mt-1 line-clamp-2 text-lg font-semibold text-white">{item.title}</h3>
-              {item.summary ? <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-slate-300">{item.summary}</p> : null}
+              {item.summary ? <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-slate-300">{item.summary}</p> : null}
               <span className="mt-auto pt-4 text-sm font-medium text-cyan-300">阅读更多 →</span>
             </article>
           </a>

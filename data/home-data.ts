@@ -11,9 +11,9 @@ export const quickEntries = [
 
 export const featuredAssets = [
   {
-    title: '今日新股：建议关注',
+    title: '今日新股：建议参与',
     subtitle: '结论推荐',
-    reason: '认购热度上升 + 基石较强',
+    reason: '认购热度与基石质量同步走强，当前窗口更适合参与决策。',
     badge: '🔥',
     useCount: '已有 2.3w 人使用',
     cta: '立即判断',
@@ -22,9 +22,9 @@ export const featuredAssets = [
     highlighted: true
   },
   {
-    title: '养老金：建议先算缺口',
+    title: '养老金：可考虑立即测算',
     subtitle: '规划建议',
-    reason: '越早测算，越容易补齐退休资金缺口',
+    reason: '尽早算清退休缺口，可提前调整储蓄与投资节奏，降低后续压力。',
     badge: 'NEW',
     useCount: '已有 1.8w 人使用',
     cta: '开始测算',
@@ -32,9 +32,9 @@ export const featuredAssets = [
     icon: PiggyBank
   },
   {
-    title: 'AI工具：优先看上升榜',
+    title: 'AI工具：建议入场看上升榜',
     subtitle: '趋势观察',
-    reason: '本周新增工具增多，先看上升项更省时间',
+    reason: '本周新增工具明显增多，优先跟进上升项更容易拿到确定性收益。',
     badge: 'NEW',
     useCount: '已有 2.1w 人使用',
     cta: '去体验',
