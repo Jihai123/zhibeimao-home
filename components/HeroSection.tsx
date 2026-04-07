@@ -114,22 +114,6 @@ export function HeroSection() {
           </div>
         </div>
 
-        <div className="mt-4 flex flex-col items-center justify-center gap-3 sm:flex-row">
-          <a
-            href={siteLinks.hongKongIPO}
-            {...externalLinkProps}
-            className="w-full rounded-xl bg-indigo-500 px-7 py-3 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-1 hover:bg-indigo-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 sm:w-auto"
-          >
-            立即判断
-          </a>
-          <a
-            href={siteLinks.aiLeaderboard}
-            {...externalLinkProps}
-            className="w-full rounded-xl bg-violet-500 px-7 py-3 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-1 hover:bg-violet-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 sm:w-auto"
-          >
-            查看结果
-          </a>
-        </div>
       </div>
 
       <div className="mt-6 overflow-x-auto pb-1">
