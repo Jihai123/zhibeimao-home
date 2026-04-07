@@ -29,6 +29,7 @@ type RankingItem = {
 };
 
 type RankingsApiResponse = {
+  value?: unknown;
   popularTools?: RankingItem[];
   rankings?: {
     popularTools?: RankingItem[];
@@ -100,23 +101,37 @@ export function RankingList() {
     const fetchRankings = async () => {
       try {
         const response = await fetch('/api/ai-rankings');
-        const data: RankingsApiResponse = await response.json();
+        const raw: RankingsApiResponse = await response.json();
 
-        if (!response.ok || data?.error) {
-          throw new Error(data?.error || 'Failed to fetch rankings');
+        if (!response.ok || raw?.error) {
+          throw new Error(raw?.error || 'Failed to fetch rankings');
         }
 
-        const toolsSource = Array.isArray(data?.rankings?.popularTools)
-          ? data.rankings.popularTools
-          : Array.isArray(data?.popularTools)
-            ? data.popularTools
-            : [];
+        let payload: unknown = raw;
+
+        if (raw && typeof raw === 'object' && 'value' in raw) {
+          payload = raw.value;
+        }
+
+        if (typeof payload === 'string') {
+          try {
+            payload = JSON.parse(payload);
+          } catch (e) {
+            console.error('failed to parse ai-rankings payload string', e, payload);
+            payload = {};
+          }
+        }
+
+        const parsedPayload = payload as RankingsApiResponse;
+        const candidateTools = parsedPayload?.rankings?.popularTools || parsedPayload?.popularTools || [];
+        const toolsSource = Array.isArray(candidateTools) ? candidateTools : [];
         const tools = toolsSource.slice(0, 5);
 
-        console.log('ai-rankings response top-level keys', data && typeof data === 'object' ? Object.keys(data) : []);
+        console.log('ai-rankings response top-level keys', Object.keys(raw || {}));
+        console.log('ai-rankings payload top-level keys', Object.keys((payload as Record<string, unknown>) || {}));
         console.log(
           'rankings keys',
-          data?.rankings && typeof data.rankings === 'object' ? Object.keys(data.rankings) : []
+          Object.keys((parsedPayload?.rankings as Record<string, unknown>) || {})
         );
         console.log('popularTools length', toolsSource.length);
         console.log('first item sample', toolsSource[0] ?? null);
@@ -174,7 +189,7 @@ export function RankingList() {
               <div className="mt-4 space-y-2.5">
                 {popularTools.map((tool, index) => {
                   const rank = toNumber(tool.rank) ?? index + 1;
-                  const heatValue = tool.change ?? tool.monthly_visits ?? tool.monthlyVisits ?? tool.visits ?? tool.users;
+                  const heatValue = tool.change;
                   const growthValue = tool.growth_rate ?? tool.growthRate;
                   const growth = formatGrowthRate(growthValue);
 
