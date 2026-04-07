@@ -4,7 +4,7 @@ export type FeaturedTopic = {
   href: string;
   source: 'forum' | 'aijianghu';
   badge: '论坛热议' | 'AI江湖';
-  thumbnail: string;
+  thumbnail?: string;
   priority: number;
 };
 
@@ -25,7 +25,7 @@ export const featuredTopics: FeaturedTopic[] = [
     source: 'forum',
     badge: '论坛热议',
     thumbnail: '/images/topics/forum/perplexity.jpg',
-    priority: 90
+    priority: 95
   },
   {
     title: '盗脸术覆灭记',
@@ -34,7 +34,7 @@ export const featuredTopics: FeaturedTopic[] = [
     source: 'aijianghu',
     badge: 'AI江湖',
     thumbnail: '/images/topics/aijianghu/jianghu-1.jpg',
-    priority: 80
+    priority: 90
   },
   {
     title: 'AI京华令：十五剑破关',
@@ -42,7 +42,14 @@ export const featuredTopics: FeaturedTopic[] = [
     href: 'https://news.chatgpt5x.com/aijianghu/北京ai服务大爆发-15款新应用通过备案即日起可用',
     source: 'aijianghu',
     badge: 'AI江湖',
-    thumbnail: '/images/topics/aijianghu/default-aijianghu.jpg',
-    priority: 70
+    priority: 88
+  },
+  {
+    title: 'Cursor 讨论帖：开发提效体验汇总',
+    summary: '开发者分享真实编码场景中的补全质量、重构效率以及团队落地建议。',
+    href: 'https://forum.chatgpt5x.com/d/401-378-cursortao-lun-tie',
+    source: 'forum',
+    badge: '论坛热议',
+    priority: 80
   }
 ];

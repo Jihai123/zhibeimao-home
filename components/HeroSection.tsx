@@ -12,12 +12,11 @@ const externalLinkProps = {
 };
 
 const searchRules: Array<{ keywords: string[]; url: string }> = [
-  { keywords: ['股票代码', 'ipo', '新股'], url: siteLinks.hongKongIPO },
-  { keywords: ['养老金', '退休'], url: siteLinks.pensionCalculator },
-  { keywords: ['城市', '宜居'], url: siteLinks.livableCity },
-  { keywords: ['工作', '值不值'], url: siteLinks.workValue },
-  { keywords: ['命理', '算命'], url: siteLinks.xingmingtong },
-  { keywords: ['新闻', '资讯'], url: siteLinks.news }
+  { keywords: ['新股', '港股'], url: siteLinks.hongKongIPO },
+  { keywords: ['养老金'], url: siteLinks.pensionCalculator },
+  { keywords: ['城市'], url: siteLinks.livableCity },
+  { keywords: ['ai', 'gpt'], url: siteLinks.nav },
+  { keywords: ['新闻'], url: siteLinks.news }
 ];
 
 function resolveSearchUrl(rawKeyword: string) {
@@ -33,7 +32,7 @@ function resolveSearchUrl(rawKeyword: string) {
 
 export function HeroSection() {
   const [keyword, setKeyword] = useState('');
-  const placeholder = useMemo(() => '输入关键词，例如：新股 / 养老金 / 宜居城市 / AI 资讯', []);
+  const placeholder = useMemo(() => '输入关键词，快速找到工具或内容', []);
 
   const triggerSearch = () => {
     const url = resolveSearchUrl(keyword);
@@ -83,7 +82,7 @@ export function HeroSection() {
             onClick={triggerSearch}
             className="rounded-xl bg-gradient-to-r from-indigo-500 via-violet-500 to-cyan-500 px-4 py-3 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-glow"
           >
-            去体验
+            去看看
           </button>
         </form>
 
@@ -113,7 +112,6 @@ export function HeroSection() {
             </a>
           </div>
         </div>
-
       </div>
 
       <div className="mt-6 overflow-x-auto pb-1">

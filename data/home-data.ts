@@ -65,7 +65,7 @@ export const toolAssets = [
     title: '中国宜居城市排行',
     description: '按就业、生活成本、医疗与教育等维度，快速筛选更适合长期发展的城市。',
     tag: '城市决策',
-    cta: '查看结果',
+    cta: '去体验',
     href: siteLinks.livableCity,
     icon: Compass
   },

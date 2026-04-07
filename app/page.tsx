@@ -6,7 +6,7 @@ import { ToolCards } from '@/components/ToolCards';
 
 export default function HomePage() {
   return (
-    <main className="mx-auto w-full max-w-7xl px-4 py-5 md:px-8 md:py-8">
+    <main className="mx-auto w-full max-w-7xl px-4 py-6 md:px-8 md:py-8">
       <HeroSection />
       <FeaturedCards />
       <ToolCards />
