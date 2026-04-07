@@ -125,7 +125,7 @@ export function RankingList() {
         const parsedPayload = payload as RankingsApiResponse;
         const candidateTools = parsedPayload?.rankings?.popularTools || parsedPayload?.popularTools || [];
         const toolsSource = Array.isArray(candidateTools) ? candidateTools : [];
-        const tools = toolsSource.slice(0, 5);
+        const tools = toolsSource.slice(0, 8);
 
         console.log('ai-rankings response top-level keys', Object.keys(raw || {}));
         console.log('ai-rankings payload top-level keys', Object.keys((payload as Record<string, unknown>) || {}));
@@ -184,9 +184,16 @@ export function RankingList() {
           {hasData ? (
             <article className="flex h-full min-h-[252px] flex-col rounded-2xl border border-cyan-300/20 bg-gradient-to-br from-cyan-500/10 via-slate-900/70 to-slate-950 p-5">
               <h3 className="text-xl font-bold text-white">热门 AI 工具</h3>
-              <p className="mt-2 text-sm text-slate-300">基于真实数据的工具热度预览</p>
+              <p className="mt-2 text-sm text-slate-300">全世界范围内的工具热度排名</p>
 
-              <div className="mt-4 space-y-2.5">
+              <div className="mt-4 grid grid-cols-[30px_minmax(0,1fr)_88px_86px] gap-3 px-3 text-[11px] text-slate-400">
+                <span>排名</span>
+                <span>工具</span>
+                <span className="text-right">热度值</span>
+                <span className="text-right">增长率</span>
+              </div>
+
+              <div className="mt-2.5 space-y-2.5">
                 {popularTools.map((tool, index) => {
                   const rank = toNumber(tool.rank) ?? index + 1;
                   const heatValue = tool.change;
@@ -207,19 +214,12 @@ export function RankingList() {
                 })}
               </div>
 
-              <div className="mt-3 grid grid-cols-[30px_minmax(0,1fr)_88px_86px] gap-3 px-3 text-[11px] text-slate-400">
-                <span>排名</span>
-                <span>工具</span>
-                <span className="text-right">热度值</span>
-                <span className="text-right">增长率</span>
-              </div>
-
               <a
                 href={siteLinks.aiLeaderboard}
                 {...externalLinkProps}
                 className="mt-auto inline-flex w-fit items-center rounded-xl bg-cyan-500 px-4 py-2.5 text-sm font-semibold text-slate-950 transition-all duration-300 hover:bg-cyan-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300"
               >
-                查看完整榜单
+                查看更多AI榜单
               </a>
             </article>
           ) : (
@@ -231,7 +231,7 @@ export function RankingList() {
                 {...externalLinkProps}
                 className="mt-auto inline-flex w-fit items-center rounded-xl bg-cyan-500 px-4 py-2.5 text-sm font-semibold text-slate-950 transition-all duration-300 hover:bg-cyan-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300"
               >
-                查看完整榜单
+                查看更多AI榜单
               </a>
             </article>
           )}
