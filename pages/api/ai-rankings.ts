@@ -1,11 +1,23 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 const AI_RANKINGS_API = 'https://news.chatgpt5x.com/zh/api/ai-rankings?type=all';
+const CACHE_TTL_MS = 5 * 60 * 1000;
+
+let rankingsCache: {
+  expiresAt: number;
+  payload: Record<string, unknown>;
+} | null = null;
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'GET') {
     res.setHeader('Allow', 'GET');
     return res.status(405).json({ error: 'Method Not Allowed' });
+  }
+
+  const now = Date.now();
+
+  if (rankingsCache && rankingsCache.expiresAt > now) {
+    return res.status(200).json(rankingsCache.payload);
   }
 
   try {
@@ -50,7 +62,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(502).json({ error: 'Unexpected ai-rankings payload shape' });
     }
 
-    return res.status(200).json(payload);
+    const cachePayload = payload as Record<string, unknown>;
+    rankingsCache = {
+      payload: cachePayload,
+      expiresAt: now + CACHE_TTL_MS
+    };
+
+    return res.status(200).json(cachePayload);
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Unknown error';
     return res.status(500).json({ error: message });
