@@ -1,4 +1,7 @@
+'use client';
+
 import Image from 'next/image';
+import { useEffect, useMemo, useState } from 'react';
 
 import { featuredTopics } from '@/src/data/featuredTopics';
 import { siteLinks } from '@/data/site-links';
@@ -13,12 +16,137 @@ const defaultTopicThumbnails = {
   aijianghu: '/images/topics/aijianghu/default-aijianghu.jpg'
 } as const;
 
+type RankingItem = {
+  rank?: number;
+  name?: string;
+  users?: number | string;
+  monthly_visits?: number | string;
+  monthlyVisits?: number | string;
+  visits?: number | string;
+  change?: number | string;
+  growth_rate?: number | string;
+  growthRate?: number | string;
+};
+
+type RankingsApiResponse = {
+  popularTools?: RankingItem[];
+  rankings?: {
+    popularTools?: RankingItem[];
+  };
+  error?: string;
+};
+
 function getTopicThumbnail(source: 'forum' | 'aijianghu', thumbnail?: string) {
   return thumbnail || defaultTopicThumbnails[source];
 }
 
+function toNumber(value: unknown): number | null {
+  if (typeof value === 'number' && Number.isFinite(value)) return value;
+  if (typeof value === 'string') {
+    const parsed = Number(value.replace(/,/g, ''));
+    return Number.isFinite(parsed) ? parsed : null;
+  }
+  return null;
+}
+
+function formatCompactNumber(value: unknown): string {
+  const num = toNumber(value);
+  if (num === null) return '--';
+
+  if (num >= 1_000_000_000) return `${(num / 1_000_000_000).toFixed(1).replace(/\.0$/, '')}B`;
+  if (num >= 1_000_000) return `${(num / 1_000_000).toFixed(1).replace(/\.0$/, '')}M`;
+  if (num >= 10_000) return `${(num / 10_000).toFixed(1).replace(/\.0$/, '')}万`;
+  return new Intl.NumberFormat('zh-CN').format(num);
+}
+
+function formatGrowthRate(raw: unknown) {
+  const num = toNumber(raw);
+
+  if (num === null) {
+    return {
+      text: '--',
+      className: 'text-slate-400'
+    };
+  }
+
+  if (num > 0) {
+    return {
+      text: `+${num.toFixed(2)}%`,
+      className: 'text-emerald-300'
+    };
+  }
+
+  if (num < 0) {
+    return {
+      text: `${num.toFixed(2)}%`,
+      className: 'text-rose-300'
+    };
+  }
+
+  return {
+    text: '+0.00%',
+    className: 'text-slate-300'
+  };
+}
+
 export function RankingList() {
   const topicPicks = [...featuredTopics].sort((a, b) => b.priority - a.priority).slice(0, 4);
+  const [popularTools, setPopularTools] = useState<RankingItem[]>([]);
+  const [loadFailed, setLoadFailed] = useState(false);
+
+  useEffect(() => {
+    let active = true;
+
+    const fetchRankings = async () => {
+      try {
+        const response = await fetch('/api/ai-rankings');
+        const data: RankingsApiResponse = await response.json();
+
+        if (!response.ok || data?.error) {
+          throw new Error(data?.error || 'Failed to fetch rankings');
+        }
+
+        const toolsSource = Array.isArray(data?.rankings?.popularTools)
+          ? data.rankings.popularTools
+          : Array.isArray(data?.popularTools)
+            ? data.popularTools
+            : [];
+        const tools = toolsSource.slice(0, 5);
+
+        console.log('ai-rankings response top-level keys', data && typeof data === 'object' ? Object.keys(data) : []);
+        console.log(
+          'rankings keys',
+          data?.rankings && typeof data.rankings === 'object' ? Object.keys(data.rankings) : []
+        );
+        console.log('popularTools length', toolsSource.length);
+        console.log('first item sample', toolsSource[0] ?? null);
+
+        if (active) {
+          if (tools.length === 0) {
+            setLoadFailed(true);
+            setPopularTools([]);
+            return;
+          }
+
+          setPopularTools(tools);
+          setLoadFailed(false);
+        }
+      } catch {
+        if (active) {
+          setLoadFailed(true);
+          setPopularTools([]);
+        }
+      }
+    };
+
+    fetchRankings();
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const hasData = useMemo(() => !loadFailed && popularTools.length > 0, [loadFailed, popularTools.length]);
 
   return (
     <section className="mt-16" aria-label="AI 榜单与专题精选">
@@ -38,22 +166,60 @@ export function RankingList() {
 
       <div className="grid gap-6 lg:grid-cols-[1.1fr_1fr]">
         <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-5 backdrop-blur">
-          <article className="flex h-full min-h-[252px] flex-col rounded-2xl border border-cyan-300/20 bg-gradient-to-br from-cyan-500/10 via-slate-900/70 to-slate-950 p-5">
-            <div className="mb-3 flex items-center gap-2 text-xs text-cyan-200">
-              <span className="rounded-full border border-cyan-300/40 bg-cyan-500/10 px-2 py-1">↑ 上升</span>
-              <span className="rounded-full border border-amber-300/40 bg-amber-500/10 px-2 py-1">🔥 爆款</span>
-            </div>
-            <h3 className="text-xl font-bold text-white">真实 AI 排行榜</h3>
-            <p className="mt-3 line-clamp-2 text-sm leading-relaxed text-slate-300">基于真实数据的AI工具与模型趋势</p>
-            <p className="mt-3 text-xs text-slate-400">2.3w 人正在查看本周趋势</p>
-            <a
-              href={siteLinks.aiLeaderboard}
-              {...externalLinkProps}
-              className="mt-auto inline-flex w-fit items-center rounded-xl bg-cyan-500 px-4 py-2.5 text-sm font-semibold text-slate-950 transition-all duration-300 hover:bg-cyan-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300"
-            >
-              查看完整榜单
-            </a>
-          </article>
+          {hasData ? (
+            <article className="flex h-full min-h-[252px] flex-col rounded-2xl border border-cyan-300/20 bg-gradient-to-br from-cyan-500/10 via-slate-900/70 to-slate-950 p-5">
+              <h3 className="text-xl font-bold text-white">热门 AI 工具</h3>
+              <p className="mt-2 text-sm text-slate-300">基于真实数据的工具热度预览</p>
+
+              <div className="mt-4 space-y-2.5">
+                {popularTools.map((tool, index) => {
+                  const rank = toNumber(tool.rank) ?? index + 1;
+                  const heatValue = tool.change ?? tool.monthly_visits ?? tool.monthlyVisits ?? tool.visits ?? tool.users;
+                  const growthValue = tool.growth_rate ?? tool.growthRate;
+                  const growth = formatGrowthRate(growthValue);
+
+                  return (
+                    <div
+                      key={`${tool.name || 'tool'}-${rank}`}
+                      className="grid grid-cols-[30px_minmax(0,1fr)_88px_86px] items-center gap-3 rounded-lg border border-white/10 bg-slate-900/50 px-3 py-2"
+                    >
+                      <span className="text-sm font-semibold text-cyan-300">#{rank}</span>
+                      <span className="truncate text-sm font-medium text-white">{tool.name || '未知工具'}</span>
+                      <span className="text-right text-xs text-slate-300">{formatCompactNumber(heatValue)}</span>
+                      <span className={`text-right text-xs font-semibold ${growth.className}`}>{growth.text}</span>
+                    </div>
+                  );
+                })}
+              </div>
+
+              <div className="mt-3 grid grid-cols-[30px_minmax(0,1fr)_88px_86px] gap-3 px-3 text-[11px] text-slate-400">
+                <span>排名</span>
+                <span>工具</span>
+                <span className="text-right">热度值</span>
+                <span className="text-right">增长率</span>
+              </div>
+
+              <a
+                href={siteLinks.aiLeaderboard}
+                {...externalLinkProps}
+                className="mt-auto inline-flex w-fit items-center rounded-xl bg-cyan-500 px-4 py-2.5 text-sm font-semibold text-slate-950 transition-all duration-300 hover:bg-cyan-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300"
+              >
+                查看完整榜单
+              </a>
+            </article>
+          ) : (
+            <article className="flex h-full min-h-[252px] flex-col rounded-2xl border border-cyan-300/20 bg-gradient-to-br from-cyan-500/10 via-slate-900/70 to-slate-950 p-5">
+              <h3 className="text-xl font-bold text-white">真实 AI 排行榜</h3>
+              <p className="mt-3 text-sm leading-relaxed text-slate-300">当前榜单数据暂时不可用，请点击查看完整榜单</p>
+              <a
+                href={siteLinks.aiLeaderboard}
+                {...externalLinkProps}
+                className="mt-auto inline-flex w-fit items-center rounded-xl bg-cyan-500 px-4 py-2.5 text-sm font-semibold text-slate-950 transition-all duration-300 hover:bg-cyan-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300"
+              >
+                查看完整榜单
+              </a>
+            </article>
+          )}
         </div>
 
         <div>
