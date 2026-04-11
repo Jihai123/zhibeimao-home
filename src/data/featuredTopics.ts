@@ -10,18 +10,18 @@ export type FeaturedTopic = {
 
 export const featuredTopics: FeaturedTopic[] = [
   {
-    title: 'Claude 讨论帖：日常使用与能力反馈',
-    summary: '围绕复杂任务与多轮问答，社区用户汇总了真实使用体验和稳定性反馈。',
-    href: 'https://forum.chatgpt5x.com/d/261-236-claudetao-lun-tie',
+    title: '如何快速搭建一个微信自动回复的GPT机器人',
+    summary: '手动搭建基于大模型的智能对话机器人，支持微信公众号、企业微信应用、飞书、钉钉接入。',
+    href: 'https://forum.chatgpt5x.com/d/62-ru-he-kuai-su-da-jian-yi-ge-wei-xin-zi-dong-hui-fu-de-gptji-qi-ren',
     source: 'forum',
     badge: '论坛热议',
     thumbnail: '/images/topics/forum/default-forum.jpg',
     priority: 100
   },
   {
-    title: 'Perplexity 讨论帖：搜索问答效果实测',
-    summary: '从检索准确度、引用质量到响应速度，集中对比近期真实实测结论。',
-    href: 'https://forum.chatgpt5x.com/d/290-267-perplexity-aitao-lun-tie',
+    title: '字节跳动AI“最强大脑”一年走了70人，去向惊人',
+    summary: '据了解，这个团队里差不多有70位技术大牛，就像是AI界的“种子选手”，在过去一年里纷纷选择离开。',
+    href: 'https://forum.chatgpt5x.com/d/3504-zi-jie-tiao-dong-aizui-qiang-da-nao-yi-nian-zou-liao-70ren-qu-xiang-liang-ren',
     source: 'forum',
     badge: '论坛热议',
     thumbnail: '/images/topics/forum/perplexity.jpg',
