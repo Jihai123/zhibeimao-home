@@ -87,7 +87,7 @@ export function HeroSection() {
         </form>
 
         <div className="mt-4 rounded-2xl border border-white/10 bg-slate-900/45 p-4 text-left">
-          <p className="text-sm font-medium text-slate-200">你可以先做这3件事：</p>
+          <p className="text-sm font-medium text-slate-200"></p>
           <div className="mt-3 grid gap-2 sm:grid-cols-3">
             <a
               href={siteLinks.hongKongIPO}
