@@ -34,7 +34,7 @@ const fallbackNews: DisplayNewsItem[] = [
   {
     title: '查看更多 AI 资讯',
     href: NEWS_HOME,
-    summary: '新闻接口加载失败时，仍可直接访问新闻站查看最新内容。',
+    summary: '',
     time: '刚刚',
     cover: null
   }
@@ -134,7 +134,6 @@ export function NewsSection() {
       <div className="mb-6 flex items-center justify-between gap-3">
         <div>
           <h2 className="text-2xl font-bold text-white md:text-3xl">今日 AI 资讯</h2>
-          <p className="mt-2 text-sm text-slate-300">实时读取新闻接口前 3 条，支持缩略图、摘要与详情跳转。</p>
         </div>
         <a
           href={siteLinks.news}
