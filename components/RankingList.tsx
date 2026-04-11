@@ -168,7 +168,6 @@ export function RankingList() {
       <div className="mb-6 flex items-center justify-between gap-3">
         <div>
           <h2 className="text-2xl font-bold text-white md:text-3xl">AI 榜单与精选</h2>
-          <p className="mt-2 text-sm text-slate-400">真实榜单入口 + 社区热点专题，所有点击直达真实内容。</p>
         </div>
         <a
           href={siteLinks.rankings}
