@@ -20,7 +20,7 @@ export function ToolCards() {
           去体验全部 →
         </a>
       </div>
-
+    </div>
       <div className="mt-7 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {toolAssets.map((tool, index) => {
           const Icon = tool.icon;
