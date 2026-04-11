@@ -13,7 +13,6 @@ export function FeaturedCards() {
       <div className="mb-6 flex items-center justify-between gap-3">
         <div>
           <h2 className="text-2xl font-bold text-white md:text-3xl">今日推荐</h2>
-          <p className="mt-2 text-sm text-slate-300">直接给结论，再给理由，帮你更快做决策。</p>
         </div>
       </div>
       <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
