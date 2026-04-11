@@ -13,7 +13,7 @@ export const featuredAssets = [
   {
     title: '今日新股：建议参与',
     subtitle: '结论推荐',
-    reason: '认购热度与基石质量同步走强，当前窗口更适合参与决策。',
+    reason: '港股打新评分专家，协助你决策是否应该参与新股。',
     badge: '🔥',
     useCount: '已有 2.3w 人使用',
     cta: '立即判断',
@@ -32,9 +32,9 @@ export const featuredAssets = [
     icon: PiggyBank
   },
   {
-    title: 'AI工具：建议入场看上升榜',
-    subtitle: '趋势观察',
-    reason: '本周新增工具明显增多，优先跟进上升项更容易拿到确定性收益。',
+    title: 'AI排行：世界AI排行榜',
+    subtitle: '实时排名',
+    reason: '除了豆包，还有你们值得使用的东西。',
     badge: 'NEW',
     useCount: '已有 2.1w 人使用',
     cta: '去体验',
@@ -88,7 +88,7 @@ export const toolAssets = [
   },
   {
     title: '星命通',
-    description: '多维命理信息查询与运势建议，做长期规划辅助参考。',
+    description: '多维命理信息查询与运势建议。',
     tag: '生活决策',
     cta: '去体验',
     href: siteLinks.xingmingtong,
