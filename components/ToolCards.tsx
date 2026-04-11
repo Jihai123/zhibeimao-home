@@ -12,8 +12,6 @@ export function ToolCards() {
       <div className="flex items-center justify-between gap-3">
         <div>
           <h2 className="text-2xl font-bold text-white md:text-3xl">决策工具</h2>
-          <p className="mt-2 text-sm text-slate-300">直接可用的判断工具，优先给你高频、可执行的下一步。</p>
-        </div>
         <a
           href={siteLinks.tools}
           {...externalLinkProps}
