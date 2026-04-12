@@ -178,17 +178,21 @@ export function RankingList() {
                 const growth = hasData
                   ? formatGrowthRate((tool as RankingItem).growth_rate ?? (tool as RankingItem).growthRate)
                   : { text: '--', className: 'text-slate-400' };
+                const rowHref = siteLinks.aiLeaderboard;
 
                 return (
-                  <div
+                  <a
                     key={`${(tool as RankingItem)?.name || 'fallback'}-${rank}`}
-                    className="grid grid-cols-[30px_minmax(0,1fr)_88px_86px] items-center gap-3 rounded-lg border border-white/10 bg-slate-900/55 px-3 py-2"
+                    href={rowHref}
+                    {...externalLinkProps}
+                    className="group grid grid-cols-[30px_minmax(0,1fr)_88px_86px_16px] items-center gap-3 rounded-lg border border-white/10 bg-slate-900/55 px-3 py-2 transition-all duration-300 hover:border-cyan-300/30 hover:bg-cyan-400/[0.08]"
                   >
                     <span className="text-sm font-semibold text-cyan-300">#{rank}</span>
                     <span className="truncate text-sm font-medium text-primary">{hasData ? (tool as RankingItem).name || '未知工具' : '数据加载中'}</span>
                     <span className="text-right text-xs text-secondary">{hasData ? formatCompactNumber((tool as RankingItem).change) : '--'}</span>
                     <span className={`text-right text-xs font-semibold ${growth.className}`}>{growth.text}</span>
-                  </div>
+                    <ArrowRight className="h-3.5 w-3.5 text-slate-500 transition-colors duration-300 group-hover:text-cyan-300" />
+                  </a>
                 );
               })}
             </div>

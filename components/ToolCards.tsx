@@ -38,9 +38,10 @@ export function ToolCards() {
 
               <h3 className="text-primary line-clamp-2 text-base font-semibold">{tool.title}</h3>
               <p className="text-secondary mt-2 line-clamp-3 text-sm leading-relaxed">{tool.description}</p>
+              <p className="mt-2 text-xs text-secondary/80">{tool.status}</p>
 
               <div className="mt-auto flex items-center justify-between pt-4">
-                <span className="rounded-md border border-cyan-200/20 bg-cyan-400/5 px-2 py-1 text-[11px] text-cyan-200/90">高热度</span>
+                <span className="rounded-md border border-white/10 bg-white/[0.04] px-2 py-1 text-[11px] text-secondary">推荐工具</span>
                 <ArrowRight className="h-4 w-4 text-slate-400 transition-colors duration-300 group-hover:text-violet-300" />
               </div>
             </a>

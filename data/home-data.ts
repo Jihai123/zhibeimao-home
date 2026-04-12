@@ -15,6 +15,7 @@ export const featuredAssets = [
     subtitle: '结论推荐',
     reason: '港股打新评分专家，协助你决策是否应该参与新股。',
     badge: '🔥',
+    status: '👥 今日 342 人使用',
     useCount: '已有 2.3w 人使用',
     cta: '立即判断',
     href: siteLinks.hongKongIPO,
@@ -26,6 +27,7 @@ export const featuredAssets = [
     subtitle: '规划建议',
     reason: '尽早算清退休缺口，可提前调整储蓄与投资节奏，降低后续压力。',
     badge: 'NEW',
+    status: '🟢 刚刚更新',
     useCount: '已有 1.8w 人使用',
     cta: '开始测算',
     href: siteLinks.pensionCalculator,
@@ -36,6 +38,7 @@ export const featuredAssets = [
     subtitle: '实时排名',
     reason: '除了豆包，还有你们值得使用的东西。',
     badge: 'NEW',
+    status: '🔥 热门工具',
     useCount: '已有 2.1w 人使用',
     cta: '去体验',
     href: siteLinks.aiLeaderboard,
@@ -48,6 +51,7 @@ export const toolAssets = [
     title: '新股值不值得参与？',
     description: '输入股票代码，快速判断是否值得申购',
     tag: '🔥爆款',
+    status: '👥 今日 342 人使用',
     cta: '立即判断',
     href: siteLinks.hongKongIPO,
     icon: BadgeDollarSign,
@@ -57,6 +61,7 @@ export const toolAssets = [
     title: '养老金计算器',
     description: '估算退休时间、养老金区间与资金缺口，提前规划未来现金流。',
     tag: '退休规划',
+    status: '🟢 刚刚更新',
     cta: '开始测算',
     href: siteLinks.pensionCalculator,
     icon: PiggyBank
@@ -65,6 +70,7 @@ export const toolAssets = [
     title: '中国宜居城市排行',
     description: '按就业、生活成本、医疗与教育等维度，快速筛选更适合长期发展的城市。',
     tag: '城市决策',
+    status: '🔥 热门工具',
     cta: '去体验',
     href: siteLinks.livableCity,
     icon: Compass
@@ -73,6 +79,7 @@ export const toolAssets = [
     title: '这B班值不值',
     description: '从通勤、薪酬、成长与压力四维度评估当前工作质量。',
     tag: '职业决策',
+    status: '👥 今日 218 人使用',
     cta: '立即判断',
     href: siteLinks.workValue,
     icon: Sparkles
@@ -82,6 +89,7 @@ export const toolAssets = [
     title: '您的专业AI工作场景分析师',
     description: 'AI 时代，AI 到底能帮我做什么：基于您的具体工作进行 AI 深度分析，为您释放工作压力。',
     tag: '工作分析',
+    status: '🟢 刚刚更新',
     cta: '立即分析',
     href: siteLinks.aiWorkAnalyst,
     icon: Sparkles
@@ -90,6 +98,7 @@ export const toolAssets = [
     title: '星命通',
     description: '多维命理信息查询与运势建议。',
     tag: '生活决策',
+    status: '🔥 热门工具',
     cta: '去体验',
     href: siteLinks.xingmingtong,
     icon: Star
@@ -98,9 +107,31 @@ export const toolAssets = [
     title: 'AI 工具导航',
     description: '按场景筛选写作、设计、开发与运营工具，快速直达。',
     tag: '效率工具',
+    status: '👥 今日 487 人使用',
     cta: '去体验',
     href: siteLinks.nav,
     icon: Bot
+  }
+];
+
+export const aiDirectEntries = [
+  {
+    title: 'LibreChat 对话入口',
+    description: '主流大模型对话、问答、写作与编程辅助的一站式入口。',
+    tags: ['AI对话', 'ChatGPT', 'Claude', 'Gemini'],
+    href: siteLinks.libreChat
+  },
+  {
+    title: 'ArtChat 对话入口',
+    description: '多模型对话与高效问答入口，适合日常快速使用。',
+    tags: ['AI对话', '多模型', '日常使用'],
+    href: siteLinks.artChat
+  },
+  {
+    title: 'AIView 创作入口',
+    description: '聚焦图片生成、视觉创作与视频能力的创意工作台。',
+    tags: ['AI绘图', '视频生成', '创意内容'],
+    href: siteLinks.aiView
   }
 ];
 
