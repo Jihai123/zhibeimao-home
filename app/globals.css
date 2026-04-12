@@ -4,6 +4,13 @@
 
 :root {
   color-scheme: dark;
+  --surface-color: #0f1320;
+  --surface-muted: #141a2a;
+  --surface-elevated: #1a2238;
+  --primary-gradient: linear-gradient(120deg, #7c3aed 0%, #06b6d4 48%, #22d3ee 100%);
+  --text-primary: #f8f9fa;
+  --text-secondary: #a3a8b5;
+  --border-subtle: rgba(248, 249, 250, 0.12);
 }
 
 * {
@@ -11,5 +18,27 @@
 }
 
 body {
-  @apply min-h-screen bg-slate-950 bg-hero-radial;
+  @apply min-h-screen;
+  background-color: var(--surface-color);
+  background-image:
+    radial-gradient(circle at 15% -10%, rgba(124, 58, 237, 0.22), transparent 35%),
+    radial-gradient(circle at 90% 10%, rgba(34, 211, 238, 0.16), transparent 30%),
+    linear-gradient(180deg, #0b1020 0%, #090d18 100%);
+  color: var(--text-primary);
+}
+
+@layer utilities {
+  .text-primary {
+    color: var(--text-primary);
+  }
+
+  .text-secondary {
+    color: var(--text-secondary);
+  }
+
+  .surface-panel {
+    background: linear-gradient(180deg, rgba(20, 26, 42, 0.88) 0%, rgba(12, 17, 30, 0.88) 100%);
+    border: 1px solid var(--border-subtle);
+    backdrop-filter: blur(16px);
+  }
 }
