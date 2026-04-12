@@ -17,8 +17,7 @@ const externalLinkProps = {
 
 const qrResources = [
   {
-    title: '微信二维码（资源位）',
-    description: '当前使用占位资源，后续可替换为正式二维码图片。',
+    title: '',
     src: '/images/topics/forum/images.jpg'
   }
 ];
@@ -88,7 +87,7 @@ export default function AboutPage() {
         </article>
 
         <article className="surface-panel rounded-2xl p-5 md:p-6">
-          <h3 className="text-base font-semibold text-primary">二维码区域（预留）</h3>
+          <h3 className="text-base font-semibold text-primary">微信我们</h3>
           <div className="mt-3 grid gap-3 sm:grid-cols-2">
             {qrResources.map((item) => (
               <div key={item.title} className="rounded-xl border border-white/10 bg-white/[0.03] p-3">
