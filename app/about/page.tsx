@@ -93,7 +93,6 @@ export default function AboutPage() {
               <div key={item.title} className="rounded-xl border border-white/10 bg-white/[0.03] p-3">
                 <Image src={item.src} alt={item.title} width={280} height={280} className="h-auto w-full rounded-lg border border-white/10 object-cover" />
                 <p className="mt-2 text-sm font-medium text-primary">{item.title}</p>
-                <p className="mt-1 text-xs text-secondary">{item.description}</p>
               </div>
             ))}
           </div>
