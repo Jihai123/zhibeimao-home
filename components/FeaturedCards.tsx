@@ -38,6 +38,7 @@ export function FeaturedCards() {
               <p className="mt-1 text-xs tracking-wide text-secondary uppercase">{item.subtitle}</p>
               <p className="text-secondary mt-2 line-clamp-2 text-sm">{item.reason}</p>
               <p className="text-secondary/90 mt-3 text-xs">{item.useCount}</p>
+              <p className="mt-2 text-xs text-secondary/80">{item.status}</p>
 
               <div className="mt-auto flex items-center justify-between pt-4">
                 <span className="rounded-md border border-white/10 bg-white/[0.04] px-2 py-1 text-[11px] text-secondary">编辑精选</span>

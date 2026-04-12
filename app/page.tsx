@@ -1,3 +1,4 @@
+import { AiDirectSection } from '@/components/AiDirectSection';
 import { FeaturedCards } from '@/components/FeaturedCards';
 import { HeroSection } from '@/components/HeroSection';
 import { NewsSection } from '@/components/NewsSection';
@@ -9,6 +10,7 @@ export default function HomePage() {
     <main className="mx-auto w-full max-w-7xl px-4 py-6 md:px-8 md:py-8">
       <HeroSection />
       <FeaturedCards />
+      <AiDirectSection />
       <ToolCards />
       <RankingList />
       <NewsSection />
