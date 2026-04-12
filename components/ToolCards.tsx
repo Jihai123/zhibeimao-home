@@ -1,3 +1,5 @@
+import { ArrowRight } from 'lucide-react';
+
 import { toolAssets } from '@/data/home-data';
 import { siteLinks } from '@/data/site-links';
 
@@ -10,58 +12,37 @@ export function ToolCards() {
   return (
     <section id="tools" className="mt-14 scroll-mt-24">
       <div className="flex items-center justify-between gap-3">
-        <div>
-          <h2 className="text-2xl font-bold text-white md:text-3xl">决策工具</h2>
-        <a
-          href={siteLinks.tools}
-          {...externalLinkProps}
-          className="text-sm font-medium text-cyan-300 transition-colors hover:text-cyan-200"
-        >
-          去体验全部 →
+        <h2 className="text-primary text-2xl font-bold md:text-3xl">决策工具</h2>
+        <a href={siteLinks.tools} {...externalLinkProps} className="text-sm font-medium text-cyan-300 transition-colors hover:text-cyan-200">
+          查看全部 →
         </a>
       </div>
-    </div>
-      <div className="mt-7 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {toolAssets.map((tool, index) => {
+
+      <div className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        {toolAssets.map((tool) => {
           const Icon = tool.icon;
-          const isLowerPriority = index > 2;
 
           return (
             <a
               key={tool.title}
               href={tool.href}
               {...externalLinkProps}
-              className={[
-                'group h-full min-h-[272px] rounded-2xl border p-5 backdrop-blur transition-all duration-300 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300',
-                tool.highlighted ? 'sm:col-span-2 lg:col-span-2' : '',
-                tool.highlighted
-                  ? 'border-amber-300/50 bg-gradient-to-br from-amber-400/10 via-slate-900/90 to-slate-950 shadow-lg shadow-amber-500/15 hover:shadow-xl hover:shadow-amber-400/20'
-                  : 'border-white/10 bg-white/[0.03] shadow-sm hover:border-violet-200/30 hover:shadow-xl hover:shadow-violet-500/10',
-                isLowerPriority ? 'opacity-90' : ''
-              ].join(' ')}
+              className="group surface-panel flex h-full min-h-[214px] flex-col rounded-2xl p-4 transition-all duration-300 hover:-translate-y-1 hover:border-violet-300/40 hover:shadow-[0_16px_32px_rgba(76,29,149,0.25)]"
             >
-              <article className="flex h-full flex-col">
-                <div className="mb-4 flex items-center justify-between">
-                  <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-slate-900/80 text-violet-200">
-                    <Icon className="h-5 w-5" />
-                  </span>
-                  <span
-                    className={[
-                      'rounded-full px-2.5 py-1 text-[11px] font-medium',
-                      tool.highlighted
-                        ? 'border border-amber-300/50 bg-amber-300/20 text-amber-200'
-                        : 'border border-white/10 bg-slate-800/80 text-slate-300'
-                    ].join(' ')}
-                  >
-                    {tool.tag}
-                  </span>
-                </div>
-                <h3 className="line-clamp-2 text-lg font-semibold text-white">{tool.title}</h3>
-                <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-slate-300">{tool.description}</p>
-                <span className="mt-auto inline-flex w-full items-center justify-center rounded-xl bg-gradient-to-r from-indigo-500 via-violet-500 to-cyan-500 px-4 py-2.5 text-sm font-semibold text-white transition-all duration-300 group-hover:brightness-110">
-                  {tool.cta}
+              <div className="mb-3 flex items-center justify-between">
+                <span className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 bg-[#10192d] text-violet-200">
+                  <Icon className="h-4 w-4" />
                 </span>
-              </article>
+                <span className="rounded-full border border-white/10 bg-white/[0.04] px-2 py-1 text-[11px] text-secondary">{tool.tag}</span>
+              </div>
+
+              <h3 className="text-primary line-clamp-2 text-base font-semibold">{tool.title}</h3>
+              <p className="text-secondary mt-2 line-clamp-3 text-sm leading-relaxed">{tool.description}</p>
+
+              <div className="mt-auto flex items-center justify-between pt-4">
+                <span className="rounded-md border border-cyan-200/20 bg-cyan-400/5 px-2 py-1 text-[11px] text-cyan-200/90">高热度</span>
+                <ArrowRight className="h-4 w-4 text-slate-400 transition-colors duration-300 group-hover:text-violet-300" />
+              </div>
             </a>
           );
         })}
