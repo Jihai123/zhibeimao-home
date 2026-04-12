@@ -6,7 +6,7 @@ export const siteLinks = {
   news: 'https://news.chatgpt5x.com/',
   nav: 'https://www.chatgpt5x.com/#/',
   forum: 'https://forum.chatgpt5x.com/',
-  hongKongIPO: 'https://yiju.zhibeimao.com/',
+  hongKongIPO: 'https://hk.zhibeimao.com/',
   pensionCalculator: 'https://yanglao.zhibeimao.com/',
   livableCity: 'https://yiju.zhibeimao.com/',
   workValue: 'https://jobtest.chatgpt5x.com/',
