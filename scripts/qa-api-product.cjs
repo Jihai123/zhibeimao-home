@@ -83,7 +83,7 @@ async function run() {
 
       await visit(page, '/api/docs', 'docs-' + width);
       assert.equal(await page.locator('pre').count() >= 3, true, 'expected curl, Python and model query examples');
-      const docsDirect = page.locator('#no-code-title').locator('..');
+      const docsDirect = page.locator('section').filter({ has: page.locator('#no-code-title') });
       assert.equal(await docsDirect.locator('a[href="https://librechat.chatgpt5x.com/"]').count(), 1, 'docs LibreChat link missing');
       assert.equal(await docsDirect.locator('a[href="https://art.chatgpt5x.com/"]').count(), 1, 'docs ArtChat link missing');
       assert.equal(await docsDirect.locator('a[href="https://aiview.chatgpt5x.com/"]').count(), 1, 'docs AIView link missing');
