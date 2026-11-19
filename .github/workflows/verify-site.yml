@@ -1,4 +1,4 @@
-name: Verify site build
+name: Verify site build and responsive UI
 
 on:
   pull_request:
@@ -11,6 +11,7 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -21,3 +22,24 @@ jobs:
         run: npm ci
       - name: Build and type-check
         run: npm run build
+      - name: Install browser QA runner
+        run: |
+          npm install --no-save --no-package-lock playwright@1.55.1
+          npx playwright install --with-deps chromium
+      - name: Start isolated local preview
+        run: |
+          npm run start -- -p 3000 >/tmp/zhibeimao-next-start.log 2>&1 &
+          for i in $(seq 1 45); do
+            if curl -fsS http://127.0.0.1:3000/api >/dev/null; then exit 0; fi
+            sleep 2
+          done
+          cat /tmp/zhibeimao-next-start.log
+          exit 1
+      - name: Test responsive API pages in Chromium
+        run: node scripts/qa-api-product.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: api-preview-qa-screenshots
+          path: qa-artifacts/
+          if-no-files-found: ignore
