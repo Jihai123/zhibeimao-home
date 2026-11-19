@@ -137,7 +137,7 @@ export default function ApiProductPage() {
                   <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-300"><CheckCircle2 className="h-3.5 w-3.5" /> HTTP 200 已实测</span>
                 </div>
                 <div className="rounded-lg border border-emerald-400/15 bg-emerald-400/[0.04] px-3 py-3 text-sm">
-                  <span className="font-mono text-emerald-200">"content": "OK"</span>
+                  <span className="font-mono text-emerald-200">{'"content": "OK"'}</span>
                 </div>
               </div>
               <p className="text-[11px] leading-5 text-slate-500">
