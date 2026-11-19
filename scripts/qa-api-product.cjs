@@ -27,7 +27,7 @@ async function visit(page, pathname, label) {
 
 async function run() {
   fs.mkdirSync(output, { recursive: true });
-  const browser = await chromium.launch({ headless: true, args: ['--no-sandbox'] });
+  const browser = await chromium.launch({ channel: 'chrome', headless: true, args: ['--no-sandbox'] });
   try {
     for (const width of [320, 390, 1280]) {
       const page = await browser.newPage({ viewport: { width, height: 844 }, deviceScaleFactor: 1 });
