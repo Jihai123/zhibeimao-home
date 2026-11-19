@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 
 import { siteLinks } from '@/data/site-links';
+import { ApiDirectUseSection } from '@/components/ApiDirectUseSection';
 import {
   alternativeApiBaseUrl,
   apiBaseUrl,
@@ -25,12 +26,12 @@ import {
 } from '@/data/api-product';
 
 export const metadata: Metadata = {
-  title: 'AI API 接入｜热门模型统一调用 · 人民币购买｜智享AI',
-  description: '一个 API 地址接入 GPT、Claude、Gemini、Grok、DeepSeek 等模型系列。人民币购买 API Key，提供接入示例和模型查询方式，快速接入 AI 工具与应用。',
+  title: '智享AI API｜一个 Key，在线直接用或接入自己的应用',
+  description: '购买智享AI API Key 后，可在三个现有在线工具站直接使用，也可通过统一 API 接入自己的应用。支持模型查询、人民币购买和开发者文档。',
   alternates: { canonical: 'https://www.zhibeimao.com/api' },
   openGraph: {
-    title: '智享AI API｜热门模型，一个 API 就能接',
-    description: '统一 API 地址、人民币购买、快速接入文档。查看支持的模型系列与当前 Key 商品参考价。',
+    title: '智享AI API｜一个 Key，直接使用或开发接入',
+    description: '普通用户可直接打开在线工具输入 Key，开发者可使用统一 API 地址接入自己的应用。',
     url: 'https://www.zhibeimao.com/api',
     type: 'website'
   }
@@ -44,9 +45,9 @@ const modelTones = [
 ];
 
 const advantages = [
-  { icon: Layers3, title: '一个 Key，切换主流模型', detail: '不用逐个平台注册、申请不同 API Key' },
-  { icon: CreditCard, title: '人民币购买，门槛更低', detail: '商城有小额度套餐，不用海外银行卡' },
-  { icon: Globe2, title: '国内网络接入更简单', detail: '已实测接口可直连，无须自行配置海外代理' }
+  { icon: Layers3, title: '三个在线工具，买完直接用', detail: '打开现有智享AI网站，输入已购买的 Key' },
+  { icon: CreditCard, title: '人民币购买，按需使用', detail: '从现有商城购买，无需海外银行卡' },
+  { icon: Globe2, title: '一个 API，连接自己的应用', detail: '开发者使用统一地址和现有接入文档' }
 ];
 
 const journeys = [
@@ -73,17 +74,17 @@ export default function ApiProductPage() {
               智享AI API · 指北猫开放平台
             </div>
             <h1 className="mt-6 text-4xl font-black leading-[1.18] tracking-tight text-white sm:text-5xl lg:text-[3.5rem]">
-              热门与新模型，
+              一个 Key，
               <span className="mt-1 block bg-gradient-to-r from-violet-300 via-cyan-200 to-sky-300 bg-clip-text text-transparent">
-                一个 API 就能接
+                直接用 AI，也能接入自己的应用
               </span>
             </h1>
             <p className="mt-5 max-w-2xl text-[15px] leading-8 text-slate-300 sm:text-base">
-              GPT、Claude、Gemini、Grok、DeepSeek 等模型系列，通过统一接口按需调用。
-              人民币购买 Key，国内接入更省事；不用为不同厂商反复注册、配置支付或单独适配。
+              购买智享AI Key 后，可以在三个现有在线工具站直接输入使用；如果你是开发者，也可以通过统一 API 接入自己的软件。
+              从日常对话、图片视频创作，到自己的应用开发，按需要选择使用方式。
             </p>
             <div className="mt-6 flex flex-wrap gap-2">
-              {['多模型统一入口', '人民币购买', 'OpenAI 兼容接口'].map((tag) => (
+              {['三个在线工具', '人民币购买', '统一 API 接入'].map((tag) => (
                 <span key={tag} className="rounded-full border border-white/15 bg-white/[0.05] px-3 py-1.5 text-[11px] font-medium text-slate-200 sm:text-xs">
                   {tag}
                 </span>
@@ -99,15 +100,16 @@ export default function ApiProductPage() {
                 查看套餐 · 购买 Key <ArrowUpRight className="h-4 w-4" />
               </a>
               <Link
-                href="/api/docs"
+                href="#direct-use"
                 className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/[0.03] px-6 py-3 text-sm font-semibold text-white transition hover:border-cyan-300/40 hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
               >
-                <BookOpen className="h-4 w-4" /> 查看快速接入
+                <Sparkles className="h-4 w-4" /> 已买 Key？直接使用
               </Link>
             </div>
-            <p className="mt-4 text-xs leading-6 text-slate-400">
-              小额度套餐当前参考价 ¥10 起。模型、价格与各接口可用性以实时查询和实际套餐为准。
-            </p>
+            <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-slate-400">
+              <span>小额度套餐参考价 ¥10 起</span>
+              <Link href="/api/docs" className="font-semibold text-cyan-200 hover:text-white">开发者接入文档 <ArrowRight className="inline h-3 w-3" /></Link>
+            </div>
           </div>
 
           <div className="min-w-0 overflow-hidden rounded-2xl border border-cyan-300/20 bg-[#080e1d]/95 shadow-[0_25px_70px_rgba(0,0,0,.3)]">
@@ -158,6 +160,8 @@ export default function ApiProductPage() {
           ))}
         </div>
       </section>
+
+      <ApiDirectUseSection />
 
       <section className="mt-14 scroll-mt-24" id="models" aria-labelledby="model-title">
         <div className="flex flex-wrap items-end justify-between gap-3">
@@ -298,9 +302,9 @@ export default function ApiProductPage() {
 
       <section className="mt-14 rounded-3xl border border-cyan-300/20 bg-gradient-to-r from-violet-950/70 via-slate-900/70 to-cyan-950/55 px-5 py-9 text-center sm:px-10">
         <div className="mx-auto flex h-11 w-11 items-center justify-center rounded-xl bg-cyan-400/10 text-cyan-200"><KeyRound className="h-5 w-5" /></div>
-        <h2 className="mt-4 text-2xl font-bold text-white sm:text-3xl">需要的模型，用一个入口开始</h2>
+        <h2 className="mt-4 text-2xl font-bold text-white sm:text-3xl">直接使用，或把 API 接入自己的产品</h2>
         <p className="mx-auto mt-3 max-w-xl text-sm leading-7 text-slate-300">
-          先选一个适合的 Key 套餐，再使用我们的 API 文档完成接入。无需重新开发计费或账户系统。
+          普通用户可以直接使用现有在线工具；开发者可以查看文档，用统一 API 地址接入自己的应用。
         </p>
         <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
           <a href={siteLinks.apiKey} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-cyan-400 px-6 py-3 text-sm font-bold text-slate-950 hover:bg-cyan-300">
