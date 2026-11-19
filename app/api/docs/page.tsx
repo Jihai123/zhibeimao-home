@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { ArrowLeft, ArrowRight, BookOpen, CheckCircle2, Info, KeyRound, ShieldAlert, Terminal } from 'lucide-react';
 
 import { siteLinks } from '@/data/site-links';
+import { ApiCopyButton } from '@/components/ApiCopyButton';
 
 export const metadata: Metadata = {
   title: 'API 接入文档与快速开始｜指北猫',
@@ -64,7 +65,7 @@ export default function ApiDocsPage() {
         </div>
         <h1 className="text-3xl font-bold text-white md:text-5xl">快速接入与接口参考</h1>
         <p className="mt-4 text-sm leading-7 text-slate-300 md:text-base">
-          使用购买的 API Key，配置我们自己的 Base URL，即可开始调用。文档中的接口遵循上游兼容协议；目前只有标为「已实测」的能力完成了实际验收。
+          不用分别注册多家模型平台。现有 Key 配合统一 API 地址，即可按 OpenAI 兼容格式开始调用；未标注实测的接口需按具体模型单独验证。
         </p>
       </header>
 
@@ -73,7 +74,10 @@ export default function ApiDocsPage() {
         <div className="mt-5 grid gap-4 lg:grid-cols-2">
           <div className="rounded-xl border border-white/10 bg-slate-950/70 p-4">
             <p className="text-xs uppercase tracking-wider text-slate-400">API Base URL</p>
-            <code className="mt-3 block break-all text-sm font-semibold text-cyan-200">{baseUrl}</code>
+            <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
+              <code className="block break-all text-sm font-semibold text-cyan-200">{baseUrl}</code>
+              <ApiCopyButton value={baseUrl} label="复制地址" />
+            </div>
             <p className="mt-2 text-xs text-slate-400">备选：https://api.chatgpt5x.com/v1</p>
           </div>
           <div className="rounded-xl border border-white/10 bg-slate-950/70 p-4">
@@ -97,19 +101,37 @@ export default function ApiDocsPage() {
         <p className="mt-3 text-sm leading-7 text-slate-300">以下示例使用本次已验证的 <code className="text-cyan-200">gpt-5.6-terra</code>。模型会调整，正式使用前建议先通过模型列表接口检查可用 ID。</p>
         <div className="mt-5 grid gap-4">
           <div className="surface-panel overflow-hidden rounded-2xl">
-            <div className="border-b border-white/10 px-5 py-3 text-sm font-semibold text-slate-200">cURL · OpenAI 兼容对话</div>
+            <div className="flex items-center justify-between gap-2 border-b border-white/10 px-5 py-3 text-sm font-semibold text-slate-200"><span>cURL · OpenAI 兼容对话</span><ApiCopyButton value={curlExample} label="复制命令" /></div>
             <pre className="overflow-x-auto p-5 text-xs leading-7 text-cyan-100 md:text-sm"><code>{curlExample}</code></pre>
           </div>
           <div className="surface-panel overflow-hidden rounded-2xl">
-            <div className="border-b border-white/10 px-5 py-3 text-sm font-semibold text-slate-200">Python · OpenAI SDK</div>
+            <div className="flex items-center justify-between gap-2 border-b border-white/10 px-5 py-3 text-sm font-semibold text-slate-200"><span>Python · OpenAI SDK</span><ApiCopyButton value={pythonExample} label="复制代码" /></div>
             <pre className="overflow-x-auto p-5 text-xs leading-7 text-cyan-100 md:text-sm"><code>{pythonExample}</code></pre>
             <p className="px-5 pb-5 text-xs leading-6 text-slate-400">先安装 openai SDK，并通过服务器环境变量 AI_API_KEY 保存 Key。</p>
           </div>
         </div>
       </section>
 
+      <section className="mt-10" aria-labelledby="client-setup">
+        <h2 id="client-setup" className="text-xl font-bold text-white md:text-2xl">03 / AI 客户端快速配置</h2>
+        <p className="mt-3 text-sm leading-7 text-slate-300">支持自定义 OpenAI 兼容服务的工具（例如 Chatbox、Cherry Studio）通常可按下列字段配置。不同版本的菜单名称可能不同，客户端兼容性尚未逐项验收。</p>
+        <div className="surface-panel mt-4 overflow-hidden rounded-2xl">
+          {[
+            { name: '服务商类型', value: 'OpenAI Compatible / 自定义 OpenAI' },
+            { name: 'Base URL', value: baseUrl },
+            { name: 'API Key', value: '从现有商城购买的 Key' },
+            { name: '模型 ID', value: '从 /v1/models 查询后填写' }
+          ].map((item) => (
+            <div key={item.name} className="grid gap-1 border-b border-white/10 px-5 py-3 last:border-b-0 sm:grid-cols-[150px_1fr]">
+              <span className="text-xs text-slate-400">{item.name}</span>
+              <span className="break-all text-sm text-slate-100">{item.value}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+
       <section id="models" className="mt-10 scroll-mt-24" aria-labelledby="model-list">
-        <h2 id="model-list" className="text-xl font-bold text-white md:text-2xl">03 / 查询模型</h2>
+        <h2 id="model-list" className="text-xl font-bold text-white md:text-2xl">04 / 查询模型</h2>
         <div className="surface-panel mt-4 rounded-2xl p-5">
           <p className="text-sm leading-7 text-slate-300">请求 <code className="text-cyan-200">GET /v1/models</code> 并携带 Bearer Key，可获得当前 Key 的模型列表。不要将任何示例中的模型名称视为永久免费或永久可用。</p>
           <pre className="mt-4 overflow-x-auto rounded-xl bg-slate-950/80 p-4 text-xs leading-7 text-cyan-100 md:text-sm"><code>{"curl 'https://api.zhibeimao.com/v1/models' -H 'Authorization: Bearer YOUR_API_KEY'"}</code></pre>
@@ -117,7 +139,7 @@ export default function ApiDocsPage() {
       </section>
 
       <section id="endpoints" className="mt-10 scroll-mt-24" aria-labelledby="all-endpoints">
-        <h2 id="all-endpoints" className="text-xl font-bold text-white md:text-2xl">04 / 接口目录</h2>
+        <h2 id="all-endpoints" className="text-xl font-bold text-white md:text-2xl">05 / 接口目录</h2>
         <p className="mt-3 text-sm leading-7 text-slate-300">以下为已对照技术文档整理的接口路径。反代配置覆盖 /v1 与 /v1beta，但配置覆盖不等于每个接口都已经完成实际调用验证。</p>
         {endpoints.map((group) => (
           <div key={group.group} className="surface-panel mt-5 overflow-hidden rounded-2xl">
