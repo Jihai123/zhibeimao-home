@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { ArrowLeft, ArrowRight, BookOpen, CheckCircle2, Info, KeyRound, ShieldAlert, Terminal } from 'lucide-react';
 
 import { siteLinks } from '@/data/site-links';
+import { alternativeApiBaseUrl, apiBaseUrl } from '@/data/api-product';
 
 export const metadata: Metadata = {
   title: 'API 接入文档与快速开始｜指北猫',
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
   alternates: { canonical: 'https://www.zhibeimao.com/api/docs' }
 };
 
-const baseUrl = 'https://api.zhibeimao.com/v1';
+const baseUrl = apiBaseUrl;
 
 const curlExample = [
   "curl -X POST 'https://api.zhibeimao.com/v1/chat/completions' \\",
@@ -68,16 +69,30 @@ export default function ApiDocsPage() {
         </p>
       </header>
 
-      <section className="surface-panel mt-9 rounded-2xl p-5 md:p-7" aria-labelledby="setup">
-        <h2 id="setup" className="flex items-center gap-2 text-xl font-bold text-white"><KeyRound className="h-5 w-5 text-cyan-200" /> 01 / 基础配置</h2>
+      <nav aria-label="文档章节导航" className="mt-6 flex max-w-full flex-wrap gap-2 text-xs sm:text-sm">
+        {[
+          { href: '#setup', label: '接入配置' },
+          { href: '#first-call', label: '调用示例' },
+          { href: '#client-setup', label: '客户端配置' },
+          { href: '#models', label: '模型列表' },
+          { href: '#endpoints', label: '接口参考' }
+        ].map((item) => (
+          <a key={item.href} href={item.href} className="rounded-full border border-white/15 bg-white/[0.04] px-3 py-2 text-slate-200 transition hover:border-cyan-300/40 hover:text-white">
+            {item.label}
+          </a>
+        ))}
+      </nav>
+
+      <section id="setup" className="surface-panel mt-8 scroll-mt-24 rounded-2xl p-5 md:p-7" aria-labelledby="setup-title">
+        <h2 id="setup-title" className="flex items-center gap-2 text-xl font-bold text-white"><KeyRound className="h-5 w-5 text-cyan-200" /> 01 / 基础配置</h2>
         <div className="mt-5 grid gap-4 lg:grid-cols-2">
           <div className="rounded-xl border border-white/10 bg-slate-950/70 p-4">
             <p className="text-xs uppercase tracking-wider text-slate-400">API Base URL</p>
             <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
-              <code className="block break-all text-sm font-semibold text-cyan-200">{baseUrl}</code>
-              <span className="text-xs text-slate-400">选中地址复制</span>
+              <code className="block min-w-0 break-all select-all text-sm font-semibold text-cyan-200">{baseUrl}</code>
+              <span className="text-xs text-slate-400">点击/长按选中地址</span>
             </div>
-            <p className="mt-2 text-xs text-slate-400">备选：https://api.chatgpt5x.com/v1</p>
+            <p className="mt-2 text-xs text-slate-400">备选：{alternativeApiBaseUrl}</p>
           </div>
           <div className="rounded-xl border border-white/10 bg-slate-950/70 p-4">
             <p className="text-xs uppercase tracking-wider text-slate-400">Authentication</p>
@@ -89,30 +104,30 @@ export default function ApiDocsPage() {
           <a href={siteLinks.apiKey} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-xl bg-cyan-400 px-5 py-2.5 text-sm font-bold text-slate-950 hover:bg-cyan-300">
             获取 API Key <ArrowRight className="h-4 w-4" />
           </a>
-          <a href={siteLinks.tutorial} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-xl border border-white/15 px-5 py-2.5 text-sm text-slate-200 hover:bg-white/5">
-            旧版站内使用教程
+          <a href={siteLinks.apiKeyBalance} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-xl border border-white/15 px-5 py-2.5 text-sm text-slate-200 hover:bg-white/5">
+            查询 Key 余额
           </a>
         </div>
       </section>
 
-      <section className="mt-10" aria-labelledby="first-call">
-        <h2 id="first-call" className="flex items-center gap-2 text-xl font-bold text-white md:text-2xl"><Terminal className="h-5 w-5 text-cyan-200" /> 02 / 发送第一条请求</h2>
+      <section id="first-call" className="mt-10 scroll-mt-24" aria-labelledby="first-call-title">
+        <h2 id="first-call-title" className="flex items-center gap-2 text-xl font-bold text-white md:text-2xl"><Terminal className="h-5 w-5 text-cyan-200" /> 02 / 发送第一条请求</h2>
         <p className="mt-3 text-sm leading-7 text-slate-300">以下示例使用本次已验证的 <code className="text-cyan-200">gpt-5.6-terra</code>。模型会调整，正式使用前建议先通过模型列表接口检查可用 ID。</p>
-        <div className="mt-5 grid gap-4">
-          <div className="surface-panel overflow-hidden rounded-2xl">
+        <div className="mt-5 grid min-w-0 gap-4">
+          <div className="surface-panel min-w-0 overflow-hidden rounded-2xl">
             <div className="flex items-center justify-between gap-2 border-b border-white/10 px-5 py-3 text-sm font-semibold text-slate-200"><span>cURL · OpenAI 兼容对话</span><span className="text-xs font-normal text-slate-400">选中代码复制</span></div>
-            <pre className="overflow-x-auto p-5 text-xs leading-7 text-cyan-100 md:text-sm"><code>{curlExample}</code></pre>
+            <pre className="max-w-full overflow-x-auto p-4 text-xs leading-7 text-cyan-100 sm:p-5 md:text-sm"><code>{curlExample}</code></pre>
           </div>
           <div className="surface-panel overflow-hidden rounded-2xl">
             <div className="flex items-center justify-between gap-2 border-b border-white/10 px-5 py-3 text-sm font-semibold text-slate-200"><span>Python · OpenAI SDK</span><span className="text-xs font-normal text-slate-400">选中代码复制</span></div>
-            <pre className="overflow-x-auto p-5 text-xs leading-7 text-cyan-100 md:text-sm"><code>{pythonExample}</code></pre>
+            <pre className="max-w-full overflow-x-auto p-4 text-xs leading-7 text-cyan-100 sm:p-5 md:text-sm"><code>{pythonExample}</code></pre>
             <p className="px-5 pb-5 text-xs leading-6 text-slate-400">先安装 openai SDK，并通过服务器环境变量 AI_API_KEY 保存 Key。</p>
           </div>
         </div>
       </section>
 
-      <section className="mt-10" aria-labelledby="client-setup">
-        <h2 id="client-setup" className="text-xl font-bold text-white md:text-2xl">03 / AI 客户端快速配置</h2>
+      <section id="client-setup" className="mt-10 scroll-mt-24" aria-labelledby="client-setup-title">
+        <h2 id="client-setup-title" className="text-xl font-bold text-white md:text-2xl">03 / AI 客户端快速配置</h2>
         <p className="mt-3 text-sm leading-7 text-slate-300">支持自定义 OpenAI 兼容服务的工具（例如 Chatbox、Cherry Studio）通常可按下列字段配置。不同版本的菜单名称可能不同，客户端兼容性尚未逐项验收。</p>
         <div className="surface-panel mt-4 overflow-hidden rounded-2xl">
           {[
@@ -131,9 +146,9 @@ export default function ApiDocsPage() {
 
       <section id="models" className="mt-10 scroll-mt-24" aria-labelledby="model-list">
         <h2 id="model-list" className="text-xl font-bold text-white md:text-2xl">04 / 查询模型</h2>
-        <div className="surface-panel mt-4 rounded-2xl p-5">
+        <div className="surface-panel mt-4 min-w-0 rounded-2xl p-5">
           <p className="text-sm leading-7 text-slate-300">请求 <code className="text-cyan-200">GET /v1/models</code> 并携带 Bearer Key，可获得当前 Key 的模型列表。不要将任何示例中的模型名称视为永久免费或永久可用。</p>
-          <pre className="mt-4 overflow-x-auto rounded-xl bg-slate-950/80 p-4 text-xs leading-7 text-cyan-100 md:text-sm"><code>{"curl 'https://api.zhibeimao.com/v1/models' -H 'Authorization: Bearer YOUR_API_KEY'"}</code></pre>
+          <pre className="mt-4 max-w-full overflow-x-auto rounded-xl bg-slate-950/80 p-4 text-xs leading-7 text-cyan-100 md:text-sm"><code>{"curl 'https://api.zhibeimao.com/v1/models' -H 'Authorization: Bearer YOUR_API_KEY'"}</code></pre>
         </div>
       </section>
 
@@ -164,7 +179,7 @@ export default function ApiDocsPage() {
 
       <section className="surface-panel mt-10 rounded-2xl p-5 md:p-7" aria-label="接入注意事项">
         <h2 className="flex items-center gap-2 text-lg font-bold text-white"><ShieldAlert className="h-5 w-5 text-amber-300" /> 接入注意事项</h2>
-        <p className="mt-3 text-sm leading-7 text-slate-300">当前反代没有公开映射上游的 <code className="text-amber-200">/api/usage/token</code> 用量查询路由，因此这里不承诺它在自有域名下可调用。余额查询和购买请继续使用原 Key 商城；图片、视频和 Gemini 等能力待实测后再补充详细参数与示例。</p>
+        <p className="mt-3 text-sm leading-7 text-slate-300">当前反代没有公开映射上游的 <code className="text-amber-200">/api/usage/token</code> 用量查询路由，因此这里不承诺它在自有域名下可调用。余额查询请使用 <Link href={siteLinks.apiKeyBalance} className="text-cyan-200 hover:underline">原 Key 余额查询</Link>；图片、视频和 Gemini 等能力待实测后再补充详细参数与示例。</p>
         <p className="mt-3 text-sm leading-7 text-slate-300">如遇鉴权错误，先检查 Key、请求头和地址中的 /v1；如遇模型不存在，请用 /v1/models 确认该 Key 的模型 ID。</p>
       </section>
     </main>
