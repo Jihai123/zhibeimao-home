@@ -55,6 +55,11 @@ const journeys = [
   { number: '03', title: '选择模型发起调用', desc: '先查询当前 Key 的模型 ID，再调用兼容接口。' }
 ];
 
+const requestPreview = JSON.stringify({
+  model: 'gpt-5.6-terra',
+  messages: [{ role: 'user', content: '只回复 OK' }]
+}, null, 2);
+
 export default function ApiProductPage() {
   return (
     <main className="mx-auto w-full min-w-0 max-w-7xl px-4 pb-16 pt-5 sm:px-6 md:px-8 md:pt-9">
@@ -124,7 +129,7 @@ export default function ApiProductPage() {
               </div>
               <div>
                 <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500">Request</p>
-                <pre className="max-w-full overflow-x-auto rounded-lg border border-white/10 bg-slate-900/80 p-3 text-xs leading-6 text-slate-200"><code>{'{\n  "model": "gpt-5.6-terra",\n  "messages": [{\n    "role": "user",\n    "content": "只回复 OK"\n  }]\n}'}</code></pre>
+                <pre className="max-w-full overflow-x-auto rounded-lg border border-white/10 bg-slate-900/80 p-3 text-xs leading-6 text-slate-200"><code>{requestPreview}</code></pre>
               </div>
               <div>
                 <div className="mb-2 flex items-center justify-between gap-2">
