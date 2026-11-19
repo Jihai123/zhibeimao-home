@@ -51,6 +51,11 @@ async function run() {
       const isMobile = width < 768;
 
       await visit(page, '/', 'home-' + width);
+      const homeDirect = page.locator('section[aria-label="指北猫AI直通"]');
+      assert(await homeDirect.isVisible(), 'homepage direct-use section should be visible');
+      assert.equal(await homeDirect.locator('a[href="https://librechat.chatgpt5x.com/"]').count(), 1, 'homepage LibreChat link missing');
+      assert.equal(await homeDirect.locator('a[href="https://art.chatgpt5x.com/"]').count(), 1, 'homepage ArtChat link missing');
+      assert.equal(await homeDirect.locator('a[href="https://aiview.chatgpt5x.com/"]').count(), 1, 'homepage AIView link missing');
       if (isMobile) {
         const mobileNav = page.getByRole('navigation', { name: '移动端导航' });
         assert.equal(await mobileNav.isVisible(), false, 'mobile nav should start collapsed');
@@ -64,14 +69,24 @@ async function run() {
       }
 
       await visit(page, '/api', 'api-' + width);
-      assert.equal(await page.locator('#models article').count(), 8, 'expected eight model cards');
-      assert(await page.getByRole('heading', { name: /热门与新模型/ }).isVisible());
+      assert.equal(await page.locator('#models article').count(), 8, 'expected eight model family cards');
+      assert(await page.getByRole('heading', { name: /一个 Key/ }).isVisible());
+      const directUse = page.locator('#direct-use');
+      assert(await directUse.isVisible(), 'API page direct-use section missing');
+      assert.equal(await directUse.locator('a[href="https://librechat.chatgpt5x.com/"]').count(), 1, 'API LibreChat link missing');
+      assert.equal(await directUse.locator('a[href="https://art.chatgpt5x.com/"]').count(), 1, 'API ArtChat link missing');
+      assert.equal(await directUse.locator('a[href="https://aiview.chatgpt5x.com/"]').count(), 1, 'API AIView link missing');
+      assert.equal(await directUse.locator('a[href="https://checkbalance.chatgpt5x.com/"]').count(), 1, 'API balance link missing');
       assert(await page.locator('#pricing').getByText('3 美元额度通用 Key').isVisible());
       assert(await page.locator('#pricing a[href="https://online.chatgpt5x.com/"]').count() >= 3);
       await page.screenshot({ path: path.join(output, 'api-' + width + '.png'), fullPage: true });
 
       await visit(page, '/api/docs', 'docs-' + width);
       assert.equal(await page.locator('pre').count() >= 3, true, 'expected curl, Python and model query examples');
+      const docsDirect = page.locator('#no-code-title').locator('..');
+      assert.equal(await docsDirect.locator('a[href="https://librechat.chatgpt5x.com/"]').count(), 1, 'docs LibreChat link missing');
+      assert.equal(await docsDirect.locator('a[href="https://art.chatgpt5x.com/"]').count(), 1, 'docs ArtChat link missing');
+      assert.equal(await docsDirect.locator('a[href="https://aiview.chatgpt5x.com/"]').count(), 1, 'docs AIView link missing');
       await page.screenshot({ path: path.join(output, 'docs-' + width + '.png'), fullPage: true });
       await page.close();
     }
