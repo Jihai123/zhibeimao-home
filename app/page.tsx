@@ -1,4 +1,5 @@
 import { AiDirectSection } from '@/components/AiDirectSection';
+import { ApiPromoStrip } from '@/components/ApiPromoStrip';
 import { FeaturedCards } from '@/components/FeaturedCards';
 import { HeroSection } from '@/components/HeroSection';
 import { NewsSection } from '@/components/NewsSection';
@@ -9,6 +10,7 @@ export default function HomePage() {
   return (
     <main className="mx-auto w-full max-w-7xl px-4 py-6 md:px-8 md:py-8">
       <HeroSection />
+      <ApiPromoStrip />
       <FeaturedCards />
       <AiDirectSection />
       <ToolCards />
