@@ -19,6 +19,23 @@ async function visit(page, pathname, label) {
     document: document.documentElement.scrollWidth,
     body: document.body.scrollWidth
   }));
+  if (widths.document > widths.inner + 2 || widths.body > widths.inner + 2) {
+    const offenders = await page.evaluate(() => Array.from(document.querySelectorAll('body *'))
+      .map((element) => {
+        const rect = element.getBoundingClientRect();
+        return {
+          tag: element.tagName.toLowerCase(),
+          className: String(element.className).slice(0, 115),
+          text: (element.textContent || '').trim().slice(0, 55),
+          left: Math.round(rect.left),
+          right: Math.round(rect.right)
+        };
+      })
+      .filter((item) => item.right > window.innerWidth + 2 && item.left >= -2)
+      .sort((a, b) => b.right - a.right)
+      .slice(0, 12));
+    console.error('OVERFLOW DETAILS', label, JSON.stringify(offenders));
+  }
   assert(widths.document <= widths.inner + 2, label + ': horizontal document overflow ' + JSON.stringify(widths));
   assert(widths.body <= widths.inner + 2, label + ': horizontal body overflow ' + JSON.stringify(widths));
   assert.deepEqual(errors, [], label + ': uncaught page exceptions');
