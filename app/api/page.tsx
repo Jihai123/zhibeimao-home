@@ -112,6 +112,28 @@ export default function ApiProductPage() {
         </div>
       </section>
 
+      <section className="mt-10" aria-labelledby="model-family">
+        <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
+          <div>
+            <p className="text-xs font-semibold tracking-[0.2em] text-cyan-300">MULTI-MODEL ACCESS</p>
+            <h2 id="model-family" className="mt-2 text-2xl font-bold text-white">从热门模型到新版本，统一入口查找</h2>
+          </div>
+          <Link href="/api/docs#models" className="inline-flex items-center gap-2 text-sm text-cyan-200 hover:text-white">
+            如何查询可用模型 <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+        <div className="surface-panel rounded-2xl p-5 md:p-6">
+          <div className="flex flex-wrap gap-2.5">
+            {['GPT', 'Claude', 'Gemini', 'Grok', 'DeepSeek', 'Qwen', 'Kimi', 'GLM'].map((family) => (
+              <span key={family} className="rounded-xl border border-white/15 bg-white/[0.05] px-4 py-2.5 text-sm font-semibold text-slate-100">
+                {family}
+              </span>
+            ))}
+          </div>
+          <p className="mt-4 text-xs leading-6 text-slate-400">以上为上游模型系列示例，并不代表每个 Key 已开通所有型号。实际支持的模型名称和权限请通过 /v1/models 查询。</p>
+        </div>
+      </section>
+
       <section className="mt-14" aria-labelledby="how-to-start">
         <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
           <div>
