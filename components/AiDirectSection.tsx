@@ -1,4 +1,4 @@
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, CreditCard, Wallet } from 'lucide-react';
 import Link from 'next/link';
 
 import { aiDirectEntries } from '@/data/home-data';
@@ -15,7 +15,7 @@ export function AiDirectSection() {
       <div className="mb-5 flex flex-wrap items-start justify-between gap-3">
         <div>
           <h2 className="text-primary text-2xl font-bold md:text-3xl">指北猫AI直通</h2>
-          <p className="text-secondary mt-2 text-sm">无需复杂翻墙，直接体验国际主流 AI 能力</p>
+          <p className="text-secondary mt-2 text-sm">已购买智享 API Key？打开对应工具站，输入 Key 即可直接使用，无需写代码。</p>
           <Link href="/api" className="mt-3 inline-flex items-center gap-2 text-sm font-semibold text-cyan-200 transition hover:text-white">
             开发者 API 接入：模型、文档与快速开始 <ArrowRight className="h-4 w-4" />
           </Link>
@@ -28,6 +28,13 @@ export function AiDirectSection() {
             className="rounded-lg border border-white/10 bg-white/[0.02] px-3 py-1.5 text-xs text-secondary transition-colors hover:border-cyan-300/30 hover:text-cyan-200"
           >
             获取 API 密钥
+          </a>
+          <a
+            href={siteLinks.apiKeyBalance}
+            {...externalLinkProps}
+            className="rounded-lg border border-white/10 bg-white/[0.02] px-3 py-1.5 text-xs text-secondary transition-colors hover:border-cyan-300/30 hover:text-cyan-200"
+          >
+            <Wallet className="mr-1 inline h-3.5 w-3.5" /> 查询余额
           </a>
           <a
             href={siteLinks.tutorial}
@@ -58,6 +65,7 @@ export function AiDirectSection() {
               ))}
             </div>
 
+            <span className="mt-auto pt-5 text-xs font-semibold text-cyan-200">打开工具站，输入已购买的 Key <ArrowUpRight className="inline h-3.5 w-3.5" /></span>
             <ArrowRight className="absolute right-4 top-4 h-4 w-4 text-slate-400 transition-colors duration-300 group-hover:text-cyan-300" />
           </a>
         ))}
