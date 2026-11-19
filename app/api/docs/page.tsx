@@ -3,7 +3,6 @@ import Link from 'next/link';
 import { ArrowLeft, ArrowRight, BookOpen, CheckCircle2, Info, KeyRound, ShieldAlert, Terminal } from 'lucide-react';
 
 import { siteLinks } from '@/data/site-links';
-import { ApiCopyButton } from '@/components/ApiCopyButton';
 
 export const metadata: Metadata = {
   title: 'API 接入文档与快速开始｜指北猫',
@@ -76,7 +75,7 @@ export default function ApiDocsPage() {
             <p className="text-xs uppercase tracking-wider text-slate-400">API Base URL</p>
             <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
               <code className="block break-all text-sm font-semibold text-cyan-200">{baseUrl}</code>
-              <ApiCopyButton value={baseUrl} label="复制地址" />
+              <span className="text-xs text-slate-400">选中地址复制</span>
             </div>
             <p className="mt-2 text-xs text-slate-400">备选：https://api.chatgpt5x.com/v1</p>
           </div>
@@ -101,11 +100,11 @@ export default function ApiDocsPage() {
         <p className="mt-3 text-sm leading-7 text-slate-300">以下示例使用本次已验证的 <code className="text-cyan-200">gpt-5.6-terra</code>。模型会调整，正式使用前建议先通过模型列表接口检查可用 ID。</p>
         <div className="mt-5 grid gap-4">
           <div className="surface-panel overflow-hidden rounded-2xl">
-            <div className="flex items-center justify-between gap-2 border-b border-white/10 px-5 py-3 text-sm font-semibold text-slate-200"><span>cURL · OpenAI 兼容对话</span><ApiCopyButton value={curlExample} label="复制命令" /></div>
+            <div className="flex items-center justify-between gap-2 border-b border-white/10 px-5 py-3 text-sm font-semibold text-slate-200"><span>cURL · OpenAI 兼容对话</span><span className="text-xs font-normal text-slate-400">选中代码复制</span></div>
             <pre className="overflow-x-auto p-5 text-xs leading-7 text-cyan-100 md:text-sm"><code>{curlExample}</code></pre>
           </div>
           <div className="surface-panel overflow-hidden rounded-2xl">
-            <div className="flex items-center justify-between gap-2 border-b border-white/10 px-5 py-3 text-sm font-semibold text-slate-200"><span>Python · OpenAI SDK</span><ApiCopyButton value={pythonExample} label="复制代码" /></div>
+            <div className="flex items-center justify-between gap-2 border-b border-white/10 px-5 py-3 text-sm font-semibold text-slate-200"><span>Python · OpenAI SDK</span><span className="text-xs font-normal text-slate-400">选中代码复制</span></div>
             <pre className="overflow-x-auto p-5 text-xs leading-7 text-cyan-100 md:text-sm"><code>{pythonExample}</code></pre>
             <p className="px-5 pb-5 text-xs leading-6 text-slate-400">先安装 openai SDK，并通过服务器环境变量 AI_API_KEY 保存 Key。</p>
           </div>
