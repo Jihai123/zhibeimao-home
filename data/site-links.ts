@@ -19,6 +19,7 @@ export const siteLinks = {
   artChat: 'https://art.chatgpt5x.com/',
   aiView: 'https://aiview.chatgpt5x.com/',
   apiKey: 'https://online.chatgpt5x.com/',
+  apiKeyBalance: 'https://checkbalance.chatgpt5x.com/',
   tutorial: 'https://forum.chatgpt5x.com/d/24-ru-he-shi-yong',
   messageBoard: 'https://message.chatgpt5x.com/',
   forumGuide: 'https://forum.chatgpt5x.com/',
