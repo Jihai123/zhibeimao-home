@@ -63,22 +63,22 @@ export function HeroSection() {
           高信息密度聚合：发现工具、比较能力、跟踪榜单，一次完成高质量决策。
         </p>
 
-        <form onSubmit={handleSubmit} className="mx-auto mt-8 flex max-w-3xl items-center gap-2 rounded-2xl border border-white/15 bg-[#0f1628]/95 p-2 shadow-[0_0_0_1px_rgba(124,58,237,0.35),0_20px_45px_rgba(6,182,212,0.2)] backdrop-blur">
-          <label className="flex flex-1 items-center gap-3 rounded-xl border border-white/5 bg-white/[0.02] px-4 py-3 ring-1 ring-white/10 transition-all duration-300 focus-within:border-cyan-300/40 focus-within:ring-cyan-300/40">
+        <form onSubmit={handleSubmit} className="mx-auto mt-8 flex max-w-3xl min-w-0 flex-col items-stretch gap-2 rounded-2xl border border-white/15 bg-[#0f1628]/95 p-2 sm:flex-row sm:items-center shadow-[0_0_0_1px_rgba(124,58,237,0.35),0_20px_45px_rgba(6,182,212,0.2)] backdrop-blur">
+          <label className="flex w-full min-w-0 flex-1 items-center gap-3 rounded-xl border border-white/5 bg-white/[0.02] px-4 py-3 ring-1 ring-white/10 transition-all duration-300 focus-within:border-cyan-300/40 focus-within:ring-cyan-300/40">
             <Search className="h-5 w-5 text-slate-400" />
             <input
               name="q"
               value={keyword}
               onChange={(event) => setKeyword(event.target.value)}
               onKeyDown={handleKeyDown}
-              className="w-full bg-transparent text-sm text-primary placeholder:text-secondary/80 focus:outline-none"
+              className="min-w-0 w-full flex-1 bg-transparent text-sm text-primary placeholder:text-secondary/80 focus:outline-none"
               placeholder={placeholder}
             />
           </label>
           <button
             type="button"
             onClick={triggerSearch}
-            className="rounded-xl px-5 py-3 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-0.5"
+            className="w-full shrink-0 rounded-xl px-5 py-3 text-sm font-semibold text-white sm:w-auto transition-all duration-300 hover:-translate-y-0.5"
             style={{ backgroundImage: 'var(--primary-gradient)' }}
           >
             搜索
