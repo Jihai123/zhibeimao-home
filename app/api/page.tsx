@@ -11,10 +11,8 @@ import {
   Globe2,
   KeyRound,
   Layers3,
-  ShieldCheck,
   Sparkles,
-  Terminal,
-  Wallet
+  Terminal
 } from 'lucide-react';
 
 import { siteLinks } from '@/data/site-links';
