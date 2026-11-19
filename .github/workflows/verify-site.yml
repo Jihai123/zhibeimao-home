@@ -25,7 +25,7 @@ jobs:
       - name: Install browser QA runner
         run: |
           npm install --no-save --no-package-lock playwright@1.55.1
-          npx playwright install --with-deps chromium
+          google-chrome --version
       - name: Start isolated local preview
         run: |
           npm run start -- -p 3000 >/tmp/zhibeimao-next-start.log 2>&1 &
