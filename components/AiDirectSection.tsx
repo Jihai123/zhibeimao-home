@@ -1,4 +1,5 @@
 import { ArrowRight } from 'lucide-react';
+import Link from 'next/link';
 
 import { aiDirectEntries } from '@/data/home-data';
 import { siteLinks } from '@/data/site-links';
@@ -15,6 +16,9 @@ export function AiDirectSection() {
         <div>
           <h2 className="text-primary text-2xl font-bold md:text-3xl">指北猫AI直通</h2>
           <p className="text-secondary mt-2 text-sm">无需复杂翻墙，直接体验国际主流 AI 能力</p>
+          <Link href="/api" className="mt-3 inline-flex items-center gap-2 text-sm font-semibold text-cyan-200 transition hover:text-white">
+            开发者 API 接入：模型、文档与快速开始 <ArrowRight className="h-4 w-4" />
+          </Link>
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
