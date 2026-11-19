@@ -12,6 +12,7 @@ const externalLinkProps = {
 };
 
 const searchRules: Array<{ keywords: string[]; url: string }> = [
+  { keywords: ['api', '模型接口', '开发接入'], url: '/api' },
   { keywords: ['新股', '港股'], url: siteLinks.hongKongIPO },
   { keywords: ['养老金'], url: siteLinks.pensionCalculator },
   { keywords: ['城市'], url: siteLinks.livableCity },
