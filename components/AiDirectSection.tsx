@@ -1,4 +1,4 @@
-import { ArrowRight, ArrowUpRight, CreditCard, Wallet } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, Wallet } from 'lucide-react';
 import Link from 'next/link';
 
 import { aiDirectEntries } from '@/data/home-data';
