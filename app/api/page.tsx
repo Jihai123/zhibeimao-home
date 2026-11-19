@@ -12,7 +12,6 @@ import {
 } from 'lucide-react';
 
 import { siteLinks } from '@/data/site-links';
-import { ApiCopyButton } from '@/components/ApiCopyButton';
 
 export const metadata: Metadata = {
   title: '多模型 API 接入｜智享AI · 指北猫',
@@ -106,7 +105,7 @@ export default function ApiProductPage() {
           </div>
           <div className="flex flex-wrap items-center justify-between gap-3">
             <code className="block break-all text-sm font-semibold text-cyan-200 md:text-base">{endpoint}</code>
-            <ApiCopyButton value={endpoint} label="复制地址" />
+            <span className="shrink-0 text-xs text-slate-400">选中地址复制</span>
           </div>
           <p className="mt-3 text-xs leading-5 text-slate-400">备选域名：https://api.chatgpt5x.com/v1。对话与模型列表已完成实际调用验证；不同网络与模型可用性请以实测为准。</p>
         </div>
