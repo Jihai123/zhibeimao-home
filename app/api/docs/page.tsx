@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { ArrowLeft, ArrowRight, BookOpen, CheckCircle2, Info, KeyRound, ShieldAlert, Terminal } from 'lucide-react';
 
 import { siteLinks } from '@/data/site-links';
+import { aiDirectEntries } from '@/data/home-data';
 import { alternativeApiBaseUrl, apiBaseUrl } from '@/data/api-product';
 
 export const metadata: Metadata = {
@@ -82,6 +83,24 @@ export default function ApiDocsPage() {
           </a>
         ))}
       </nav>
+
+      <section className="surface-panel mt-8 rounded-2xl border border-cyan-300/15 bg-cyan-300/[0.035] p-5 md:p-6" aria-labelledby="no-code-title">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <h2 id="no-code-title" className="text-lg font-bold text-white">不写代码？也可以直接使用</h2>
+            <p className="mt-2 text-sm leading-6 text-slate-300">打开现有智享AI工具站，在站内输入已购买的 Key，即可开始使用。</p>
+          </div>
+          <a href={siteLinks.apiKeyBalance} target="_blank" rel="noopener noreferrer" className="text-xs font-semibold text-cyan-200 hover:text-white">查询 Key 余额 ↗</a>
+        </div>
+        <div className="mt-4 grid gap-2 sm:grid-cols-3">
+          {aiDirectEntries.map((entry) => (
+            <a key={entry.title} href={entry.href} target="_blank" rel="noopener noreferrer" className="flex min-w-0 items-center justify-between gap-2 rounded-xl border border-white/10 bg-slate-950/40 px-3 py-3 text-sm font-semibold text-slate-100 transition hover:border-cyan-300/35 hover:text-cyan-100">
+              <span className="min-w-0">{entry.title}</span>
+              <ArrowRight className="h-4 w-4 shrink-0 text-cyan-300" />
+            </a>
+          ))}
+        </div>
+      </section>
 
       <section id="setup" className="surface-panel mt-8 scroll-mt-24 rounded-2xl p-5 md:p-7" aria-labelledby="setup-title">
         <h2 id="setup-title" className="flex items-center gap-2 text-xl font-bold text-white"><KeyRound className="h-5 w-5 text-cyan-200" /> 01 / 基础配置</h2>
