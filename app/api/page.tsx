@@ -12,10 +12,11 @@ import {
 } from 'lucide-react';
 
 import { siteLinks } from '@/data/site-links';
+import { ApiCopyButton } from '@/components/ApiCopyButton';
 
 export const metadata: Metadata = {
-  title: 'AI API 接入服务｜指北猫',
-  description: '统一 API 接入、快速调用指南、模型列表查询与购买入口。支持 OpenAI 兼容格式，现有 Key 直接使用。',
+  title: '多模型 API 接入｜智享AI · 指北猫',
+  description: '热门 AI 模型统一 API 接入，免去多平台申请与海外支付的麻烦。购买 Key、查看价格与接入指南一站完成。',
   alternates: { canonical: 'https://www.zhibeimao.com/api' }
 };
 
@@ -58,19 +59,31 @@ export default function ApiProductPage() {
         <div className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full bg-cyan-400/10 blur-[90px]" />
         <div className="relative max-w-4xl">
           <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-cyan-300/25 bg-cyan-300/10 px-3 py-1.5 text-xs text-cyan-200">
-            <Code2 className="h-4 w-4" /> 指北猫 · AI API 服务
+            <Code2 className="h-4 w-4" /> 智享AI API · 指北猫开放平台
           </div>
           <h1 className="max-w-3xl text-4xl font-extrabold leading-tight tracking-tight text-white md:text-6xl">
-            一个 API 地址，<span className="bg-gradient-to-r from-violet-300 to-cyan-300 bg-clip-text text-transparent">连接多种 AI 能力</span>
+            热门 AI 模型，<span className="bg-gradient-to-r from-violet-300 to-cyan-300 bg-clip-text text-transparent">一个 API 就能接</span>
           </h1>
           <p className="mt-6 max-w-2xl text-base leading-8 text-slate-300 md:text-lg">
-            已购买的 Key 无需更换。使用自己的 API 地址，按熟悉的协议把 AI 能力接入程序、AI 客户端或自动化工作流。
+            不必为不同模型反复申请平台账号。一个入口接入 GPT、Claude、Gemini、Grok 等模型系列，使用现有 Key，在程序、AI 客户端和 Agent 中灵活调用。实际可用模型以当前 Key 的列表为准。
           </p>
           <div className="mt-7 flex flex-wrap gap-2 text-xs text-slate-200">
-            {['OpenAI 兼容接口', '真实对话已验证', '支持流式响应'].map((tag) => (
+            {['热门模型统一接入', '国内购买更方便', '按使用量扣费'].map((tag) => (
               <span key={tag} className="rounded-full border border-white/15 bg-white/[0.05] px-3 py-1.5">
                 {tag}
               </span>
+            ))}
+          </div>
+          <div className="mt-7 grid gap-3 sm:grid-cols-3">
+            {[
+              { title: '一个 Key，切换多种模型', description: '省去逐家注册和反复适配的麻烦' },
+              { title: '更有竞争力的价格', description: '按模型和使用量计费，具体售价见商城' },
+              { title: '国内接入更省事', description: '无需海外银行卡，已验证的接口可直接调用' }
+            ].map((benefit) => (
+              <div key={benefit.title} className="rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3">
+                <p className="text-sm font-semibold text-white">{benefit.title}</p>
+                <p className="mt-1 text-xs leading-5 text-slate-300">{benefit.description}</p>
+              </div>
             ))}
           </div>
           <div className="mt-9 flex flex-wrap gap-3">
@@ -80,10 +93,10 @@ export default function ApiProductPage() {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-violet-600 to-cyan-600 px-6 py-3 text-sm font-bold text-white transition hover:brightness-110"
             >
-              获取 API Key <ArrowRight className="h-4 w-4" />
+              立即购买 API Key <ArrowRight className="h-4 w-4" />
             </a>
             <Link href="/api/docs" className="inline-flex items-center gap-2 rounded-xl border border-white/20 px-6 py-3 text-sm font-semibold text-white transition hover:border-cyan-300/40 hover:bg-white/5">
-              查看接入文档 <BookOpen className="h-4 w-4" />
+              3 分钟快速接入 <BookOpen className="h-4 w-4" />
             </Link>
           </div>
         </div>
@@ -91,8 +104,11 @@ export default function ApiProductPage() {
           <div className="mb-3 flex items-center gap-2 text-xs text-slate-400">
             <span className="h-2 w-2 rounded-full bg-emerald-400" /> API Base URL
           </div>
-          <code className="block break-all text-sm font-semibold text-cyan-200 md:text-base">{endpoint}</code>
-          <p className="mt-3 text-xs leading-5 text-slate-400">备选域名：https://api.chatgpt5x.com/v1。此处展示的是接入地址，不是浏览器聊天页面。</p>
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <code className="block break-all text-sm font-semibold text-cyan-200 md:text-base">{endpoint}</code>
+            <ApiCopyButton value={endpoint} label="复制地址" />
+          </div>
+          <p className="mt-3 text-xs leading-5 text-slate-400">备选域名：https://api.chatgpt5x.com/v1。对话与模型列表已完成实际调用验证；不同网络与模型可用性请以实测为准。</p>
         </div>
       </section>
 
@@ -120,7 +136,7 @@ export default function ApiProductPage() {
       <section className="mt-14" aria-labelledby="features">
         <div className="mb-6">
           <p className="text-xs font-semibold tracking-[0.2em] text-cyan-300">BUILD WITH API</p>
-          <h2 id="features" className="mt-2 text-2xl font-bold text-white md:text-3xl">从选模型到接入，一处完成</h2>
+          <h2 id="features" className="mt-2 text-2xl font-bold text-white md:text-3xl">选模型、查价格、接入程序</h2>
         </div>
         <div className="grid gap-4 md:grid-cols-3">
           {features.map((feature) => {
@@ -154,7 +170,7 @@ export default function ApiProductPage() {
         </div>
         <div className="surface-panel rounded-2xl p-6 md:p-7">
           <div className="flex items-center gap-2 text-lg font-semibold text-white"><Wallet className="h-5 w-5 text-cyan-300" /> 购买与用量</div>
-          <p className="mt-4 text-sm leading-7 text-slate-300">继续通过原 Key 商城购买和管理使用额度。模型价格及具体可用性以销售平台实际展示为准，不在此页虚构统一售价。</p>
+          <p className="mt-4 text-sm leading-7 text-slate-300">原有商城直接购买和查询余额，无需海外银行卡。你看到的价格取决于模型和套餐；我们将逐步补充可核实的官方价格对照，不使用未经验证的全站折扣宣传。</p>
           <a href={siteLinks.apiKey} target="_blank" rel="noopener noreferrer" className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-cyan-200 hover:text-white">
             前往现有 Key 商城 <ArrowRight className="h-4 w-4" />
           </a>
