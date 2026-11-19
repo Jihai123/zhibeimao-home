@@ -2,6 +2,7 @@ import Link from 'next/link';
 
 const navItems = [
   { label: '首页', href: '/' },
+  { label: 'API 接入', href: '/api' },
   { label: 'AI资讯', href: 'https://news.chatgpt5x.com/' },
   { label: 'AI排行榜', href: 'https://news.chatgpt5x.com/ai-rankings' },
   { label: 'AI论坛', href: 'https://forum.chatgpt5x.com/' },
@@ -22,9 +23,9 @@ export function SiteHeader() {
         </Link>
         <nav className="flex items-center gap-1 md:gap-2">
           {navItems.map((item) => {
-            const isHome = item.href === '/';
+            const isInternal = item.href.startsWith('/');
 
-            return isHome ? (
+            return isInternal ? (
               <Link
                 key={item.label}
                 href={item.href}
