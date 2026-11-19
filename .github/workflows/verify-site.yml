@@ -26,11 +26,6 @@ jobs:
         run: |
           npm install --no-save --no-package-lock playwright@1.55.1
           google-chrome --version
-      - name: Install Chinese fonts for faithful screenshots
-        run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y -qq fonts-noto-cjk
-          fc-cache -f
       - name: Start isolated local preview
         run: |
           npm run start -- -p 3000 >/tmp/zhibeimao-next-start.log 2>&1 &
