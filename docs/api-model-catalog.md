@@ -1,17 +1,25 @@
-# API 产品页模型目录
+# 模型目录：聚合网页导出文件每日同步
 
-数据源：服务端使用自有地址 `GET https://api.zhibeimao.com/v1/models`，只提取并公开 `data[].id`。模型 ID 每小时缓存更新。
+本功能**不使用** `/v1/models` 做目录来源，不依赖 `ZHIXIANG_MODEL_CATALOG_KEY`。
 
-## 部署配置
+## 数据链路
 
-在 Vercel 的 `zhibeimao-home` 项目中，为 Preview（验证后为 Production）增加服务端环境变量：
+1. GitHub Actions 每天北京时间 **02:15** 运行 `.github/workflows/daily-model-catalog.yml`（仅合入 main 后生效）。
+2. 从聚合网页实际提供的**文件下载 URL**获取模型名单。URL 保存在仓库 Actions Variables：`MODEL_CATALOG_DOWNLOAD_URL`。
+3. `scripts/sync-model-catalog.cjs` 读取 JSON、CSV 或单列 TXT，校验并去重模型 ID。
+4. 仅在新文件有效、包含至少 20 个模型且未比上次骤降超过 50% 时更新 `data/model-catalog.json`，否则任务失败、旧目录保留。
+5. 有效数据提交至 main，由既有 Vercel 自动部署机制发布。API 产品页的 `ModelCatalog` 展示精选型号和搜索/筛选目录。
 
-```text
-ZHIXIANG_MODEL_CATALOG_KEY=<用于读取模型列表的专用 API Key>
-```
+## 当前阻断
 
-不要使用 `NEXT_PUBLIC_` 前缀，不要把真实密钥提交到 GitHub 或展示给浏览器。建议使用单独的低额度查询 Key；页面显示的模型目录反映该查询 Key 的权限，不保证所有客户 Key 有相同权限。
+**尚未定位聚合网页实际可下载的模型名单文件 URL。** 在公开 JuheNext 模型页面没有找到直接下载按钮，因此不能捏造 URL。只有获取真实文件 URL，完成一次成功下载、解析与页面验收后，才能标记自动同步为 PASS。
 
-变量配置后重新部署。服务端请求模型列表、校验并去重，只将模型 ID 和归类结果传给页面，提供精选型号、搜索和过滤。模型目录缓存一小时，上游不可用或密钥缺失时回退至原有模型系列卡片，绝不展示虚构的型号或更新信息。
+变量配置方法：GitHub 仓库 Settings → Secrets and variables → Actions → Variables，新建 `MODEL_CATALOG_DOWNLOAD_URL`，填入实际 HTTPS 文件地址。支持 `juhenext.com` 与 `juhenextvip.com` 域内地址；若实际文件托管在另一 CDN，先核实并通过 `MODEL_CATALOG_ALLOWED_HOSTS` 显式加入对应域名。
 
-此接口不包含可信的逐模型 Token 价格，不能据此推算或宣传官方价格折扣。对外页面只使用智享AI品牌，不出现上游名称。
+## 安全与正确性边界
+
+- 下载源无 API Key 时不配置任何密钥；URL 不含登录凭据。
+- 不把代理来源、测试日志或下载路径展示给网站客户。
+- 默认快照空，仅回退显示 8 个模型系列，绝不编造型号。
+- 文件中不包含可靠的模型发布日期或计费信息，不据此声称“最新模型排行”或显示逐型号价格。
+- 业务接口、商城、三个在线使用网站保持不变。
