@@ -3,14 +3,13 @@ import Link from 'next/link';
 import {
   ArrowRight,
   ArrowUpRight,
-  BadgeCheck,
   BookOpen,
-  CheckCircle2,
   Code2,
   CreditCard,
   Globe2,
   KeyRound,
   Layers3,
+  MessagesSquare,
   Sparkles,
   Terminal
 } from 'lucide-react';
@@ -26,12 +25,12 @@ import {
 } from '@/data/api-product';
 
 export const metadata: Metadata = {
-  title: '智享AI API｜一个 Key，在线直接用或接入自己的应用',
-  description: '购买智享AI API Key 后，可在三个现有在线工具站直接使用，也可通过统一 API 接入自己的应用。支持模型查询、人民币购买和开发者文档。',
+  title: '智享AI API｜多模型在线使用与开发接入',
+  description: '智享AI 提供主流 AI 模型的在线对话、图像视频创作入口与统一 API 接入服务。支持人民币购买、模型查询和开发者文档。',
   alternates: { canonical: 'https://www.zhibeimao.com/api' },
   openGraph: {
-    title: '智享AI API｜一个 Key，直接使用或开发接入',
-    description: '普通用户可直接打开在线工具输入 Key，开发者可使用统一 API 地址接入自己的应用。',
+    title: '智享AI API｜多模型接入服务',
+    description: '在线使用主流 AI 工具，或通过统一 API 接入自己的应用。提供人民币购买及快速接入指南。',
     url: 'https://www.zhibeimao.com/api',
     type: 'website'
   }
@@ -45,21 +44,16 @@ const modelTones = [
 ];
 
 const advantages = [
-  { icon: Layers3, title: '三个在线工具，买完直接用', detail: '打开现有智享AI网站，输入已购买的 Key' },
-  { icon: CreditCard, title: '人民币购买，按需使用', detail: '从现有商城购买，无需海外银行卡' },
-  { icon: Globe2, title: '一个 API，连接自己的应用', detail: '开发者使用统一地址和现有接入文档' }
+  { icon: Layers3, title: '主流模型聚合', detail: '对话与创作场景，灵活选择 AI 能力' },
+  { icon: CreditCard, title: '便捷购买', detail: '人民币结算，灵活选择使用额度' },
+  { icon: Globe2, title: '统一 API 接入', detail: '一个地址连接应用及兼容客户端' }
 ];
 
 const journeys = [
-  { number: '01', title: '购买现有 Key', desc: '从智享AI商城获取 Key，原来的 Key 也能继续用。' },
-  { number: '02', title: '配置 API 地址', desc: '使用自有 Base URL，无须逐一接入模型厂商。' },
-  { number: '03', title: '选择模型发起调用', desc: '先查询当前 Key 的模型 ID，再调用兼容接口。' }
+  { number: '01', title: '获取 API Key', desc: '在智享AI商城选择合适的额度。' },
+  { number: '02', title: '配置接口地址', desc: '在应用或客户端中填写 API Base URL。' },
+  { number: '03', title: '选择模型', desc: '查询当前 Key 可用模型，发起首次调用。' }
 ];
-
-const requestPreview = JSON.stringify({
-  model: 'gpt-5.6-terra',
-  messages: [{ role: 'user', content: '只回复 OK' }]
-}, null, 2);
 
 export default function ApiProductPage() {
   return (
@@ -71,20 +65,19 @@ export default function ApiProductPage() {
           <div className="min-w-0">
             <div className="inline-flex max-w-full items-center gap-2 rounded-full border border-cyan-300/20 bg-cyan-300/[0.08] px-3.5 py-2 text-xs font-medium text-cyan-100">
               <Sparkles className="h-3.5 w-3.5 shrink-0" />
-              智享AI API · 指北猫开放平台
+              智享AI · 模型接入服务
             </div>
             <h1 className="mt-6 text-4xl font-black leading-[1.18] tracking-tight text-white sm:text-5xl lg:text-[3.5rem]">
               一个 Key，
               <span className="mt-1 block bg-gradient-to-r from-violet-300 via-cyan-200 to-sky-300 bg-clip-text text-transparent">
-                直接用 AI，也能接入自己的应用
+                连接主流 AI 模型
               </span>
             </h1>
             <p className="mt-5 max-w-2xl text-[15px] leading-8 text-slate-300 sm:text-base">
-              购买智享AI Key 后，可以在三个现有在线工具站直接输入使用；如果你是开发者，也可以通过统一 API 接入自己的软件。
-              从日常对话、图片视频创作，到自己的应用开发，按需要选择使用方式。
+              在线对话、图像与视频创作，以及面向应用和智能体的 API 接入。统一服务入口，灵活选择所需模型与使用方式。
             </p>
             <div className="mt-6 flex flex-wrap gap-2">
-              {['三个在线工具', '人民币购买', '统一 API 接入'].map((tag) => (
+              {['在线使用', 'API 开发', '人民币购买'].map((tag) => (
                 <span key={tag} className="rounded-full border border-white/15 bg-white/[0.05] px-3 py-1.5 text-[11px] font-medium text-slate-200 sm:text-xs">
                   {tag}
                 </span>
@@ -97,17 +90,17 @@ export default function ApiProductPage() {
                 rel="noopener noreferrer"
                 className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-violet-500 to-cyan-500 px-6 py-3 text-sm font-bold text-white shadow-[0_8px_30px_rgba(6,182,212,0.18)] transition hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
               >
-                查看套餐 · 购买 Key <ArrowUpRight className="h-4 w-4" />
+                获取 API Key <ArrowUpRight className="h-4 w-4" />
               </a>
               <Link
                 href="#direct-use"
                 className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/[0.03] px-6 py-3 text-sm font-semibold text-white transition hover:border-cyan-300/40 hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
               >
-                <Sparkles className="h-4 w-4" /> 已买 Key？直接使用
+                <MessagesSquare className="h-4 w-4" /> 在线使用
               </Link>
             </div>
             <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-slate-400">
-              <span>小额度套餐参考价 ¥10 起</span>
+              <span>多种额度可选，支持不同 AI 应用场景</span>
               <Link href="/api/docs" className="font-semibold text-cyan-200 hover:text-white">开发者接入文档 <ArrowRight className="inline h-3 w-3" /></Link>
             </div>
           </div>
