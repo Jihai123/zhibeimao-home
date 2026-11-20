@@ -38,7 +38,6 @@ export function ToolCards() {
 
               <h3 className="text-primary line-clamp-2 text-base font-semibold">{tool.title}</h3>
               <p className="text-secondary mt-2 line-clamp-3 text-sm leading-relaxed">{tool.description}</p>
-              <p className="mt-2 text-xs text-secondary/80">{tool.status}</p>
 
               <div className="mt-auto flex items-center justify-between pt-4">
                 <span className="rounded-md border border-white/10 bg-white/[0.04] px-2 py-1 text-[11px] text-secondary">推荐工具</span>
