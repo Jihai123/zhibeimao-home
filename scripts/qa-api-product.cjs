@@ -80,25 +80,30 @@ async function run() {
       for (const forbidden of ['HTTP 200 已实测', '已完成的实际验证', '反代', '临时域名', '待逐项验证', '上游扣费']) {
         assert.equal(publicCopy.includes(forbidden), false, 'customer-facing copy contains internal language: ' + forbidden);
       }
+      const pricing = page.locator('#pricing');
+      assert(await pricing.getByRole('heading', { name: '美元 API 额度，人民币优惠购买' }).isVisible(), 'credit pricing must remain visible');
       const catalog = page.locator('#models');
-      assert(await catalog.getByRole('heading', { name: /发现主流 AI 模型/ }).isVisible(), 'model catalog section must exist');
-      assert(await catalog.locator('article').count() >= 1, 'model catalog must show featured models or family fallback');
-      const spotlightIds = (await catalog.locator('article h3').allTextContents()).map((id) => id.trim());
-      assert.equal(spotlightIds.length, 8, 'eight featured model cards are expected');
-      assert(spotlightIds.every((id) => id && !id.includes('/')), 'featured cards must not show basic/standard model IDs');
-      console.log('FEATURED_MODEL_CARDS', spotlightIds);
-      assert(await catalog.getByText(/\d+ 个型号 · 较新版本优先/).isVisible(), 'full model count and ranking description missing');
-      const directory = catalog.locator('.divide-y > div code');
-      assert.equal(await directory.count() > 0, true, 'full directory should render model IDs');
-      const firstDirectoryIds = (await directory.allTextContents()).map((id) => id.trim());
-      assert(firstDirectoryIds.every((id) => !/^(basic|standard)\//.test(id)), 'channel aliases must not dominate first catalog page');
-      if (await catalog.getByRole('searchbox', { name: '搜索模型' }).count()) {
-        await catalog.getByRole('searchbox', { name: '搜索模型' }).fill('a-match-that-should-never-exist');
-        assert(await catalog.getByText('没有找到符合条件的模型').isVisible(), 'model catalog search should filter');
-        await catalog.getByRole('searchbox', { name: '搜索模型' }).fill('');
-        await catalog.getByRole('button', { name: 'Claude', exact: true }).click();
-        assert.equal(await catalog.getByRole('button', { name: 'Claude', exact: true }).getAttribute('aria-pressed'), 'true');
+      assert(await catalog.getByRole('heading', { name: '模型目录与调用价格' }).isVisible(), 'model pricing catalog must exist');
+      assert(await catalog.getByText(/个模型/).isVisible(), 'unique model count must be visible');
+      assert(await catalog.getByText(/个 API ID/).isVisible(), 'API ID count must be visible');
+      assert(await catalog.getByText(/⚡/).count() > 0, 'catalog prices must be rendered');
+      assert(await catalog.getByRole('searchbox', { name: '搜索模型' }).isVisible(), 'model search must exist');
+      const featured = catalog.locator('article h3');
+      assert.equal(await featured.count(), 8, 'eight featured model cards are expected');
+      const featuredIds = (await featured.allTextContents()).map((id) => id.trim());
+      assert(featuredIds.every((id) => id && !id.includes('/')), 'featured cards must not show channel aliases');
+      const firstGroup = catalog.locator('article').filter({ has: catalog.locator('summary') }).first();
+      if (await firstGroup.count()) {
+        await firstGroup.locator('summary').click();
+        assert(await firstGroup.locator('details[open]').count() === 1, 'model details should expand');
       }
+      await catalog.getByRole('searchbox', { name: '搜索模型' }).fill('gpt-6.2-sol');
+      assert(await catalog.getByText('gpt-6.2-sol', { exact: true }).count() >= 1, 'search must find canonical model names');
+      await catalog.getByRole('searchbox', { name: '搜索模型' }).fill('');
+      await catalog.getByRole('button', { name: 'Claude', exact: true }).click();
+      assert.equal(await catalog.getByRole('button', { name: 'Claude', exact: true }).getAttribute('aria-pressed'), 'true');
+      assert(await catalog.getByText(/⚡ \/ 百万 Token/).count() > 0, 'price unit disclaimer missing');
+
       assert(await page.getByRole('heading', { name: /一个 Key/ }).isVisible());
       assert.equal(await page.locator('#direct-use').count(), 0, 'API product page must not repeat the online-tools section');
       for (const site of ['librechat.chatgpt5x.com', 'art.chatgpt5x.com', 'aiview.chatgpt5x.com']) {
@@ -106,9 +111,6 @@ async function run() {
       }
       assert.equal(await page.getByRole('link', { name: /查看接入文档/ }).count() >= 1, true, 'API docs CTA missing');
       assert.equal(await page.locator('code').filter({ hasText: 'https://api.zhibeimao.com/v1' }).count() >= 1, true, 'API Base URL missing');
-      const pricing = page.locator('#pricing');
-      assert(await pricing.getByRole('heading', { name: '美元 API 额度，人民币优惠购买' }).isVisible(), 'pricing heading missing');
-      assert(await pricing.getByText('3 美元额度通用 Key').isVisible());
       assert.equal(await pricing.locator('a[aria-label*="美元额度，人民币"]').count(), 3, 'expect three credit offers');
       for (const [amount, price, fold, percent] of [['3', '10', '5.0', '50'], ['10', '30', '4.5', '55'], ['20', '55', '4.1', '59']]) {
         const offer = pricing.locator('a[aria-label^="' + amount + ' 美元额度，人民币"]');
@@ -119,7 +121,7 @@ async function run() {
         assert(flatText.includes('约' + fold + '折'), 'missing discount fold for ' + amount);
         assert(flatText.includes('约省' + percent + '%'), 'missing discount saving for ' + amount);
       }
-      assert(await pricing.getByText(/不代表各模型调用费用比官方 API 便宜相同比例/).isVisible(), 'model price caveat missing');
+      assert(await pricing.getByText(/不代表各模型调用费用比官方 API 便宜相同比例/).isVisible(), 'credit savings caveat missing');
       assert(await pricing.getByText(/参考汇率：2026-11-20/).isVisible(), 'dated exchange rate note missing');
       assert(await pricing.locator('a[href="https://online.chatgpt5x.com/"]').count() >= 3);
       await page.screenshot({ path: path.join(output, 'api-' + width + '.png'), fullPage: true });
@@ -139,7 +141,7 @@ async function run() {
       await page.screenshot({ path: path.join(output, 'docs-' + width + '.png'), fullPage: true });
       await page.close();
     }
-    console.log('PASS: responsive API product and docs browser regression');
+    console.log('PASS: responsive API product, pricing catalog and docs browser regression');
   } finally {
     await browser.close();
   }
