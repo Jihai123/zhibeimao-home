@@ -31,6 +31,10 @@ jobs:
       - name: Probe aggregation website catalog network
         continue-on-error: true
         run: node scripts/probe-juhenext-catalog.cjs
+      - name: Import and print verified website catalog snapshot
+        run: |
+          node scripts/sync-model-catalog.cjs
+          node -e "console.log('CATALOG_SNAPSHOT_JSON=' + JSON.stringify(require('./data/model-catalog.json')))"
       - name: Start isolated local preview
         run: |
           npm run start -- -p 3000 >/tmp/zhibeimao-next-start.log 2>&1 &
