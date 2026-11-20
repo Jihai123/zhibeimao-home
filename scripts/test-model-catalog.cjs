@@ -55,6 +55,9 @@ function test() {
     const first = fs.readFileSync(file, 'utf8');
     assert.equal(JSON.parse(first).models.length, 60);
     assert.match(JSON.parse(first).syncedAt, /^\d{4}-\d\d-/);
+    const unchanged = updateSnapshot(ids.join('\n'), file);
+    assert.equal(unchanged.changed, false, 'Same model list should not be rewritten');
+    assert.equal(fs.readFileSync(file, 'utf8'), first, 'No-op must preserve previous snapshot');
     assert.throws(() => updateSnapshot(makeModels(15).join('\n'), file), /too few/);
     assert.equal(fs.readFileSync(file, 'utf8'), first, 'Invalid data must never overwrite the last good snapshot');
     assert.throws(() => updateSnapshot(makeModels(20).join('\n'), file), /dropped sharply/);
