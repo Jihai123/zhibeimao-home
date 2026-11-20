@@ -68,7 +68,7 @@ function parseModelNames(content) {
   for (const row of rows) {
     let value = row;
     if (value && typeof value === 'object') {
-      value = value.id ?? value.model_id ?? value.modelId ?? value.model ?? value.name;
+      value = value.name ?? value.model_id ?? value.modelId ?? value.model ?? value.id;
     }
     if (typeof value !== 'string') {
       rejected.push({ reason: 'missing-id', id: row?.id, name: row?.name, displayName: row?.displayName, vendor: row?.vendor });
