@@ -105,41 +105,31 @@ export default function ApiProductPage() {
             </div>
           </div>
 
-          <div className="min-w-0 overflow-hidden rounded-2xl border border-cyan-300/20 bg-[#080e1d]/95 shadow-[0_25px_70px_rgba(0,0,0,.3)]">
-            <div className="flex items-center justify-between border-b border-white/10 bg-white/[0.025] px-4 py-3">
-              <div className="flex gap-1.5" aria-hidden="true">
-                <span className="h-2.5 w-2.5 rounded-full bg-rose-400/70" />
-                <span className="h-2.5 w-2.5 rounded-full bg-amber-400/70" />
-                <span className="h-2.5 w-2.5 rounded-full bg-emerald-400/70" />
-              </div>
-              <span className="text-[11px] font-medium tracking-[0.14em] text-slate-400">LIVE API EXAMPLE</span>
+          <aside className="min-w-0 rounded-2xl border border-white/10 bg-[#0d1425]/85 p-5 sm:p-6" aria-label="服务使用方式">
+            <p className="text-xs font-semibold tracking-[0.15em] text-slate-400">使用方式</p>
+            <div className="mt-4 space-y-3">
+              <Link href="#direct-use" className="group block rounded-xl border border-white/10 bg-white/[0.035] p-4 transition hover:border-cyan-300/35 hover:bg-white/[0.06]">
+                <div className="flex items-center gap-3">
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-cyan-300/10 text-cyan-200"><MessagesSquare className="h-5 w-5" /></span>
+                  <h3 className="text-base font-semibold text-white">在线使用</h3>
+                  <ArrowRight className="ml-auto h-4 w-4 text-slate-400 group-hover:text-cyan-200" />
+                </div>
+                <p className="mt-2 text-sm leading-6 text-slate-400">通过 LibreChat、ArtChat 和 AIView 使用 AI 对话及创作工具。</p>
+              </Link>
+              <Link href="/api/docs" className="group block rounded-xl border border-white/10 bg-white/[0.035] p-4 transition hover:border-cyan-300/35 hover:bg-white/[0.06]">
+                <div className="flex items-center gap-3">
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-violet-300/10 text-violet-200"><Terminal className="h-5 w-5" /></span>
+                  <h3 className="text-base font-semibold text-white">开发者 API</h3>
+                  <ArrowRight className="ml-auto h-4 w-4 text-slate-400 group-hover:text-cyan-200" />
+                </div>
+                <p className="mt-2 text-sm leading-6 text-slate-400">兼容主流接口格式，快速集成至应用与开发工具。</p>
+              </Link>
             </div>
-            <div className="space-y-5 p-4 sm:p-5">
-              <div>
-                <div className="mb-2 flex items-center gap-2 text-xs text-slate-400">
-                  <span className="rounded bg-emerald-400/15 px-2 py-1 font-bold text-emerald-300">POST</span>
-                  <span>统一接口</span>
-                </div>
-                <code className="block break-all rounded-lg border border-white/10 bg-slate-900/80 px-3 py-3 text-[13px] leading-6 text-cyan-200">{apiBaseUrl}/chat/completions</code>
-              </div>
-              <div>
-                <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500">Request</p>
-                <pre className="max-w-full overflow-x-auto rounded-lg border border-white/10 bg-slate-900/80 p-3 text-xs leading-6 text-slate-200"><code>{requestPreview}</code></pre>
-              </div>
-              <div>
-                <div className="mb-2 flex items-center justify-between gap-2">
-                  <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500">Response</span>
-                  <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-300"><CheckCircle2 className="h-3.5 w-3.5" /> HTTP 200 已实测</span>
-                </div>
-                <div className="rounded-lg border border-emerald-400/15 bg-emerald-400/[0.04] px-3 py-3 text-sm">
-                  <span className="font-mono text-emerald-200">{'"content": "OK"'}</span>
-                </div>
-              </div>
-              <p className="text-[11px] leading-5 text-slate-500">
-                对话接口示例来自已完成的调用验证；其他模型系列的具体型号、权限及价格以实时列表为准。
-              </p>
+            <div className="mt-5 border-t border-white/10 pt-4">
+              <p className="text-xs text-slate-500">API Base URL</p>
+              <code className="mt-2 block break-all select-all text-xs leading-6 text-cyan-200">{apiBaseUrl}</code>
             </div>
-          </div>
+          </aside>
         </div>
         <div className="mt-9 grid gap-3 border-t border-white/10 pt-6 sm:grid-cols-3">
           {advantages.map(({ icon: Icon, title, detail }) => (
@@ -273,23 +263,25 @@ export default function ApiProductPage() {
         </div>
         <div className="surface-panel min-w-0 rounded-2xl p-6">
           <div className="flex items-center gap-2 text-lg font-bold text-white">
-            <BadgeCheck className="h-5 w-5 text-emerald-300" /> 已完成的实际验证
+            <Layers3 className="h-5 w-5 text-cyan-200" /> 开发者资源
           </div>
-          <div className="mt-4 space-y-3">
-            {[
-              '两个正式 API 域名的对话调用均返回 HTTP 200',
-              'Key 鉴权、模型列表及上游扣费记录正常',
-              '流式对话已在同一反代项目临时域名通过'
-            ].map((item) => (
-              <p key={item} className="flex items-start gap-2 text-sm leading-6 text-slate-300">
-                <CheckCircle2 className="mt-1 h-4 w-4 shrink-0 text-emerald-300" />
-                {item}
-              </p>
-            ))}
+          <div className="mt-4 space-y-4">
+            <div className="border-b border-white/10 pb-3">
+              <h3 className="text-sm font-semibold text-white">模型列表</h3>
+              <p className="mt-1 text-sm text-slate-400">根据 API Key 权限查询可用的模型与版本。</p>
+            </div>
+            <div className="border-b border-white/10 pb-3">
+              <h3 className="text-sm font-semibold text-white">接入示例</h3>
+              <p className="mt-1 text-sm text-slate-400">提供 cURL、Python 与常用 AI 客户端配置说明。</p>
+            </div>
+            <div>
+              <h3 className="text-sm font-semibold text-white">账户余额</h3>
+              <p className="mt-1 text-sm text-slate-400">查看可用额度，合理管理模型使用成本。</p>
+            </div>
           </div>
-          <p className="mt-4 text-xs leading-6 text-slate-400">
-            图片、视频及部分其他协议接口仍需分别验证；不同地区的网络连通性也以实际测试为准。
-          </p>
+          <a href={siteLinks.apiKeyBalance} target="_blank" rel="noopener noreferrer" className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-cyan-200 hover:text-white">
+            查询 Key 余额 <ArrowUpRight className="h-4 w-4" />
+          </a>
         </div>
       </section>
 
