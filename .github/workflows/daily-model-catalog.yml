@@ -1,6 +1,11 @@
 name: Daily model catalog file sync
 
 on:
+  # Trigger one production acceptance check when this workflow is first enabled or updated.
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/daily-model-catalog.yml'
   schedule:
     # 02:15 Asia/Shanghai every day
     - cron: '15 18 * * *'
@@ -49,3 +54,43 @@ jobs:
             git commit -m "data: refresh daily model catalog from website file"
             git push origin HEAD:main
           fi
+
+      - name: Verify production pages and catalog rendering
+        env:
+          SITE_URL: https://www.zhibeimao.com
+        run: |
+          node <<'NODE'
+          const base = process.env.SITE_URL;
+          const cases = [
+            { path: '/', checks: ['在线体验与 API 接入', 'https://librechat.chatgpt5x.com/', 'https://art.chatgpt5x.com/', 'https://aiview.chatgpt5x.com/'] },
+            { path: '/api', checks: ['完整模型目录', 'gpt-6.2-sol', '117 个型号', 'https://online.chatgpt5x.com/'] },
+            { path: '/api/docs', checks: ['/v1/models', '/v1/chat/completions'] }
+          ];
+          const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+          async function check() {
+            for (const entry of cases) {
+              const url = base + entry.path + '?release-smoke=' + Date.now();
+              const response = await fetch(url, {
+                headers: { 'Cache-Control': 'no-cache', 'User-Agent': 'Mozilla/5.0 (compatible; site-release-smoke/1.0)' },
+                signal: AbortSignal.timeout(16000)
+              });
+              if (response.status !== 200) throw new Error(entry.path + ': HTTP ' + response.status);
+              const html = await response.text();
+              for (const match of entry.checks) {
+                if (!html.includes(match)) throw new Error(entry.path + ': missing ' + match);
+              }
+              console.log('PASS production ' + entry.path + ' HTTP 200, bytes=' + html.length + ', expected content found');
+            }
+          }
+          (async () => {
+            let error;
+            for (let attempt = 1; attempt <= 8; attempt++) {
+              try { await check(); console.log('PASS production release smoke'); return; }
+              catch (e) {
+                error = e; console.log('Retry production smoke ' + attempt + ': ' + e.message);
+                if (attempt < 8) await sleep(15000);
+              }
+            }
+            throw error;
+          })().catch(e => { console.error('FAIL production release smoke:', e); process.exitCode = 1; });
+          NODE
