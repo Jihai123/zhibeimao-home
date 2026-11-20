@@ -41,6 +41,17 @@ const endpoints = [
   { method: 'POST', path: '/v1/chat/completions', detail: '按 OpenAI 兼容格式发起模型对话' }
 ];
 
+const additionalEndpoints = [
+  { method: 'POST', path: '/v1/responses', detail: 'Responses 格式对话' },
+  { method: 'POST', path: '/v1/messages', detail: 'Messages 格式对话' },
+  { method: 'POST', path: '/v1beta/models/{model}:generateContent', detail: 'Gemini 模型内容生成' },
+  { method: 'POST', path: '/v1/embeddings', detail: '文本向量生成' },
+  { method: 'POST', path: '/v1/images/generations', detail: '图像生成' },
+  { method: 'POST', path: '/v1/images/edits', detail: '图像编辑' },
+  { method: 'POST', path: '/v1/videos', detail: '部分视频模型任务创建' },
+  { method: 'GET', path: '/v1/videos/{task_id}', detail: '部分视频模型任务查询' }
+];
+
 export default function ApiDocsPage() {
   return (
     <main className="mx-auto w-full max-w-6xl px-4 py-8 md:px-8 md:py-12">
@@ -172,7 +183,22 @@ export default function ApiDocsPage() {
             ))}
           </div>
         </div>
-        <p className="mt-3 text-xs leading-6 text-slate-400">更多协议及模型能力请根据所选模型的接入说明配置，具体可用范围以账户权限为准。</p>
+        <details className="surface-panel group mt-4 overflow-hidden rounded-2xl">
+          <summary className="flex cursor-pointer list-none items-center justify-between gap-2 px-5 py-4 text-sm font-semibold text-slate-200 marker:hidden [&::-webkit-details-marker]:hidden">
+            更多接口路径参考
+            <span className="text-xs font-normal text-cyan-200 group-open:text-slate-400">查看接口</span>
+          </summary>
+          <div className="divide-y divide-white/10 border-t border-white/10">
+            {additionalEndpoints.map((route) => (
+              <div key={route.path} className="grid gap-2 px-5 py-3 md:grid-cols-[70px_minmax(0,1fr)_minmax(0,1.2fr)] md:items-center">
+                <span className="text-xs font-bold text-cyan-300">{route.method}</span>
+                <code className="break-all text-xs text-white md:text-sm">{route.path}</code>
+                <span className="text-xs leading-6 text-slate-400 md:text-sm">{route.detail}</span>
+              </div>
+            ))}
+          </div>
+        </details>
+        <p className="mt-3 text-xs leading-6 text-slate-400">不同模型支持的接口格式与功能范围可能不同。请根据所选模型的能力说明和账户权限使用相应接口。</p>
       </section>
 
       <section className="surface-panel mt-10 rounded-2xl p-5 md:p-7" aria-label="接入注意事项">
