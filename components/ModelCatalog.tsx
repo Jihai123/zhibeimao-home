@@ -43,11 +43,13 @@ function PriceSummary({ pricing }: { pricing: ModelPricing }) {
       <div className="text-right text-[11px] leading-5 text-slate-300 sm:text-xs">
         <div>输入 <strong className="text-cyan-100">⚡{formatPrice(pricing.input)}</strong></div>
         <div>输出 <strong className="text-cyan-100">⚡{formatPrice(pricing.output)}</strong></div>
+        <div className="text-[10px] text-slate-500">每百万 Token</div>
       </div>
     );
   }
   if (pricing.kind === 'tiered') {
-    return <span className="rounded-full border border-amber-300/20 bg-amber-300/10 px-2.5 py-1 text-[11px] font-medium text-amber-100">分档计费</span>;
+    const isDuration = pricing.tiers.some((tier) => tier.terms.seconds !== undefined);
+    return <span className="rounded-full border border-amber-300/20 bg-amber-300/10 px-2.5 py-1 text-[11px] font-medium text-amber-100">{isDuration ? '按时长计费' : '分档计费'}</span>;
   }
   if (pricing.kind === 'request') {
     return <span className="text-right text-xs font-semibold text-cyan-100">按次 ⚡{formatPrice(pricing.perRequest)}</span>;
@@ -58,29 +60,31 @@ function PriceSummary({ pricing }: { pricing: ModelPricing }) {
   return <span className="text-right text-xs text-slate-500">价格待核实</span>;
 }
 
-function Metric({ label, value }: { label: string; value: number | undefined }) {
+function Metric({ label, value, unit = '⚡' }: { label: string; value: number | undefined; unit?: string }) {
   if (value === undefined) return null;
   return (
     <div className="rounded-lg border border-white/10 bg-slate-950/40 px-3 py-2">
       <p className="text-[11px] text-slate-500">{label}</p>
-      <p className="mt-1 text-sm font-semibold text-slate-100">⚡{formatPrice(value)}</p>
+      <p className="mt-1 text-sm font-semibold text-slate-100">{unit}{formatPrice(value)}</p>
     </div>
   );
 }
 
 function TermsGrid({ terms }: { terms: PriceTerms }) {
-  const metrics: Array<[string, number | undefined]> = [
+  const metrics: Array<[string, number | undefined, string?]> = [
     ['输入 / 百万 Token', terms.input],
     ['输出 / 百万 Token', terms.output],
     ['缓存读取 / 百万 Token', terms.cacheRead],
     ['缓存写入 / 百万 Token', terms.cacheWrite],
-    ['1 小时缓存写入', terms.cacheWrite1h],
-    ['12 小时缓存写入', terms.cacheWrite12h]
+    ['1 小时缓存写入 / 百万 Token', terms.cacheWrite1h],
+    ['12 小时缓存写入 / 百万 Token', terms.cacheWrite12h],
+    ['视频生成 / 秒', terms.seconds],
+    ['输入图片 / 张', terms.inputImages]
   ];
   const visible = metrics.filter(([, value]) => value !== undefined);
   return (
     <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-      {visible.map(([label, value]) => <Metric key={label} label={label} value={value} />)}
+      {visible.map(([label, value]) => <Metric key={label} label={label} value={value} unit="⚡" />)}
     </div>
   );
 }
@@ -111,7 +115,7 @@ function PricingDetails({ pricing }: { pricing: ModelPricing }) {
             该模型还包含时段倍率，以上为表达式中的基础计价系数，实际费用会随计费时段变化。
           </p>
         )}
-        <p className="text-[11px] text-slate-500">目录计价单位：⚡ / 百万 Token；最终扣费以 Key 用量记录为准。</p>
+        <p className="text-[11px] text-slate-500">目录计价单位为 ⚡；Token 按百万计，视频按秒计。最终扣费以 Key 用量记录为准。</p>
       </div>
     );
   }
@@ -311,7 +315,7 @@ export function ModelCatalog({ models, available, total, syncedAt }: Props) {
           </div>
 
           <p className="mt-3 text-xs leading-6 text-slate-500">
-            价格单位为上游用量计价单位 ⚡，Token 价格按百万 Token 展示，图片等按次模型单独标注。基础、标准等同名线路已合并，展开后可查看准确 API ID 与各自价格。不同 Key 分组、缓存及特殊计费条件可能影响最终扣费，请以实际用量记录为准。
+            价格单位为上游用量计价单位 ⚡，Token 价格按百万 Token 展示，图片等按次模型单独标注。基础、标准等同名线路已合并，展开后可查看准确 API ID 与各线路价格。不同 Key 分组、缓存及特殊计费条件可能影响最终扣费，请以实际用量记录为准。
           </p>
           {syncedAt && <p className="mt-1 text-[11px] text-slate-600">目录更新时间：{new Date(syncedAt).toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' })}</p>}
         </>
