@@ -60,7 +60,7 @@ export function HeroSection() {
         </p>
         <h1 className="text-primary text-3xl font-black tracking-tight md:text-5xl">AI 工具导航与评测中心</h1>
         <p className="text-secondary mx-auto mt-4 max-w-2xl text-sm leading-relaxed md:text-base">
-          高信息密度聚合：发现工具、比较能力、跟踪榜单，一次完成高质量决策。
+          发现 AI 工具、浏览行业资讯与能力榜单，找到适合自己的选择。
         </p>
 
         <form onSubmit={handleSubmit} className="mx-auto mt-8 flex max-w-3xl min-w-0 flex-col items-stretch gap-2 rounded-2xl border border-white/15 bg-[#0f1628]/95 p-2 sm:flex-row sm:items-center shadow-[0_0_0_1px_rgba(124,58,237,0.35),0_20px_45px_rgba(6,182,212,0.2)] backdrop-blur">
