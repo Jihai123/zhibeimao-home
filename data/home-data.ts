@@ -116,20 +116,20 @@ export const toolAssets = [
 
 export const aiDirectEntries = [
   {
-    title: 'LibreChat 对话入口',
-    description: '通用 AI 对话入口，适合日常问答、写作、长文本整理与编程辅助。打开站点后输入已购买的智享 API Key。',
+    title: 'LibreChat',
+    description: '适合问答、写作、知识整理和代码辅助的 AI 对话工具。',
     tags: ['AI对话', 'ChatGPT', 'Claude', 'Gemini'],
     href: siteLinks.libreChat
   },
   {
-    title: 'ArtChat 对话入口',
-    description: '多模型对话与日常问答入口，适合快速尝试不同模型。打开站点后输入已购买的智享 API Key。',
+    title: 'ArtChat',
+    description: '简洁的多模型对话界面，满足日常交流与内容创作需求。',
     tags: ['AI对话', '多模型', '日常使用'],
     href: siteLinks.artChat
   },
   {
-    title: 'AIView 创作入口',
-    description: '图片生成、视觉创作与视频能力入口。按站内支持的模型和功能输入已购买的智享 API Key。',
+    title: 'AIView',
+    description: '面向图像与视频内容的 AI 创作工具。',
     tags: ['AI绘图', '视频生成', '创意内容'],
     href: siteLinks.aiView
   }
