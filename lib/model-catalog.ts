@@ -1,5 +1,5 @@
 import snapshot from '@/data/model-catalog.json';
-import { modelFamilies } from '@/data/api-product';
+import { orderCatalogModels } from '@/lib/model-ranking';
 
 export type ListedModel = {
   id: string;
@@ -42,15 +42,7 @@ export function getPublicModelCatalog(): ModelCatalog {
     models.push({ id, family: classify(id) });
   }
 
-  const priorities = modelFamilies.map(({ name }) => name as string);
-  const collator = new Intl.Collator('en', { numeric: true, sensitivity: 'base' });
-  models.sort((a, b) => {
-    const rankA = priorities.indexOf(a.family);
-    const rankB = priorities.indexOf(b.family);
-    const left = rankA < 0 ? priorities.length : rankA;
-    const right = rankB < 0 ? priorities.length : rankB;
-    return left !== right ? left - right : collator.compare(a.id, b.id);
-  });
+  const rankedModels = orderCatalogModels(models);
 
-  return { models, total: models.length, available: models.length > 0 };
+  return { models: rankedModels, total: rankedModels.length, available: rankedModels.length > 0 };
 }
