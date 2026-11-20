@@ -113,6 +113,7 @@ async function run() {
       await firstGroup.locator('summary').click();
       assert.equal(await firstGroup.locator('details[open]').count(), 1, 'model details should expand');
       assert(await firstGroup.getByText(/⚡表示模型调用时消耗的额度单位/).count() > 0, 'expanded pricing unit explanation missing');
+      assert.equal((await firstGroup.innerText()).includes('标准上下文上下文'), false, 'tier label and context condition must not be duplicated');
 
       await catalog.getByRole('searchbox', { name: '搜索模型' }).fill('qwen3-vl-plus');
       const qwenRow = catalog.locator('.divide-y > article').filter({ hasText: 'qwen3-vl-plus' });

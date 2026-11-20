@@ -169,8 +169,7 @@ function PricingDetails({ pricing }: { pricing: ModelPricing }) {
         {pricing.tiers.map((tier: BillingTier, index: number) => (
           <div key={tier.label + index} className="rounded-xl border border-white/10 bg-slate-950/35 p-3">
             <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
-              <span className="text-xs font-semibold text-white">{tier.label}</span>
-              {tier.condition && <span className="text-[11px] text-slate-400">{tier.condition}</span>}
+              <span className="text-xs font-semibold text-white">{tier.condition ?? tier.label}</span>
             </div>
             <TermsGrid terms={tier.terms} />
           </div>
