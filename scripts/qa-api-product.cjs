@@ -53,6 +53,13 @@ async function run() {
       await visit(page, '/', 'home-' + width);
       const homeDirect = page.locator('section[aria-label="指北猫AI直通"]');
       assert(await homeDirect.isVisible(), 'homepage direct-use section should be visible');
+      assert.equal(await page.locator('section[aria-label="AI API 开放平台推荐"]').count(), 0, 'duplicate API banner must be absent');
+      assert.equal(await page.locator('section[aria-label="指北猫AI直通"]').count(), 1, 'only one unified AI direct section is expected');
+      assert(await homeDirect.getByRole('heading', { name: /一个 Key，买完就能直接使用 AI/ }).isVisible());
+      assert.equal(await homeDirect.locator('a[href="https://online.chatgpt5x.com/"]').count(), 1, 'unified panel purchase link missing');
+      assert.equal(await homeDirect.locator('a[href="https://checkbalance.chatgpt5x.com/"]').count(), 1, 'unified panel balance link missing');
+      assert.equal(await homeDirect.locator('a[href="/api"]').count(), 1, 'unified panel API page link missing');
+      assert.equal(await homeDirect.locator('a[href="/api/docs"]').count(), 1, 'unified panel developer docs link missing');
       assert.equal(await homeDirect.locator('a[href="https://librechat.chatgpt5x.com/"]').count(), 1, 'homepage LibreChat link missing');
       assert.equal(await homeDirect.locator('a[href="https://art.chatgpt5x.com/"]').count(), 1, 'homepage ArtChat link missing');
       assert.equal(await homeDirect.locator('a[href="https://aiview.chatgpt5x.com/"]').count(), 1, 'homepage AIView link missing');
