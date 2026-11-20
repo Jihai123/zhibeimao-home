@@ -1,0 +1,137 @@
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
+const { chromium } = require('playwright');
+
+const base = process.env.QA_BASE_URL || 'http://127.0.0.1:3000';
+const output = path.join(process.cwd(), 'qa-artifacts');
+
+async function visit(page, pathname, label) {
+  const errors = [];
+  page.on('pageerror', (error) => errors.push(error.message));
+  const response = await page.goto(base + pathname, { waitUntil: 'domcontentloaded', timeout: 30000 });
+  assert(response, label + ': missing HTTP response');
+  assert.equal(response.status(), 200, label + ': unexpected HTTP status');
+  await page.locator('main').waitFor({ state: 'visible' });
+
+  const widths = await page.evaluate(() => ({
+    inner: window.innerWidth,
+    document: document.documentElement.scrollWidth,
+    body: document.body.scrollWidth
+  }));
+  if (widths.document > widths.inner + 2 || widths.body > widths.inner + 2) {
+    const offenders = await page.evaluate(() => Array.from(document.querySelectorAll('body *'))
+      .map((element) => {
+        const rect = element.getBoundingClientRect();
+        return {
+          tag: element.tagName.toLowerCase(),
+          className: String(element.className).slice(0, 115),
+          text: (element.textContent || '').trim().slice(0, 55),
+          left: Math.round(rect.left),
+          right: Math.round(rect.right)
+        };
+      })
+      .filter((item) => item.right > window.innerWidth + 2 && item.left >= -2)
+      .sort((a, b) => b.right - a.right)
+      .slice(0, 12));
+    console.error('OVERFLOW DETAILS', label, JSON.stringify(offenders));
+  }
+  assert(widths.document <= widths.inner + 2, label + ': horizontal document overflow ' + JSON.stringify(widths));
+  assert(widths.body <= widths.inner + 2, label + ': horizontal body overflow ' + JSON.stringify(widths));
+  assert.deepEqual(errors, [], label + ': uncaught page exceptions');
+  console.log('PASS', label, widths);
+}
+
+async function run() {
+  fs.mkdirSync(output, { recursive: true });
+  const browser = await chromium.launch({ channel: 'chrome', headless: true, args: ['--no-sandbox'] });
+  try {
+    for (const width of [320, 390, 1280]) {
+      const page = await browser.newPage({ viewport: { width, height: 844 }, deviceScaleFactor: 1 });
+      const isMobile = width < 768;
+
+      await visit(page, '/', 'home-' + width);
+      const homeDirect = page.locator('section[aria-label="指北猫AI直通"]');
+      assert(await homeDirect.isVisible(), 'homepage direct-use section should be visible');
+      assert.equal(await page.locator('section[aria-label="AI API 开放平台推荐"]').count(), 0, 'duplicate API banner must be absent');
+      assert.equal(await page.locator('section[aria-label="指北猫AI直通"]').count(), 1, 'only one unified AI direct section is expected');
+      assert(await homeDirect.getByRole('heading', { name: /在线体验与 API 接入/ }).isVisible());
+      assert.equal(await homeDirect.locator('a[href="https://online.chatgpt5x.com/"]').count(), 1, 'unified panel purchase link missing');
+      assert.equal(await homeDirect.locator('a[href="https://checkbalance.chatgpt5x.com/"]').count(), 1, 'unified panel balance link missing');
+      assert.equal(await homeDirect.locator('a[href="/api"]').count(), 1, 'unified panel API page link missing');
+      assert.equal(await homeDirect.locator('a[href="/api/docs"]').count(), 1, 'unified panel developer docs link missing');
+      assert.equal(await homeDirect.locator('a[href="https://librechat.chatgpt5x.com/"]').count(), 1, 'homepage LibreChat link missing');
+      assert.equal(await homeDirect.locator('a[href="https://art.chatgpt5x.com/"]').count(), 1, 'homepage ArtChat link missing');
+      assert.equal(await homeDirect.locator('a[href="https://aiview.chatgpt5x.com/"]').count(), 1, 'homepage AIView link missing');
+      if (isMobile) {
+        const mobileNav = page.getByRole('navigation', { name: '移动端导航' });
+        assert.equal(await mobileNav.isVisible(), false, 'mobile nav should start collapsed');
+        await page.locator('summary').getByText('菜单').click();
+        assert.equal(await mobileNav.isVisible(), true, 'mobile nav should open');
+        await mobileNav.getByRole('link', { name: 'API 接入' }).click();
+        await page.waitForURL('**/api');
+      } else {
+        await page.getByRole('navigation', { name: '主导航' }).getByRole('link', { name: 'API 接入' }).click();
+        await page.waitForURL('**/api');
+      }
+
+      await visit(page, '/api', 'api-' + width);
+      const publicCopy = await page.locator('main').innerText();
+      for (const forbidden of ['HTTP 200 已实测', '已完成的实际验证', '反代', '临时域名', '待逐项验证', '上游扣费']) {
+        assert.equal(publicCopy.includes(forbidden), false, 'customer-facing copy contains internal language: ' + forbidden);
+      }
+      const catalog = page.locator('#models');
+      assert(await catalog.getByRole('heading', { name: /发现主流 AI 模型/ }).isVisible(), 'model catalog section must exist');
+      assert(await catalog.locator('article').count() >= 1, 'model catalog must show featured models or family fallback');
+      const spotlightIds = (await catalog.locator('article h3').allTextContents()).map((id) => id.trim());
+      assert.equal(spotlightIds.length, 8, 'eight featured model cards are expected');
+      assert(spotlightIds.every((id) => id && !id.includes('/')), 'featured cards must not show basic/standard model IDs');
+      console.log('FEATURED_MODEL_CARDS', spotlightIds);
+      assert(await catalog.getByText(/\d+ 个型号 · 较新版本优先/).isVisible(), 'full model count and ranking description missing');
+      const directory = catalog.locator('.divide-y > div code');
+      assert.equal(await directory.count() > 0, true, 'full directory should render model IDs');
+      const firstDirectoryIds = (await directory.allTextContents()).map((id) => id.trim());
+      assert(firstDirectoryIds.every((id) => !/^(basic|standard)\//.test(id)), 'channel aliases must not dominate first catalog page');
+      if (await catalog.getByRole('searchbox', { name: '搜索模型' }).count()) {
+        await catalog.getByRole('searchbox', { name: '搜索模型' }).fill('a-match-that-should-never-exist');
+        assert(await catalog.getByText('没有找到符合条件的模型').isVisible(), 'model catalog search should filter');
+        await catalog.getByRole('searchbox', { name: '搜索模型' }).fill('');
+        await catalog.getByRole('button', { name: 'Claude', exact: true }).click();
+        assert.equal(await catalog.getByRole('button', { name: 'Claude', exact: true }).getAttribute('aria-pressed'), 'true');
+      }
+      assert(await page.getByRole('heading', { name: /一个 Key/ }).isVisible());
+      assert.equal(await page.locator('#direct-use').count(), 0, 'API product page must not repeat the online-tools section');
+      for (const site of ['librechat.chatgpt5x.com', 'art.chatgpt5x.com', 'aiview.chatgpt5x.com']) {
+        assert.equal((await page.locator('main').innerText()).includes(site), false, 'API product content must remain API-only: ' + site);
+      }
+      assert.equal(await page.getByRole('link', { name: /查看接入文档/ }).count() >= 1, true, 'API docs CTA missing');
+      assert.equal(await page.locator('code').filter({ hasText: 'https://api.zhibeimao.com/v1' }).count() >= 1, true, 'API Base URL missing');
+      assert(await page.locator('#pricing').getByText('3 美元额度通用 Key').isVisible());
+      assert(await page.locator('#pricing a[href="https://online.chatgpt5x.com/"]').count() >= 3);
+      await page.screenshot({ path: path.join(output, 'api-' + width + '.png'), fullPage: true });
+
+      await visit(page, '/api/docs', 'docs-' + width);
+      const docsCopy = await page.locator('main').innerText();
+      for (const forbidden of ['HTTP 200 已实测', '待逐项验证', '反代', '项目临时域名', '验收']) {
+        assert.equal(docsCopy.includes(forbidden), false, 'documentation contains internal language: ' + forbidden);
+      }
+      assert.equal(await page.locator('pre').count() >= 3, true, 'expected curl, Python and model query examples');
+      assert.equal(await page.locator('#no-code-title').count(), 0, 'API docs must not show online tool cards');
+      assert.equal(await page.getByRole('heading', { name: /接入配置/ }).count() >= 1, true, 'API configuration section missing');
+      await page.getByText('更多接口路径参考').click();
+      assert(await page.getByText('/v1/responses').isVisible(), 'additional API protocol reference should expand');
+      const docsWidth = await page.evaluate(() => document.documentElement.scrollWidth);
+      assert(docsWidth <= width + 2, 'expanded API docs must not overflow viewport');
+      await page.screenshot({ path: path.join(output, 'docs-' + width + '.png'), fullPage: true });
+      await page.close();
+    }
+    console.log('PASS: responsive API product and docs browser regression');
+  } finally {
+    await browser.close();
+  }
+}
+
+run().catch((error) => {
+  console.error(error);
+  process.exitCode = 1;
+});

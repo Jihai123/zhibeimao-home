@@ -11,7 +11,7 @@ export const quickEntries = [
 
 export const featuredAssets = [
   {
-    title: '今日新股：建议参与',
+    title: '港股新股申购分析',
     subtitle: '结论推荐',
     reason: '港股打新评分专家，协助你决策是否应该参与新股。',
     badge: '🔥',
@@ -23,7 +23,7 @@ export const featuredAssets = [
     highlighted: true
   },
   {
-    title: '养老金：可考虑立即测算',
+    title: '养老金测算与退休规划',
     subtitle: '规划建议',
     reason: '尽早算清退休缺口，可提前调整储蓄与投资节奏，降低后续压力。',
     badge: 'NEW',
@@ -34,9 +34,9 @@ export const featuredAssets = [
     icon: PiggyBank
   },
   {
-    title: 'AI排行：世界AI排行榜',
+    title: '全球 AI 模型排行榜',
     subtitle: '实时排名',
-    reason: '除了豆包，还有你们值得使用的东西。',
+    reason: '比较主流 AI 模型的综合能力，辅助选择适合的工具。',
     badge: 'NEW',
     status: '🔥 热门工具',
     useCount: '已有 2.1w 人使用',
@@ -50,7 +50,7 @@ export const toolAssets = [
   {
     title: '新股值不值得参与？',
     description: '输入股票代码，快速判断是否值得申购',
-    tag: '🔥爆款',
+    tag: '港股分析',
     status: '👥 今日 342 人使用',
     cta: '立即判断',
     href: siteLinks.hongKongIPO,
@@ -87,7 +87,7 @@ export const toolAssets = [
 
   {
     title: '您的专业AI工作场景分析师',
-    description: 'AI 时代，AI 到底能帮我做什么：基于您的具体工作进行 AI 深度分析，为您释放工作压力。',
+    description: '围绕具体工作场景，分析 AI 工具可以提供的辅助能力。',
     tag: '工作分析',
     status: '🟢 刚刚更新',
     cta: '立即分析',
@@ -116,20 +116,20 @@ export const toolAssets = [
 
 export const aiDirectEntries = [
   {
-    title: 'LibreChat 对话入口',
-    description: '主流大模型对话、问答、写作与编程辅助的一站式入口。',
+    title: 'LibreChat',
+    description: '适合问答、写作、知识整理和代码辅助的 AI 对话工具。',
     tags: ['AI对话', 'ChatGPT', 'Claude', 'Gemini'],
     href: siteLinks.libreChat
   },
   {
-    title: 'ArtChat 对话入口',
-    description: '多模型对话与高效问答入口，适合日常快速使用。',
+    title: 'ArtChat',
+    description: '简洁的多模型对话界面，满足日常交流与内容创作需求。',
     tags: ['AI对话', '多模型', '日常使用'],
     href: siteLinks.artChat
   },
   {
-    title: 'AIView 创作入口',
-    description: '聚焦图片生成、视觉创作与视频能力的创意工作台。',
+    title: 'AIView',
+    description: '面向图像与视频内容的 AI 创作工具。',
     tags: ['AI绘图', '视频生成', '创意内容'],
     href: siteLinks.aiView
   }
