@@ -75,11 +75,10 @@ export function ModelCatalog({ models, available }: Props) {
                   </span>
                   <span className="text-[11px] text-slate-400">{group.provider}</span>
                 </div>
-                <h3 className="mt-4 text-base font-bold text-white sm:text-lg">{group.name}</h3>
-                <p className="mt-1 text-xs text-slate-400">较新版本</p>
-                <code className="mt-3 block break-all select-all rounded-lg border border-white/10 bg-slate-950/50 px-2.5 py-2 text-xs leading-5 text-cyan-100">
+                <p className="mt-4 text-xs font-medium text-slate-400">{group.name} · 较新版本</p>
+                <h3 className="mt-2 min-h-12 break-all select-all text-base font-bold leading-6 text-white sm:text-lg">
                   {model?.id}
-                </code>
+                </h3>
               </article>
             ))}
           </div>
