@@ -5,6 +5,8 @@ export type PriceTerms = {
   cacheWrite?: number;
   cacheWrite1h?: number;
   cacheWrite12h?: number;
+  seconds?: number;
+  inputImages?: number;
 };
 
 export type BillingTier = {
@@ -35,14 +37,80 @@ function safeNumber(value: unknown): number | undefined {
 
 function parseTerms(expression: string): PriceTerms {
   const terms: PriceTerms = {};
-  const pattern = /\b(cc12h|cc1h|cr|cc|p|c)\s*\*\s*(\d+(?:\.\d+)?)/g;
-  for (const match of expression.matchAll(pattern)) {
+  const tokenPattern = /\b(cc12h|cc1h|cr|cc|p|c)\s*\*\s*(\d+(?:\.\d+)?)/g;
+  for (const match of expression.matchAll(tokenPattern)) {
     const key = variableMap[match[1]];
     const value = Number(match[2]);
     if (!key || !Number.isFinite(value) || value < 0) continue;
     terms[key] = (terms[key] ?? 0) + value;
   }
+
+  const usagePattern = /u\(\s*["'](input_images|seconds)["']\s*\)\s*\*\s*(\d+(?:\.\d+)?)/g;
+  for (const match of expression.matchAll(usagePattern)) {
+    const key = match[1] === 'seconds' ? 'seconds' : 'inputImages';
+    const value = Number(match[2]);
+    if (Number.isFinite(value) && value >= 0) terms[key] = (terms[key] ?? 0) + value;
+  }
   return terms;
+}
+
+function extractTierCalls(expression: string): Array<{ label: string; formula: string }> {
+  const tiers: Array<{ label: string; formula: string }> = [];
+  const marker = /tier\s*\(/g;
+  let match: RegExpExecArray | null;
+
+  while ((match = marker.exec(expression)) !== null) {
+    const openParen = expression.indexOf('(', match.index);
+    let cursor = openParen + 1;
+    while (/\s/.test(expression[cursor] ?? '')) cursor++;
+    const quote = expression[cursor];
+    if (quote !== '"' && quote !== "'") continue;
+    cursor++;
+    let label = '';
+    let escaped = false;
+    while (cursor < expression.length) {
+      const char = expression[cursor++];
+      if (escaped) {
+        label += char;
+        escaped = false;
+      } else if (char === '\\') {
+        escaped = true;
+      } else if (char === quote) {
+        break;
+      } else {
+        label += char;
+      }
+    }
+    while (/\s/.test(expression[cursor] ?? '')) cursor++;
+    if (expression[cursor] !== ',') continue;
+    const formulaStart = cursor + 1;
+    let depth = 1;
+    let stringQuote: string | null = null;
+    let stringEscape = false;
+    let end = -1;
+    for (let index = openParen + 1; index < expression.length; index++) {
+      const char = expression[index];
+      if (stringQuote) {
+        if (stringEscape) stringEscape = false;
+        else if (char === '\\') stringEscape = true;
+        else if (char === stringQuote) stringQuote = null;
+        continue;
+      }
+      if (char === '"' || char === "'") stringQuote = char;
+      else if (char === '(') depth++;
+      else if (char === ')') {
+        depth--;
+        if (depth === 0) {
+          end = index;
+          break;
+        }
+      }
+    }
+    if (end < 0) continue;
+    tiers.push({ label, formula: expression.slice(formulaStart, end).trim() });
+    marker.lastIndex = end + 1;
+  }
+  return tiers;
 }
 
 function tierLabel(raw: string): string {
@@ -57,25 +125,24 @@ export function parseBillingExpression(expression: string): {
   tiers: BillingTier[];
   timeVariable: boolean;
 } {
+  const rawTiers = extractTierCalls(expression);
   const tiers: BillingTier[] = [];
-  const pattern = /tier\(\s*["']([^"']+)["']\s*,\s*([^()]*)\)/g;
-  const matches = Array.from(expression.matchAll(pattern));
   const threshold = expression.match(/\blen\s*(<=|<|>=|>)\s*(\d+)/i);
   const thresholdLabel = threshold
     ? '上下文长度 ' + threshold[1] + ' ' + Number(threshold[2]).toLocaleString('en-US') + ' Token'
     : undefined;
 
-  for (let index = 0; index < matches.length; index++) {
-    const match = matches[index];
-    const terms = parseTerms(match[2]);
+  for (let index = 0; index < rawTiers.length; index++) {
+    const raw = rawTiers[index];
+    const terms = parseTerms(raw.formula);
     if (Object.keys(terms).length === 0) continue;
     let condition: string | undefined;
-    if (matches.length > 1 && thresholdLabel) {
+    if (rawTiers.length > 1 && thresholdLabel) {
       condition = index === 0 ? thresholdLabel : '超过上述长度';
-    } else if (matches.length === 1) {
+    } else if (rawTiers.length === 1) {
       condition = thresholdLabel;
     }
-    tiers.push({ label: tierLabel(match[1]), condition, terms });
+    tiers.push({ label: tierLabel(raw.label), condition, terms });
   }
 
   return { tiers, timeVariable: /\bhour\s*\(/i.test(expression) };
