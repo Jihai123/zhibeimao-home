@@ -102,6 +102,10 @@ async function run() {
       assert.equal(await docsDirect.locator('a[href="https://librechat.chatgpt5x.com/"]').count(), 1, 'docs LibreChat link missing');
       assert.equal(await docsDirect.locator('a[href="https://art.chatgpt5x.com/"]').count(), 1, 'docs ArtChat link missing');
       assert.equal(await docsDirect.locator('a[href="https://aiview.chatgpt5x.com/"]').count(), 1, 'docs AIView link missing');
+      await page.getByText('更多接口路径参考').click();
+      assert(await page.getByText('/v1/responses').isVisible(), 'additional API protocol reference should expand');
+      const docsWidth = await page.evaluate(() => document.documentElement.scrollWidth);
+      assert(docsWidth <= width + 2, 'expanded API docs must not overflow viewport');
       await page.screenshot({ path: path.join(output, 'docs-' + width + '.png'), fullPage: true });
       await page.close();
     }
