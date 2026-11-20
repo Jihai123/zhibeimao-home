@@ -96,7 +96,7 @@ async function run() {
       const featured = catalog.locator('article h3');
       assert.equal(await featured.count(), 8, 'eight featured model cards are expected');
       const featuredIds = (await featured.allTextContents()).map((id) => id.trim());
-      assert(featuredIds.every((id) => id && !id.includes('/'), 'featured cards must not show channel aliases');
+      assert(featuredIds.every((id) => id && !id.includes('/')), 'featured cards must not show channel aliases');
       const firstGroup = catalog.locator('.divide-y > article').first();
       if (await firstGroup.count()) {
         await firstGroup.locator('summary').click();
