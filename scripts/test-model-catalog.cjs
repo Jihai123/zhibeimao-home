@@ -80,6 +80,10 @@ function test() {
   );
   assert.equal(timed.tiers.length, 1);
   assert.equal(timed.timeVariable, true);
+  const video = pricingParser.parseBillingExpression('tier("base", u("input_images") * 0 + u("seconds") * 0.08)');
+  assert.equal(video.tiers.length, 1);
+  assert.equal(video.tiers[0].terms.seconds, 0.08);
+  assert.equal(video.tiers[0].terms.inputImages, 0);
 
   const requestPrice = pricingParser.parseModelPricing({ quotaType: 1, requestPrice: 0.05, modelPrice: 0.05 });
   assert.deepEqual(requestPrice, { kind: 'request', perRequest: 0.05 });
