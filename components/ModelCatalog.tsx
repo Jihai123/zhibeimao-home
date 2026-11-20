@@ -158,7 +158,7 @@ function PricingDetails({ pricing }: { pricing: ModelPricing }) {
     return (
       <div className="mt-3">
         <TermsGrid terms={{ input: pricing.input, output: pricing.output, cacheRead: pricing.cacheRead, cacheWrite: pricing.cacheWrite }} />
-        <p className="mt-2 text-[11px] leading-5 text-slate-500">⚡为模型调用计价单位；Token 价格按百万 Token 计算，实际扣费以 Key 用量记录为准。</p>
+        <p className="mt-2 text-[11px] leading-5 text-slate-500">⚡表示模型调用时消耗的额度单位，不是人民币价格；Token 价格按百万 Token 计算，实际扣费以 Key 用量记录为准。</p>
       </div>
     );
   }
@@ -182,7 +182,7 @@ function PricingDetails({ pricing }: { pricing: ModelPricing }) {
               : '该模型会按不同时段的倍率计费。'}
           </p>
         )}
-        <p className="text-[11px] leading-5 text-slate-500">⚡为模型调用计价单位；Token 价格按百万 Token 计算，视频按秒计算。实际扣费以 Key 用量记录为准。</p>
+        <p className="text-[11px] leading-5 text-slate-500">⚡表示模型调用时消耗的额度单位，不是人民币价格；Token 价格按百万 Token 计算，视频按秒计算。实际扣费以 Key 用量记录为准。</p>
       </div>
     );
   }
@@ -191,7 +191,7 @@ function PricingDetails({ pricing }: { pricing: ModelPricing }) {
     return (
       <div className="mt-3">
         <Metric label="每次请求" value={pricing.perRequest} />
-        <p className="mt-2 text-[11px] leading-5 text-slate-500">⚡为模型调用计价单位；每次请求按对应单价扣除额度。</p>
+        <p className="mt-2 text-[11px] leading-5 text-slate-500">⚡表示模型调用时消耗的额度单位，不是人民币价格；每次请求按对应单价扣除额度。</p>
       </div>
     );
   }
@@ -288,7 +288,7 @@ export function ModelCatalog({ models, available, syncedAt }: Props) {
         <>
           <div className="mt-4 rounded-xl border border-cyan-300/15 bg-cyan-300/[0.05] px-4 py-3 text-xs leading-6 text-slate-300">
             <strong className="font-semibold text-cyan-100">价格单位说明：</strong>
-            ⚡为模型调用计价单位；Token 按每百万 Token 展示，图片按次、视频按秒计费。人民币购买的是上方美元额度，模型调用时按对应额度单价扣除。
+            ⚡表示模型调用时消耗的额度单位，不是人民币价格；Token 按每百万 Token 展示，图片按次、视频按秒计费。人民币购买上方的美元额度，调用时按对应模型的额度费率扣除。
           </div>
 
           <div className="surface-panel mt-5 min-w-0 rounded-2xl p-4 sm:p-6">
