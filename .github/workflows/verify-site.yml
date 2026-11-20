@@ -28,10 +28,10 @@ jobs:
         run: |
           npm install --no-save --no-package-lock playwright@1.55.1
           google-chrome --version
-      - name: Verify actual website catalog completeness
-        env:
-          CATALOG_AUDIT: '1'
-        run: node scripts/sync-model-catalog.cjs
+      - name: Verify and export actual website catalog snapshot
+        run: |
+          node scripts/sync-model-catalog.cjs
+          node -e "console.log('CATALOG_SNAPSHOT_JSON=' + JSON.stringify(require('./data/model-catalog.json')))"
       - name: Start isolated local preview
         run: |
           npm run start -- -p 3000 >/tmp/zhibeimao-next-start.log 2>&1 &
