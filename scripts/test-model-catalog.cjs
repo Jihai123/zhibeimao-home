@@ -78,7 +78,7 @@ function test() {
   assert.deepEqual(tiers.timeWindows, []);
 
   const timed = pricingParser.parseBillingExpression(
-    '(tier("base", p * 0.5 + c * 2 + cr * 0.01)) * (hour("Asia/Shanghai") >= 9 ? 2 : 1)'
+    '(tier("base", p * 0.5 + c * 2 + cr * 0.01)) * (hour("Asia/Shanghai") >= 9 && hour("Asia/Shanghai") < 12 ? 2 : 1) * (hour("Asia/Shanghai") >= 14 && hour("Asia/Shanghai") < 18 ? 2 : 1)'
   );
   assert.equal(timed.tiers.length, 1);
   assert.equal(timed.timeVariable, true);
