@@ -139,9 +139,9 @@ export default async function ApiProductPage() {
         </div>
       </section>
 
-      <ModelCatalog models={catalog.models} available={catalog.available} />
-
       <CreditPricingSection />
+
+      <ModelCatalog models={catalog.models} available={catalog.available} total={catalog.total} syncedAt={catalog.syncedAt} />
 
       <section className="mt-16 scroll-mt-24" id="quickstart" aria-labelledby="start-title">
         <div className="flex flex-wrap items-end justify-between gap-3">
