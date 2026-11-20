@@ -22,6 +22,8 @@ jobs:
         run: npm ci
       - name: Verify model catalog normalization
         run: node scripts/test-model-catalog.cjs
+      - name: Verify latest model ranking
+        run: node scripts/test-model-ranking.cjs
       - name: Build and type-check
         run: npm run build
       - name: Install browser QA runner
