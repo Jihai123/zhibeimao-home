@@ -80,7 +80,16 @@ async function run() {
       for (const forbidden of ['HTTP 200 已实测', '已完成的实际验证', '反代', '临时域名', '待逐项验证', '上游扣费']) {
         assert.equal(publicCopy.includes(forbidden), false, 'customer-facing copy contains internal language: ' + forbidden);
       }
-      assert.equal(await page.locator('#models article').count(), 8, 'expected eight model family cards');
+      const catalog = page.locator('#models');
+      assert(await catalog.getByRole('heading', { name: /发现主流 AI 模型/ }).isVisible(), 'model catalog section must exist');
+      assert(await catalog.locator('article').count() >= 1, 'model catalog must show featured models or family fallback');
+      if (await catalog.getByRole('searchbox', { name: '搜索模型' }).count()) {
+        await catalog.getByRole('searchbox', { name: '搜索模型' }).fill('a-match-that-should-never-exist');
+        assert(await catalog.getByText('没有找到符合条件的模型').isVisible(), 'model catalog search should filter');
+        await catalog.getByRole('searchbox', { name: '搜索模型' }).fill('');
+        await catalog.getByRole('button', { name: 'Claude', exact: true }).click();
+        assert.equal(await catalog.getByRole('button', { name: 'Claude', exact: true }).getAttribute('aria-pressed'), 'true');
+      }
       assert(await page.getByRole('heading', { name: /一个 Key/ }).isVisible());
       assert.equal(await page.locator('#direct-use').count(), 0, 'API product page must not repeat the online-tools section');
       for (const site of ['librechat.chatgpt5x.com', 'art.chatgpt5x.com', 'aiview.chatgpt5x.com']) {
