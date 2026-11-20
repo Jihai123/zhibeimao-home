@@ -50,7 +50,7 @@ export const toolAssets = [
   {
     title: '新股值不值得参与？',
     description: '输入股票代码，快速判断是否值得申购',
-    tag: '🔥爆款',
+    tag: '港股分析',
     status: '👥 今日 342 人使用',
     cta: '立即判断',
     href: siteLinks.hongKongIPO,
