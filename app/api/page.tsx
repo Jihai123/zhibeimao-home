@@ -4,32 +4,28 @@ import {
   ArrowRight,
   ArrowUpRight,
   BookOpen,
-  Code2,
   CreditCard,
   Globe2,
   KeyRound,
   Layers3,
-  MessagesSquare,
   Sparkles,
   Terminal
 } from 'lucide-react';
 
 import { siteLinks } from '@/data/site-links';
-import { ApiDirectUseSection } from '@/components/ApiDirectUseSection';
 import {
-  alternativeApiBaseUrl,
   apiBaseUrl,
   keyOffers,
   modelFamilies
 } from '@/data/api-product';
 
 export const metadata: Metadata = {
-  title: '智享AI API｜多模型在线使用与开发接入',
-  description: '智享AI 提供主流 AI 模型的在线对话、图像视频创作入口与统一 API 接入服务。支持人民币购买、模型查询和开发者文档。',
+  title: '智享AI API｜统一模型 API 接入服务',
+  description: '通过一个 OpenAI 兼容 API 地址调用多种 AI 模型。支持人民币购买、模型列表查询、客户端配置和开发者接入。',
   alternates: { canonical: 'https://www.zhibeimao.com/api' },
   openGraph: {
     title: '智享AI API｜多模型接入服务',
-    description: '在线使用主流 AI 工具，或通过统一 API 接入自己的应用。提供人民币购买及快速接入指南。',
+    description: '统一 API 地址，连接主流 AI 模型。提供模型选择、按需购买与开发接入指南。',
     url: 'https://www.zhibeimao.com/api',
     type: 'website'
   }
@@ -43,9 +39,9 @@ const modelTones = [
 ];
 
 const advantages = [
-  { icon: Layers3, title: '主流模型聚合', detail: '对话与创作场景，灵活选择 AI 能力' },
-  { icon: CreditCard, title: '便捷购买', detail: '人民币结算，灵活选择使用额度' },
-  { icon: Globe2, title: '统一 API 接入', detail: '一个地址连接应用及兼容客户端' }
+  { icon: Layers3, title: '统一模型接口', detail: '多个模型系列，共用一个 API 地址' },
+  { icon: CreditCard, title: '人民币购买', detail: '提供多档 Key 额度，按需选择' },
+  { icon: Globe2, title: '便捷开发', detail: '兼容 OpenAI SDK 与自定义 API 客户端' }
 ];
 
 const journeys = [
@@ -73,10 +69,10 @@ export default function ApiProductPage() {
               </span>
             </h1>
             <p className="mt-5 max-w-2xl text-[15px] leading-8 text-slate-300 sm:text-base">
-              在线对话、图像与视频创作，以及面向应用和智能体的 API 接入。统一服务入口，灵活选择所需模型与使用方式。
+              通过统一 API 地址连接多个主流 AI 模型系列，简化应用、智能体及开发工具的接入。人民币购买 API Key，按需选择使用额度。
             </p>
             <div className="mt-6 flex flex-wrap gap-2">
-              {['在线使用', 'API 开发', '人民币购买'].map((tag) => (
+              {['OpenAI 兼容接口', '多模型接入', '人民币购买'].map((tag) => (
                 <span key={tag} className="rounded-full border border-white/15 bg-white/[0.05] px-3 py-1.5 text-[11px] font-medium text-slate-200 sm:text-xs">
                   {tag}
                 </span>
@@ -92,42 +88,46 @@ export default function ApiProductPage() {
                 获取 API Key <ArrowUpRight className="h-4 w-4" />
               </a>
               <Link
-                href="#direct-use"
+                href="/api/docs"
                 className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/[0.03] px-6 py-3 text-sm font-semibold text-white transition hover:border-cyan-300/40 hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
               >
-                <MessagesSquare className="h-4 w-4" /> 在线使用
+                <BookOpen className="h-4 w-4" /> 查看接入文档
               </Link>
             </div>
             <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-slate-400">
-              <span>多种额度可选，支持不同 AI 应用场景</span>
-              <Link href="/api/docs" className="font-semibold text-cyan-200 hover:text-white">开发者接入文档 <ArrowRight className="inline h-3 w-3" /></Link>
+              <span>支持多种使用额度及模型系列</span>
+              <a href={siteLinks.apiKeyBalance} target="_blank" rel="noopener noreferrer" className="font-semibold text-cyan-200 hover:text-white">查询 Key 余额 <ArrowUpRight className="inline h-3 w-3" /></a>
             </div>
           </div>
 
-          <aside className="min-w-0 rounded-2xl border border-white/10 bg-[#0d1425]/85 p-5 sm:p-6" aria-label="服务使用方式">
-            <p className="text-xs font-semibold tracking-[0.15em] text-slate-400">使用方式</p>
-            <div className="mt-4 space-y-3">
-              <Link href="#direct-use" className="group block rounded-xl border border-white/10 bg-white/[0.035] p-4 transition hover:border-cyan-300/35 hover:bg-white/[0.06]">
-                <div className="flex items-center gap-3">
-                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-cyan-300/10 text-cyan-200"><MessagesSquare className="h-5 w-5" /></span>
-                  <h3 className="text-base font-semibold text-white">在线使用</h3>
-                  <ArrowRight className="ml-auto h-4 w-4 text-slate-400 group-hover:text-cyan-200" />
-                </div>
-                <p className="mt-2 text-sm leading-6 text-slate-400">通过 LibreChat、ArtChat 和 AIView 使用 AI 对话及创作工具。</p>
-              </Link>
-              <Link href="/api/docs" className="group block rounded-xl border border-white/10 bg-white/[0.035] p-4 transition hover:border-cyan-300/35 hover:bg-white/[0.06]">
-                <div className="flex items-center gap-3">
-                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-violet-300/10 text-violet-200"><Terminal className="h-5 w-5" /></span>
-                  <h3 className="text-base font-semibold text-white">开发者 API</h3>
-                  <ArrowRight className="ml-auto h-4 w-4 text-slate-400 group-hover:text-cyan-200" />
-                </div>
-                <p className="mt-2 text-sm leading-6 text-slate-400">兼容主流接口格式，快速集成至应用与开发工具。</p>
-              </Link>
+          <aside className="min-w-0 overflow-hidden rounded-2xl border border-white/10 bg-[#0d1425]/85 p-5 sm:p-6" aria-label="API 接入概览">
+            <div className="flex items-center justify-between gap-2">
+              <p className="text-sm font-semibold text-white">API 接入概览</p>
+              <span className="rounded-full border border-cyan-300/20 bg-cyan-300/[0.06] px-2.5 py-1 text-xs text-cyan-200">OpenAI 兼容</span>
             </div>
-            <div className="mt-5 border-t border-white/10 pt-4">
-              <p className="text-xs text-slate-500">API Base URL</p>
-              <code className="mt-2 block break-all select-all text-xs leading-6 text-cyan-200">{apiBaseUrl}</code>
+            <div className="mt-6">
+              <p className="text-xs font-medium text-slate-400">Base URL</p>
+              <code className="mt-2 block break-all select-all rounded-xl border border-white/10 bg-[#090f1d] px-4 py-3 text-sm leading-6 text-cyan-200">{apiBaseUrl}</code>
             </div>
+            <div className="mt-5 grid gap-3">
+              <div className="flex items-start gap-3 rounded-xl border border-white/10 bg-white/[0.025] p-3.5">
+                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-cyan-300/10 text-cyan-200"><Layers3 className="h-4 w-4" /></span>
+                <div>
+                  <h3 className="text-sm font-semibold text-white">模型列表</h3>
+                  <p className="mt-1 text-xs leading-5 text-slate-400">查询当前 Key 可访问的模型 ID</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3 rounded-xl border border-white/10 bg-white/[0.025] p-3.5">
+                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-violet-300/10 text-violet-200"><Terminal className="h-4 w-4" /></span>
+                <div>
+                  <h3 className="text-sm font-semibold text-white">快速调用</h3>
+                  <p className="mt-1 text-xs leading-5 text-slate-400">使用 SDK 或兼容客户端发起模型请求</p>
+                </div>
+              </div>
+            </div>
+            <Link href="/api/docs#first-call" className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-cyan-200 hover:text-white">
+              查看调用示例 <ArrowRight className="h-4 w-4" />
+            </Link>
           </aside>
         </div>
         <div className="mt-9 grid gap-3 border-t border-white/10 pt-6 sm:grid-cols-3">
@@ -143,21 +143,19 @@ export default function ApiProductPage() {
         </div>
       </section>
 
-      <ApiDirectUseSection />
-
       <section className="mt-14 scroll-mt-24" id="models" aria-labelledby="model-title">
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div>
             <p className="text-xs font-semibold tracking-[0.2em] text-cyan-300">MODEL ECOSYSTEM</p>
             <h2 id="model-title" className="mt-2 text-2xl font-bold tracking-tight text-white sm:text-3xl">
-              主流模型系列，集中接入
+              统一接口，连接多个模型系列
             </h2>
             <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-400">
-              不必分别维护多个厂商的接入地址。新型号以模型目录和当前 Key 权限为准。
+              通过统一 API 地址调用所需模型，具体型号与权限请通过模型列表查询。
             </p>
           </div>
           <Link href="/api/docs#models" className="inline-flex items-center gap-1.5 text-sm font-medium text-cyan-200 transition hover:text-white">
-            查询准确模型 ID <ArrowRight className="h-4 w-4" />
+            查看模型查询方法 <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
         <div className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-4">
@@ -182,7 +180,7 @@ export default function ApiProductPage() {
           <div>
             <p className="text-xs font-semibold tracking-[0.2em] text-cyan-300">ACCESSIBLE PRICING</p>
             <h2 id="pricing-title" className="mt-2 text-2xl font-bold tracking-tight text-white sm:text-3xl">
-              小额度起步，按需购买
+              多种套餐，按需选择
             </h2>
             <p className="mt-4 text-sm leading-8 text-slate-300">
               人民币购买，无需海外银行卡。提供多种额度选择，可根据实际使用需求灵活购买。
@@ -226,7 +224,7 @@ export default function ApiProductPage() {
           <div>
             <p className="text-xs font-semibold tracking-[0.2em] text-cyan-300">GET STARTED</p>
             <h2 id="start-title" className="mt-2 text-2xl font-bold tracking-tight text-white sm:text-3xl">
-              三步完成首次调用
+              三步完成 API 接入
             </h2>
           </div>
           <Link href="/api/docs" className="inline-flex items-center gap-2 text-sm font-medium text-cyan-200 transition hover:text-white">
@@ -244,51 +242,11 @@ export default function ApiProductPage() {
         </div>
       </section>
 
-      <section className="mt-16 grid gap-4 md:grid-cols-2">
-        <div className="surface-panel min-w-0 rounded-2xl p-6">
-          <div className="flex items-center gap-2 text-lg font-bold text-white">
-            <Terminal className="h-5 w-5 text-cyan-200" /> 自有 API 地址
-          </div>
-          <p className="mt-3 text-sm leading-7 text-slate-300">在支持 OpenAI 兼容接口的客户端或代码中，填写以下 Base URL 与您的 API Key。</p>
-          <div className="mt-4 rounded-xl border border-white/10 bg-slate-950/70 p-4">
-            <p className="text-xs text-slate-400">主 Base URL</p>
-            <code className="mt-2 block break-all select-all text-sm font-semibold text-cyan-200">{apiBaseUrl}</code>
-            <p className="mt-3 text-xs text-slate-400">备用地址</p>
-            <code className="mt-1 block break-all select-all text-xs text-slate-200">{alternativeApiBaseUrl}</code>
-          </div>
-          <Link href="/api/docs" className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-cyan-200 hover:text-white">
-            <Code2 className="h-4 w-4" /> cURL / Python / 客户端示例 <ArrowRight className="h-4 w-4" />
-          </Link>
-        </div>
-        <div className="surface-panel min-w-0 rounded-2xl p-6">
-          <div className="flex items-center gap-2 text-lg font-bold text-white">
-            <Layers3 className="h-5 w-5 text-cyan-200" /> 开发者资源
-          </div>
-          <div className="mt-4 space-y-4">
-            <div className="border-b border-white/10 pb-3">
-              <h3 className="text-sm font-semibold text-white">模型列表</h3>
-              <p className="mt-1 text-sm text-slate-400">根据 API Key 权限查询可用的模型与版本。</p>
-            </div>
-            <div className="border-b border-white/10 pb-3">
-              <h3 className="text-sm font-semibold text-white">接入示例</h3>
-              <p className="mt-1 text-sm text-slate-400">提供 cURL、Python 与常用 AI 客户端配置说明。</p>
-            </div>
-            <div>
-              <h3 className="text-sm font-semibold text-white">账户余额</h3>
-              <p className="mt-1 text-sm text-slate-400">查看可用额度，合理管理模型使用成本。</p>
-            </div>
-          </div>
-          <a href={siteLinks.apiKeyBalance} target="_blank" rel="noopener noreferrer" className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-cyan-200 hover:text-white">
-            查询 Key 余额 <ArrowUpRight className="h-4 w-4" />
-          </a>
-        </div>
-      </section>
-
       <section className="mt-14 rounded-3xl border border-cyan-300/20 bg-gradient-to-r from-violet-950/70 via-slate-900/70 to-cyan-950/55 px-5 py-9 text-center sm:px-10">
         <div className="mx-auto flex h-11 w-11 items-center justify-center rounded-xl bg-cyan-400/10 text-cyan-200"><KeyRound className="h-5 w-5" /></div>
-        <h2 className="mt-4 text-2xl font-bold text-white sm:text-3xl">直接使用，或把 API 接入自己的产品</h2>
+        <h2 className="mt-4 text-2xl font-bold text-white sm:text-3xl">将 AI 模型接入你的产品</h2>
         <p className="mx-auto mt-3 max-w-xl text-sm leading-7 text-slate-300">
-          选择在线工具使用 AI 服务，或通过统一 API 连接自己的应用。
+          使用统一 API 和开发文档，将模型能力集成到应用与开发工作流中。
         </p>
         <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
           <a href={siteLinks.apiKey} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-cyan-400 px-6 py-3 text-sm font-bold text-slate-950 hover:bg-cyan-300">
