@@ -174,7 +174,7 @@ export default function ApiProductPage() {
           ))}
         </div>
         <p className="mt-3 text-xs leading-6 text-slate-500">
-          以上展示的是上游提供的模型系列，不代表所有型号或所有 Key 权限均已验收。请先使用 /v1/models 查询当前可用的模型 ID。
+          具体模型版本和调用权限以您的 API Key 可查询到的模型列表为准。
         </p>
       </section>
 
@@ -186,10 +186,10 @@ export default function ApiProductPage() {
               小额度起步，按需购买
             </h2>
             <p className="mt-4 text-sm leading-8 text-slate-300">
-              不用申请海外银行卡，也不必一次投入很高的预算。先从小额度 Key 开始测试，确认模型满足需求再按需增加使用额度。
+              人民币购买，无需海外银行卡。提供多种额度选择，可根据实际使用需求灵活购买。
             </p>
             <p className="mt-3 text-sm leading-7 text-slate-400">
-              与官方价格相比是否更划算，需要按相同模型、Token 计价和实际扣费口径比较；不会用未经核对的折扣百分比误导购买。
+              不同模型采用不同计费规则。具体价格、可用额度与商品信息，请以购买页面为准。
             </p>
             <a href={siteLinks.apiKey} target="_blank" rel="noopener noreferrer" className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-xl border border-cyan-300/30 bg-cyan-300/10 px-5 py-2.5 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-300/15">
               查看商城实时价格 <ArrowUpRight className="h-4 w-4" />
@@ -218,7 +218,7 @@ export default function ApiProductPage() {
           </div>
         </div>
         <p className="mt-4 text-xs leading-6 text-slate-500">
-          参考价格采集于 {priceCheckedOn}。商品名中的“美元额度”是商城标称额度，不等于模型官方同额 API 费用；库存、最终售价和实际使用扣费均以商城及用量记录为准。
+          套餐展示为 {priceCheckedOn} 价格参考。美元额度为商城商品标称额度，模型实际使用费用及最新价格以购买页面为准。
         </p>
       </section>
 
@@ -250,9 +250,9 @@ export default function ApiProductPage() {
           <div className="flex items-center gap-2 text-lg font-bold text-white">
             <Terminal className="h-5 w-5 text-cyan-200" /> 自有 API 地址
           </div>
-          <p className="mt-3 text-sm leading-7 text-slate-300">已经买过 Key？不必更换。按以下 Base URL 在兼容客户端或代码中配置即可。</p>
+          <p className="mt-3 text-sm leading-7 text-slate-300">在支持 OpenAI 兼容接口的客户端或代码中，填写以下 Base URL 与您的 API Key。</p>
           <div className="mt-4 rounded-xl border border-white/10 bg-slate-950/70 p-4">
-            <p className="text-xs text-slate-400">主 Base URL · 选中地址复制</p>
+            <p className="text-xs text-slate-400">主 Base URL</p>
             <code className="mt-2 block break-all select-all text-sm font-semibold text-cyan-200">{apiBaseUrl}</code>
             <p className="mt-3 text-xs text-slate-400">备用地址</p>
             <code className="mt-1 block break-all select-all text-xs text-slate-200">{alternativeApiBaseUrl}</code>
@@ -289,7 +289,7 @@ export default function ApiProductPage() {
         <div className="mx-auto flex h-11 w-11 items-center justify-center rounded-xl bg-cyan-400/10 text-cyan-200"><KeyRound className="h-5 w-5" /></div>
         <h2 className="mt-4 text-2xl font-bold text-white sm:text-3xl">直接使用，或把 API 接入自己的产品</h2>
         <p className="mx-auto mt-3 max-w-xl text-sm leading-7 text-slate-300">
-          普通用户可以直接使用现有在线工具；开发者可以查看文档，用统一 API 地址接入自己的应用。
+          选择在线工具使用 AI 服务，或通过统一 API 连接自己的应用。
         </p>
         <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
           <a href={siteLinks.apiKey} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-cyan-400 px-6 py-3 text-sm font-bold text-slate-950 hover:bg-cyan-300">
