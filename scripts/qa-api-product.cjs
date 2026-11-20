@@ -55,7 +55,7 @@ async function run() {
       assert(await homeDirect.isVisible(), 'homepage direct-use section should be visible');
       assert.equal(await page.locator('section[aria-label="AI API 开放平台推荐"]').count(), 0, 'duplicate API banner must be absent');
       assert.equal(await page.locator('section[aria-label="指北猫AI直通"]').count(), 1, 'only one unified AI direct section is expected');
-      assert(await homeDirect.getByRole('heading', { name: /一个 Key，买完就能直接使用 AI/ }).isVisible());
+      assert(await homeDirect.getByRole('heading', { name: /在线体验与 API 接入/ }).isVisible());
       assert.equal(await homeDirect.locator('a[href="https://online.chatgpt5x.com/"]').count(), 1, 'unified panel purchase link missing');
       assert.equal(await homeDirect.locator('a[href="https://checkbalance.chatgpt5x.com/"]').count(), 1, 'unified panel balance link missing');
       assert.equal(await homeDirect.locator('a[href="/api"]').count(), 1, 'unified panel API page link missing');
@@ -76,6 +76,10 @@ async function run() {
       }
 
       await visit(page, '/api', 'api-' + width);
+      const publicCopy = await page.locator('main').innerText();
+      for (const forbidden of ['HTTP 200 已实测', '已完成的实际验证', '反代', '临时域名', '待逐项验证', '上游扣费']) {
+        assert.equal(publicCopy.includes(forbidden), false, 'customer-facing copy contains internal language: ' + forbidden);
+      }
       assert.equal(await page.locator('#models article').count(), 8, 'expected eight model family cards');
       assert(await page.getByRole('heading', { name: /一个 Key/ }).isVisible());
       const directUse = page.locator('#direct-use');
@@ -89,6 +93,10 @@ async function run() {
       await page.screenshot({ path: path.join(output, 'api-' + width + '.png'), fullPage: true });
 
       await visit(page, '/api/docs', 'docs-' + width);
+      const docsCopy = await page.locator('main').innerText();
+      for (const forbidden of ['HTTP 200 已实测', '待逐项验证', '反代', '项目临时域名', '验收']) {
+        assert.equal(docsCopy.includes(forbidden), false, 'documentation contains internal language: ' + forbidden);
+      }
       assert.equal(await page.locator('pre').count() >= 3, true, 'expected curl, Python and model query examples');
       const docsDirect = page.locator('section').filter({ has: page.locator('#no-code-title') });
       assert.equal(await docsDirect.locator('a[href="https://librechat.chatgpt5x.com/"]').count(), 1, 'docs LibreChat link missing');
