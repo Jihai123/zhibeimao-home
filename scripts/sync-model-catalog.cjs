@@ -4,6 +4,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const DESTINATION = path.join(__dirname, '..', 'data', 'model-catalog.json');
+const DEFAULT_CATALOG_URL = 'https://www.juhenext.com/api/catalog';
 const MAX_BYTES = 5 * 1024 * 1024;
 const MIN_MODELS = 20;
 const MAX_MODELS = 10000;
@@ -132,7 +133,7 @@ function updateSnapshot(content, filePath = DESTINATION) {
 }
 
 async function main() {
-  const url = validateDownloadUrl(process.env.MODEL_CATALOG_DOWNLOAD_URL);
+  const url = validateDownloadUrl(process.env.MODEL_CATALOG_DOWNLOAD_URL || DEFAULT_CATALOG_URL);
   const content = await downloadText(url);
   const result = updateSnapshot(content);
   console.log('Model file imported successfully; models=' + result.count +
