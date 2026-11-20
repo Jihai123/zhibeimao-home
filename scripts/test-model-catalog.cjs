@@ -3,7 +3,7 @@ const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
 const ts = require('typescript');
-const { parseCatalog, parseModelNames, validateDownloadUrl, updateSnapshot } = require('./scripts/sync-model-catalog.cjs');
+const { parseCatalog, parseModelNames, validateDownloadUrl, updateSnapshot } = require('./sync-model-catalog.cjs');
 
 function loadTypeScript(file) {
   const js = ts.transpileModule(fs.readFileSync(file, 'utf8'), {
