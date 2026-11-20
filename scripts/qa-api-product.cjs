@@ -82,12 +82,12 @@ async function run() {
       }
       assert.equal(await page.locator('#models article').count(), 8, 'expected eight model family cards');
       assert(await page.getByRole('heading', { name: /一个 Key/ }).isVisible());
-      const directUse = page.locator('#direct-use');
-      assert(await directUse.isVisible(), 'API page direct-use section missing');
-      assert.equal(await directUse.locator('a[href="https://librechat.chatgpt5x.com/"]').count(), 1, 'API LibreChat link missing');
-      assert.equal(await directUse.locator('a[href="https://art.chatgpt5x.com/"]').count(), 1, 'API ArtChat link missing');
-      assert.equal(await directUse.locator('a[href="https://aiview.chatgpt5x.com/"]').count(), 1, 'API AIView link missing');
-      assert.equal(await directUse.locator('a[href="https://checkbalance.chatgpt5x.com/"]').count(), 1, 'API balance link missing');
+      assert.equal(await page.locator('#direct-use').count(), 0, 'API product page must not repeat the online-tools section');
+      for (const site of ['librechat.chatgpt5x.com', 'art.chatgpt5x.com', 'aiview.chatgpt5x.com']) {
+        assert.equal((await page.locator('main').innerText()).includes(site), false, 'API product content must remain API-only: ' + site);
+      }
+      assert.equal(await page.getByRole('link', { name: /查看接入文档/ }).count() >= 1, true, 'API docs CTA missing');
+      assert.equal(await page.locator('code').filter({ hasText: 'https://api.zhibeimao.com/v1' }).count() >= 1, true, 'API Base URL missing');
       assert(await page.locator('#pricing').getByText('3 美元额度通用 Key').isVisible());
       assert(await page.locator('#pricing a[href="https://online.chatgpt5x.com/"]').count() >= 3);
       await page.screenshot({ path: path.join(output, 'api-' + width + '.png'), fullPage: true });
@@ -98,10 +98,8 @@ async function run() {
         assert.equal(docsCopy.includes(forbidden), false, 'documentation contains internal language: ' + forbidden);
       }
       assert.equal(await page.locator('pre').count() >= 3, true, 'expected curl, Python and model query examples');
-      const docsDirect = page.locator('section').filter({ has: page.locator('#no-code-title') });
-      assert.equal(await docsDirect.locator('a[href="https://librechat.chatgpt5x.com/"]').count(), 1, 'docs LibreChat link missing');
-      assert.equal(await docsDirect.locator('a[href="https://art.chatgpt5x.com/"]').count(), 1, 'docs ArtChat link missing');
-      assert.equal(await docsDirect.locator('a[href="https://aiview.chatgpt5x.com/"]').count(), 1, 'docs AIView link missing');
+      assert.equal(await page.locator('#no-code-title').count(), 0, 'API docs must not show online tool cards');
+      assert.equal(await page.getByRole('heading', { name: /接入配置/ }).count() >= 1, true, 'API configuration section missing');
       await page.getByText('更多接口路径参考').click();
       assert(await page.getByText('/v1/responses').isVisible(), 'additional API protocol reference should expand');
       const docsWidth = await page.evaluate(() => document.documentElement.scrollWidth);
