@@ -101,6 +101,7 @@ async function run() {
       const catalog = page.locator('#models');
       assert(await catalog.getByRole('heading', { name: '模型目录与调用价格' }).isVisible(), 'model pricing catalog must exist');
       assert(await catalog.getByText(/价格单位说明/).isVisible(), 'model price unit explanation must be visible');
+      assert(await catalog.getByText(/不是人民币价格/).first().isVisible(), 'quota unit must not be confused with RMB prices');
       assert(await catalog.getByText(/每百万 Token/).first().isVisible(), 'token price unit must be clear');
       assert(await catalog.getByRole('searchbox', { name: '搜索模型' }).isVisible(), 'model search must exist');
 
@@ -111,7 +112,7 @@ async function run() {
       const firstGroup = modelRows.first();
       await firstGroup.locator('summary').click();
       assert.equal(await firstGroup.locator('details[open]').count(), 1, 'model details should expand');
-      assert(await firstGroup.getByText(/⚡为模型调用计价单位/).count() > 0, 'expanded pricing unit explanation missing');
+      assert(await firstGroup.getByText(/⚡表示模型调用时消耗的额度单位/).count() > 0, 'expanded pricing unit explanation missing');
 
       await catalog.getByRole('searchbox', { name: '搜索模型' }).fill('qwen3-vl-plus');
       const qwenRow = catalog.locator('.divide-y > article').filter({ hasText: 'qwen3-vl-plus' });
