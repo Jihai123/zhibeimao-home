@@ -1,78 +1,57 @@
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
-const ts = require('typescript');
+const os = require('node:os');
+const path = require('node:path');
+const { parseModelNames, validateDownloadUrl, updateSnapshot } = require('./sync-model-catalog.cjs');
 
-const source = fs.readFileSync('lib/model-catalog.ts', 'utf8');
-const compiled = ts.transpileModule(source, {
-  compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.CommonJS }
-}).outputText;
-
-function loadCatalog(fetchMock, key) {
-  const module = { exports: {} };
-  const dependencies = {
-    '@/data/api-product': {
-      apiBaseUrl: 'https://api.zhibeimao.com/v1',
-      modelFamilies: ['GPT', 'Claude', 'Gemini', 'Grok', 'DeepSeek', 'Qwen', 'Kimi', 'GLM'].map((name) => ({ name }))
-    }
-  };
-  const localRequire = (name) => {
-    if (!dependencies[name]) throw new Error('Unexpected dependency: ' + name);
-    return dependencies[name];
-  };
-  const mockProcess = { env: key ? { ZHIXIANG_MODEL_CATALOG_KEY: key } : {} };
-  const run = new Function('require', 'module', 'exports', 'process', 'fetch', 'AbortSignal', compiled);
-  run(localRequire, module, module.exports, mockProcess, fetchMock, AbortSignal);
-  return module.exports.getPublicModelCatalog;
+function makeModels(count) {
+  return Array.from({ length: count }, (_, i) => 'example-model-' + (i + 1));
 }
 
-async function main() {
-  const secret = 'server-only-fixture-key';
-  let calls = 0;
+function test() {
+  const json = JSON.stringify({ models: [
+    { id: 'gpt-5.6-terra' },
+    { id: 'claude-sonnet-4-6' },
+    { id: 'gpt-5.6-terra' },
+    { id: '<script>alert(1)</script>' }
+  ] });
+  assert.deepEqual(parseModelNames(json), ['claude-sonnet-4-6', 'gpt-5.6-terra']);
 
-  const getModels = loadCatalog(async (url, options) => {
-    calls++;
-    assert.equal(url, 'https://api.zhibeimao.com/v1/models');
-    assert.equal(options.headers.Authorization, 'Bearer ' + secret);
-    assert.equal(options.next.revalidate, 3600);
-    return {
-      ok: true,
-      json: async () => ({
-        object: 'list',
-        data: [
-          { id: 'gpt-5.6-terra' },
-          { id: 'claude-sonnet-4-6' },
-          { id: 'gemini-3.5-flash' },
-          { id: 'deepseek-v4-flash' },
-          { id: 'gpt-5.6-terra' },
-          { id: '<script>alert(1)</script>' },
-          { id: 'not a valid id' },
-          { object: 'model' }
-        ]
-      })
-    };
-  }, secret);
+  const csv = 'model_id,provider\r\ngpt-5.6-terra,OpenAI\r\nclaude-sonnet-4-6,Anthropic\r\n';
+  assert.deepEqual(parseModelNames(csv), ['claude-sonnet-4-6', 'gpt-5.6-terra']);
 
-  const catalog = await getModels();
-  assert.equal(calls, 1);
-  assert.equal(catalog.available, true);
-  assert.equal(catalog.total, 4);
-  assert.deepEqual(catalog.models.map((model) => model.family),
-    ['GPT', 'Claude', 'Gemini', 'DeepSeek']);
-  assert(catalog.models.some((model) => model.id === 'gpt-5.6-terra'));
-  assert.equal(JSON.stringify(catalog).includes(secret), false);
+  const txt = '# export\ngpt-5.6-terra\nclaude-sonnet-4-6\ngpt-5.6-terra\n';
+  assert.deepEqual(parseModelNames(txt), ['claude-sonnet-4-6', 'gpt-5.6-terra']);
 
-  const withoutKey = loadCatalog(async () => {
-    throw new Error('No request expected when key is absent');
-  }, '');
-  assert.deepEqual(await withoutKey(), { models: [], total: 0, available: false });
+  assert.throws(() => parseModelNames('<html>Login required</html>'), /HTML/);
+  assert.throws(() => parseModelNames('{ invalid json }'), SyntaxError);
+  assert.throws(() => validateDownloadUrl('http://www.juhenext.com/models.txt'), /HTTPS/);
+  assert.throws(() => validateDownloadUrl('https://evil.example/models.txt'), /approved/);
+  assert.equal(validateDownloadUrl('https://www.juhenext.com/export/models.csv').hostname, 'www.juhenext.com');
 
-  const unauthorized = loadCatalog(async () => ({ ok: false }), secret);
-  assert.deepEqual(await unauthorized(), { models: [], total: 0, available: false });
-
-  console.log('PASS: model catalog authorization, normalization, deduplication, filtering and fallback');
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'daily-model-sync-'));
+  try {
+    const file = path.join(dir, 'catalog.json');
+    fs.writeFileSync(file, JSON.stringify({
+      version: 1,
+      source: 'website-file-export',
+      syncedAt: null,
+      models: []
+    }));
+    const ids = makeModels(60);
+    const result = updateSnapshot(ids.join('\n'), file);
+    assert.equal(result.count, 60);
+    const first = fs.readFileSync(file, 'utf8');
+    assert.equal(JSON.parse(first).models.length, 60);
+    assert.match(JSON.parse(first).syncedAt, /^\d{4}-\d\d-/);
+    assert.throws(() => updateSnapshot(makeModels(15).join('\n'), file), /too few/);
+    assert.equal(fs.readFileSync(file, 'utf8'), first, 'Invalid data must never overwrite the last good snapshot');
+    assert.throws(() => updateSnapshot(makeModels(20).join('\n'), file), /dropped sharply/);
+    assert.equal(fs.readFileSync(file, 'utf8'), first, 'A sharp drop must retain the last good snapshot');
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+  console.log('PASS: daily file formats, ID validation, source allowlist and last-good snapshot protection');
 }
 
-main().catch((error) => {
-  console.error(error);
-  process.exitCode = 1;
-});
+test();
