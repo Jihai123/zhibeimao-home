@@ -11,7 +11,7 @@ export const quickEntries = [
 
 export const featuredAssets = [
   {
-    title: '今日新股：建议参与',
+    title: '港股新股申购分析',
     subtitle: '结论推荐',
     reason: '港股打新评分专家，协助你决策是否应该参与新股。',
     badge: '🔥',
@@ -23,7 +23,7 @@ export const featuredAssets = [
     highlighted: true
   },
   {
-    title: '养老金：可考虑立即测算',
+    title: '养老金测算与退休规划',
     subtitle: '规划建议',
     reason: '尽早算清退休缺口，可提前调整储蓄与投资节奏，降低后续压力。',
     badge: 'NEW',
@@ -34,9 +34,9 @@ export const featuredAssets = [
     icon: PiggyBank
   },
   {
-    title: 'AI排行：世界AI排行榜',
+    title: '全球 AI 模型排行榜',
     subtitle: '实时排名',
-    reason: '除了豆包，还有你们值得使用的东西。',
+    reason: '比较主流 AI 模型的综合能力，辅助选择适合的工具。',
     badge: 'NEW',
     status: '🔥 热门工具',
     useCount: '已有 2.1w 人使用',
@@ -87,7 +87,7 @@ export const toolAssets = [
 
   {
     title: '您的专业AI工作场景分析师',
-    description: 'AI 时代，AI 到底能帮我做什么：基于您的具体工作进行 AI 深度分析，为您释放工作压力。',
+    description: '围绕具体工作场景，分析 AI 工具可以提供的辅助能力。',
     tag: '工作分析',
     status: '🟢 刚刚更新',
     cta: '立即分析',
