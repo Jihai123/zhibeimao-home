@@ -9,9 +9,9 @@ const externalLinkProps = {
 
 export function FeaturedCards() {
   return (
-    <section className="mt-10" aria-label="今日推荐">
+    <section className="mt-10" aria-label="精选推荐">
       <div className="mb-5 flex items-center justify-between gap-3">
-        <h2 className="text-primary text-2xl font-bold md:text-3xl">今日推荐</h2>
+        <h2 className="text-primary text-2xl font-bold md:text-3xl">精选推荐</h2>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
@@ -28,9 +28,6 @@ export function FeaturedCards() {
               <div className="mb-4 flex items-center justify-between gap-3">
                 <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-[#10192d] text-cyan-200">
                   <Icon className="h-4.5 w-4.5" />
-                </span>
-                <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] font-medium text-secondary">
-                  {item.badge}
                 </span>
               </div>
 
