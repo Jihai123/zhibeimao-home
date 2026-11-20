@@ -106,8 +106,133 @@ async function run() {
       }
       assert.equal(await page.getByRole('link', { name: /查看接入文档/ }).count() >= 1, true, 'API docs CTA missing');
       assert.equal(await page.locator('code').filter({ hasText: 'https://api.zhibeimao.com/v1' }).count() >= 1, true, 'API Base URL missing');
-      assert(await page.locator('#pricing').getByText('3 美元额度通用 Key').isVisible());
-      assert(await page.locator('#pricing a[href="https://online.chatgpt5x.com/"]').count() >= 3);
+      const pricing = page.locator('#pricing');
+      assert(await pricing.getByRole('heading', { name: '美元 API 额度，人民币优惠购买' }).isVisible(), 'discount pricing heading should be prominent');
+      assert(await pricing.getByText('3 美元额度通用 Key').isVisible());
+      assert.equal(await pricing.locator('a[aria-label*="美元额度，人民币"]').count(), 3, 'three price comparison cards are required');
+      for (const [amount, price, discount, percent] of [['3', '10', '5.0', '50'], ['10', '30', '4.5', '55'], ['20', '55', '4.1', '59']]) {
+        const offer = pricing.locator('a[aria-label^="' + amount + ' 美元额度，人民币"]');
+        assert.equal(await offer.count(), 1, 'missing 
+      await page.screenshot({ path: path.join(output, 'api-' + width + '.png'), fullPage: true });
+
+      await visit(page, '/api/docs', 'docs-' + width);
+      const docsCopy = await page.locator('main').innerText();
+      for (const forbidden of ['HTTP 200 已实测', '待逐项验证', '反代', '项目临时域名', '验收']) {
+        assert.equal(docsCopy.includes(forbidden), false, 'documentation contains internal language: ' + forbidden);
+      }
+      assert.equal(await page.locator('pre').count() >= 3, true, 'expected curl, Python and model query examples');
+      assert.equal(await page.locator('#no-code-title').count(), 0, 'API docs must not show online tool cards');
+      assert.equal(await page.getByRole('heading', { name: /接入配置/ }).count() >= 1, true, 'API configuration section missing');
+      await page.getByText('更多接口路径参考').click();
+      assert(await page.getByText('/v1/responses').isVisible(), 'additional API protocol reference should expand');
+      const docsWidth = await page.evaluate(() => document.documentElement.scrollWidth);
+      assert(docsWidth <= width + 2, 'expanded API docs must not overflow viewport');
+      await page.screenshot({ path: path.join(output, 'docs-' + width + '.png'), fullPage: true });
+      await page.close();
+    }
+    console.log('PASS: responsive API product and docs browser regression');
+  } finally {
+    await browser.close();
+  }
+}
+
+run().catch((error) => {
+  console.error(error);
+  process.exitCode = 1;
+});
+ + amount + ' credit offer');
+        const text = await offer.innerText();
+        assert(text.includes('¥' + price), 'missing RMB price for 
+      await page.screenshot({ path: path.join(output, 'api-' + width + '.png'), fullPage: true });
+
+      await visit(page, '/api/docs', 'docs-' + width);
+      const docsCopy = await page.locator('main').innerText();
+      for (const forbidden of ['HTTP 200 已实测', '待逐项验证', '反代', '项目临时域名', '验收']) {
+        assert.equal(docsCopy.includes(forbidden), false, 'documentation contains internal language: ' + forbidden);
+      }
+      assert.equal(await page.locator('pre').count() >= 3, true, 'expected curl, Python and model query examples');
+      assert.equal(await page.locator('#no-code-title').count(), 0, 'API docs must not show online tool cards');
+      assert.equal(await page.getByRole('heading', { name: /接入配置/ }).count() >= 1, true, 'API configuration section missing');
+      await page.getByText('更多接口路径参考').click();
+      assert(await page.getByText('/v1/responses').isVisible(), 'additional API protocol reference should expand');
+      const docsWidth = await page.evaluate(() => document.documentElement.scrollWidth);
+      assert(docsWidth <= width + 2, 'expanded API docs must not overflow viewport');
+      await page.screenshot({ path: path.join(output, 'docs-' + width + '.png'), fullPage: true });
+      await page.close();
+    }
+    console.log('PASS: responsive API product and docs browser regression');
+  } finally {
+    await browser.close();
+  }
+}
+
+run().catch((error) => {
+  console.error(error);
+  process.exitCode = 1;
+});
+ + amount);
+        assert(text.includes('约 ' + discount + ' 折'), 'missing discount for 
+      await page.screenshot({ path: path.join(output, 'api-' + width + '.png'), fullPage: true });
+
+      await visit(page, '/api/docs', 'docs-' + width);
+      const docsCopy = await page.locator('main').innerText();
+      for (const forbidden of ['HTTP 200 已实测', '待逐项验证', '反代', '项目临时域名', '验收']) {
+        assert.equal(docsCopy.includes(forbidden), false, 'documentation contains internal language: ' + forbidden);
+      }
+      assert.equal(await page.locator('pre').count() >= 3, true, 'expected curl, Python and model query examples');
+      assert.equal(await page.locator('#no-code-title').count(), 0, 'API docs must not show online tool cards');
+      assert.equal(await page.getByRole('heading', { name: /接入配置/ }).count() >= 1, true, 'API configuration section missing');
+      await page.getByText('更多接口路径参考').click();
+      assert(await page.getByText('/v1/responses').isVisible(), 'additional API protocol reference should expand');
+      const docsWidth = await page.evaluate(() => document.documentElement.scrollWidth);
+      assert(docsWidth <= width + 2, 'expanded API docs must not overflow viewport');
+      await page.screenshot({ path: path.join(output, 'docs-' + width + '.png'), fullPage: true });
+      await page.close();
+    }
+    console.log('PASS: responsive API product and docs browser regression');
+  } finally {
+    await browser.close();
+  }
+}
+
+run().catch((error) => {
+  console.error(error);
+  process.exitCode = 1;
+});
+ + amount);
+        assert(text.includes('约省 ' + percent + '%'), 'missing approximate savings for 
+      await page.screenshot({ path: path.join(output, 'api-' + width + '.png'), fullPage: true });
+
+      await visit(page, '/api/docs', 'docs-' + width);
+      const docsCopy = await page.locator('main').innerText();
+      for (const forbidden of ['HTTP 200 已实测', '待逐项验证', '反代', '项目临时域名', '验收']) {
+        assert.equal(docsCopy.includes(forbidden), false, 'documentation contains internal language: ' + forbidden);
+      }
+      assert.equal(await page.locator('pre').count() >= 3, true, 'expected curl, Python and model query examples');
+      assert.equal(await page.locator('#no-code-title').count(), 0, 'API docs must not show online tool cards');
+      assert.equal(await page.getByRole('heading', { name: /接入配置/ }).count() >= 1, true, 'API configuration section missing');
+      await page.getByText('更多接口路径参考').click();
+      assert(await page.getByText('/v1/responses').isVisible(), 'additional API protocol reference should expand');
+      const docsWidth = await page.evaluate(() => document.documentElement.scrollWidth);
+      assert(docsWidth <= width + 2, 'expanded API docs must not overflow viewport');
+      await page.screenshot({ path: path.join(output, 'docs-' + width + '.png'), fullPage: true });
+      await page.close();
+    }
+    console.log('PASS: responsive API product and docs browser regression');
+  } finally {
+    await browser.close();
+  }
+}
+
+run().catch((error) => {
+  console.error(error);
+  process.exitCode = 1;
+});
+ + amount);
+      }
+      assert(await pricing.getByText(/不代表各模型调用费用比官方 API 便宜相同比例/).isVisible(), 'official model discount caveat missing');
+      assert(await pricing.getByText(/参考汇率：2026-11-20/).isVisible(), 'reference FX date missing');
+      assert(await pricing.locator('a[href="https://online.chatgpt5x.com/"]').count() >= 3);
       await page.screenshot({ path: path.join(output, 'api-' + width + '.png'), fullPage: true });
 
       await visit(page, '/api/docs', 'docs-' + width);
