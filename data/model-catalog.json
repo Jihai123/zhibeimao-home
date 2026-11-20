@@ -1,124 +1,3723 @@
 {
-  "version": 1,
+  "version": 2,
   "source": "website-file-export",
-  "syncedAt": "2026-11-20T08:21:03.102Z",
+  "upstreamSource": "database",
+  "syncedAt": "2026-11-20T12:25:31.637Z",
+  "refreshedAt": "2026-11-20T12:25:28.496Z",
+  "vendors": [
+    "Anthropic",
+    "DeepSeek",
+    "Google",
+    "Moonshot",
+    "OpenAI",
+    "Qwen",
+    "Zhipu AI",
+    "xAI"
+  ],
+  "groupRatio": {
+    "default": 1,
+    "vip": 1.5
+  },
+  "usableGroups": {
+    "default": "默认分组",
+    "vip": "vip分组，高性能1.5倍率"
+  },
   "models": [
-    "basic/claude-fable-5",
-    "basic/claude-opus-5",
-    "basic/claude-opus-5-5",
-    "basic/claude-sonnet-5",
-    "basic/claude-sonnet-5-5",
-    "basic/gemini-3.8-flash",
-    "basic/gemini-4-argon",
-    "basic/gemini-4-carbon",
-    "basic/gpt-5.6-sol",
-    "basic/gpt-6-astra",
-    "basic/gpt-6.1-sol",
-    "basic/gpt-6.2-astra",
-    "basic/gpt-6.2-sol",
-    "claude-fable-5",
-    "claude-fable-5-1",
-    "claude-fable-5-2",
-    "claude-haiku-4-5",
-    "claude-haiku-4-5-20251001",
-    "claude-opus-4-6",
-    "claude-opus-4-7",
-    "claude-opus-4-8",
-    "claude-opus-5",
-    "claude-opus-5-5",
-    "claude-sonnet-4-6",
-    "claude-sonnet-5",
-    "claude-sonnet-5-5",
-    "codex/gpt-5.5",
-    "deepseek-flash",
-    "deepseek-v4-flash",
-    "deepseek-v4-flash-0731",
-    "deepseek-v4-pro",
-    "deepseek-v4-pro-0813",
-    "deepseek-v4.1-flash-1017",
-    "gemini-2.5-flash-image-bs",
-    "gemini-3-flash-preview",
-    "gemini-3-pro-image-preview-bs",
-    "gemini-3.1-flash-image",
-    "gemini-3.1-flash-image-preview-bs",
-    "gemini-3.1-pro-preview",
-    "gemini-3.5-flash",
-    "gemini-3.6-flash",
-    "gemini-3.7-flash",
-    "gemini-3.8-flash",
-    "gemini-4-argon",
-    "gemini-4-carbon",
-    "gemini-4-hydrogen",
-    "gemini-nano-banana-2.1-bs",
-    "glm-5.3",
-    "gpt-3.5-turbo",
-    "gpt-4.1",
-    "gpt-4.1-mini",
-    "gpt-4.1-nano",
-    "gpt-4o",
-    "gpt-4o-2024-11-20",
-    "gpt-4o-mini",
-    "gpt-5",
-    "gpt-5-mini",
-    "gpt-5-nano",
-    "gpt-5.1",
-    "gpt-5.2",
-    "gpt-5.4",
-    "gpt-5.4-mini",
-    "gpt-5.4-nano",
-    "gpt-5.5",
-    "gpt-5.6-luna",
-    "gpt-5.6-sol",
-    "gpt-5.6-terra",
-    "gpt-6-astra",
-    "gpt-6-luna",
-    "gpt-6-sol",
-    "gpt-6.1-sol",
-    "gpt-6.1-terra",
-    "gpt-6.2-astra",
-    "gpt-6.2-sol",
-    "gpt-image-2-4k-c",
-    "gpt-image-2-c",
-    "gpt-image-2.5-flare",
-    "gpt-image-2.5-flare-c",
-    "gpt-image-2.5-sunburst",
-    "gpt-image-2.5-sunburst-c",
-    "gpt-image-2.6-flare-4k-c",
-    "gpt-image-2.6-flare-c",
-    "gpt-image-2.6-sunburst-4k-c",
-    "gpt-image-2.6-sunburst-c",
-    "grok-4.7",
-    "grok-imagine-video-1.5",
-    "kimi-k3",
-    "kimi-k3.1-pro",
-    "kimi-k3.1-pro-highspeed",
-    "openclaw/gpt-5.5",
-    "qwen-max",
-    "qwen-max-2025-01-25",
-    "qwen-vl-ocr",
-    "qwen3-vl-plus",
-    "standard/claude-fable-5",
-    "standard/claude-fable-5-1",
-    "standard/claude-fable-5-2",
-    "standard/claude-opus-5",
-    "standard/claude-opus-5-5",
-    "standard/claude-sonnet-5",
-    "standard/claude-sonnet-5-5",
-    "standard/gemini-3.8-flash",
-    "standard/gemini-4-argon",
-    "standard/gemini-4-carbon",
-    "standard/gemini-4-hydrogen",
-    "standard/gpt-4o",
-    "standard/gpt-5.6-luna",
-    "standard/gpt-5.6-sol",
-    "standard/gpt-5.6-terra",
-    "standard/gpt-6-astra",
-    "standard/gpt-6.1-sol",
-    "standard/gpt-6.2-astra",
-    "standard/gpt-6.2-sol",
-    "standard/grok-4.7",
-    "text-embedding-3-large",
-    "text-embedding-3-small",
-    "text-embedding-ada-002"
+    {
+      "name": "basic/claude-fable-5",
+      "displayName": "basic/claude-fable-5",
+      "vendor": "Anthropic",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "modelRatio": 5,
+      "completionRatio": 5,
+      "inputPrice": 10,
+      "outputPrice": 50,
+      "cacheRatio": 0.1,
+      "createCacheRatio": 1.25,
+      "cachePrice": 1,
+      "createCachePrice": 12.5,
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "anthropic",
+        "openai"
+      ],
+      "endpoints": {
+        "anthropic": {
+          "path": "/v1/messages",
+          "method": "POST"
+        },
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "basic/claude-opus-5",
+      "displayName": "basic/claude-opus-5",
+      "vendor": "Anthropic",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "modelRatio": 2.5,
+      "completionRatio": 5,
+      "inputPrice": 5,
+      "outputPrice": 25,
+      "cacheRatio": 0.1,
+      "createCacheRatio": 1.25,
+      "cachePrice": 0.5,
+      "createCachePrice": 6.25,
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "anthropic",
+        "openai"
+      ],
+      "endpoints": {
+        "anthropic": {
+          "path": "/v1/messages",
+          "method": "POST"
+        },
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "basic/claude-opus-5-5",
+      "displayName": "basic/claude-opus-5-5",
+      "vendor": "Anthropic",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "completionRatio": 1,
+      "billingMode": "tiered_expr",
+      "billingExpr": "tier(\"base\", p * 2 + c * 10 + cr * 0.2 + cc * 2.5 + cc1h * 4)",
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "anthropic",
+        "openai"
+      ],
+      "endpoints": {
+        "anthropic": {
+          "path": "/v1/messages",
+          "method": "POST"
+        },
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "basic/claude-sonnet-5",
+      "displayName": "basic/claude-sonnet-5",
+      "vendor": "Anthropic",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "modelRatio": 1,
+      "completionRatio": 5,
+      "inputPrice": 2,
+      "outputPrice": 10,
+      "cacheRatio": 0.1,
+      "createCacheRatio": 1.25,
+      "cachePrice": 0.2,
+      "createCachePrice": 2.5,
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "anthropic",
+        "openai"
+      ],
+      "endpoints": {
+        "anthropic": {
+          "path": "/v1/messages",
+          "method": "POST"
+        },
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "basic/claude-sonnet-5-5",
+      "displayName": "basic/claude-sonnet-5-5",
+      "vendor": "Anthropic",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "completionRatio": 1,
+      "billingMode": "tiered_expr",
+      "billingExpr": "tier(\"base\", p * 2 + c * 10 + cr * 0.2 + cc * 2.5 + cc1h * 4)",
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "anthropic",
+        "openai"
+      ],
+      "endpoints": {
+        "anthropic": {
+          "path": "/v1/messages",
+          "method": "POST"
+        },
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "basic/gemini-3.8-flash",
+      "displayName": "basic/gemini-3.8-flash",
+      "vendor": "Google",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "modelRatio": 0.375,
+      "completionRatio": 5,
+      "inputPrice": 0.75,
+      "outputPrice": 3.75,
+      "cacheRatio": 0.1,
+      "cachePrice": 0.07500000000000001,
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "gemini",
+        "openai"
+      ],
+      "endpoints": {
+        "gemini": {
+          "path": "/v1beta/models/{model}:generateContent",
+          "method": "POST"
+        },
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "basic/gemini-4-argon",
+      "displayName": "basic/gemini-4-argon",
+      "vendor": "Google",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "modelRatio": 1,
+      "completionRatio": 5,
+      "inputPrice": 2,
+      "outputPrice": 10,
+      "cacheRatio": 0.05,
+      "cachePrice": 0.1,
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "gemini",
+        "openai"
+      ],
+      "endpoints": {
+        "gemini": {
+          "path": "/v1beta/models/{model}:generateContent",
+          "method": "POST"
+        },
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "basic/gemini-4-carbon",
+      "displayName": "basic/gemini-4-carbon",
+      "vendor": "Google",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "completionRatio": 1,
+      "billingMode": "tiered_expr",
+      "billingExpr": "tier(\"base\", p * 4 + c * 20 + cr * 0.2)",
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "gemini",
+        "openai"
+      ],
+      "endpoints": {
+        "gemini": {
+          "path": "/v1beta/models/{model}:generateContent",
+          "method": "POST"
+        },
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "basic/gpt-5.6-sol",
+      "displayName": "basic/gpt-5.6-sol",
+      "vendor": "OpenAI",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "completionRatio": 1,
+      "billingMode": "tiered_expr",
+      "billingExpr": "len <= 272000 ? tier(\"L1\", p * 5 + c * 30 + cr * 0.5 + cc * 6.25) : tier(\"L2\", p * 10 + c * 45 + cr * 1 + cc * 12.5)",
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "openai"
+      ],
+      "endpoints": {
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "basic/gpt-6-astra",
+      "displayName": "basic/gpt-6-astra",
+      "vendor": "OpenAI",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "completionRatio": 1,
+      "billingMode": "tiered_expr",
+      "billingExpr": "len <= 272000 ? tier(\"L1\", p * 10 + c * 50 + cr * 1 + cc * 12.5) : tier(\"L2\", p * 20 + c * 75 + cr * 2 + cc * 25)",
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "openai"
+      ],
+      "endpoints": {
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "basic/gpt-6.1-sol",
+      "displayName": "basic/gpt-6.1-sol",
+      "vendor": "OpenAI",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "completionRatio": 1,
+      "billingMode": "tiered_expr",
+      "billingExpr": "len <= 272000 ? tier(\"L1\", p * 2 + c * 10 + cr * 0.2 + cc * 2.5) : tier(\"L2\", p * 4 + c * 15 + cr * 0.4 + cc * 5)",
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "openai"
+      ],
+      "endpoints": {
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "basic/gpt-6.2-astra",
+      "displayName": "basic/gpt-6.2-astra",
+      "vendor": "OpenAI",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "completionRatio": 1,
+      "billingMode": "tiered_expr",
+      "billingExpr": "len <= 272000 ? tier(\"standard\", p * 8 + c * 40 + cr * 0.4 + cc * 10 + cc1h * 20 + cc12h * 20) : tier(\"long_context\", p * 16 + c * 60 + cr * 0.8 + cc * 20 + cc1h * 40 + cc12h * 40)",
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "openai"
+      ],
+      "endpoints": {
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "basic/gpt-6.2-sol",
+      "displayName": "basic/gpt-6.2-sol",
+      "vendor": "OpenAI",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "completionRatio": 1,
+      "billingMode": "tiered_expr",
+      "billingExpr": "len <= 272000 ? tier(\"standard\", p * 2 + c * 10 + cr * 0.1 + cc * 2.5 + cc1h * 5 + cc12h * 5) : tier(\"long_context\", p * 4 + c * 15 + cr * 0.2 + cc * 5 + cc1h * 10 + cc12h * 10)",
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "openai"
+      ],
+      "endpoints": {
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "claude-fable-5",
+      "displayName": "claude-fable-5",
+      "vendor": "Anthropic",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "modelRatio": 20,
+      "completionRatio": 5,
+      "inputPrice": 40,
+      "outputPrice": 200,
+      "cacheRatio": 0.1,
+      "createCacheRatio": 1.25,
+      "cachePrice": 4,
+      "createCachePrice": 50,
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "anthropic",
+        "openai"
+      ],
+      "endpoints": {
+        "anthropic": {
+          "path": "/v1/messages",
+          "method": "POST"
+        },
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "claude-fable-5-1",
+      "displayName": "claude-fable-5-1",
+      "vendor": "Anthropic",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "modelRatio": 20,
+      "completionRatio": 5,
+      "inputPrice": 40,
+      "outputPrice": 200,
+      "cacheRatio": 0.025,
+      "createCacheRatio": 1.25,
+      "cachePrice": 1,
+      "createCachePrice": 50,
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "anthropic",
+        "openai"
+      ],
+      "endpoints": {
+        "anthropic": {
+          "path": "/v1/messages",
+          "method": "POST"
+        },
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "claude-fable-5-2",
+      "displayName": "claude-fable-5-2",
+      "vendor": "Anthropic",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "completionRatio": 1,
+      "billingMode": "tiered_expr",
+      "billingExpr": "tier(\"base\", p * 32 + c * 160 + cr * 0.8 + cc * 40 + cc1h * 64)",
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "anthropic",
+        "openai"
+      ],
+      "endpoints": {
+        "anthropic": {
+          "path": "/v1/messages",
+          "method": "POST"
+        },
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "claude-haiku-4-5",
+      "displayName": "claude-haiku-4-5",
+      "vendor": "Anthropic",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "modelRatio": 2,
+      "completionRatio": 5,
+      "inputPrice": 4,
+      "outputPrice": 20,
+      "cacheRatio": 0.1,
+      "createCacheRatio": 1.25,
+      "cachePrice": 0.4,
+      "createCachePrice": 5,
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "anthropic",
+        "openai"
+      ],
+      "endpoints": {
+        "anthropic": {
+          "path": "/v1/messages",
+          "method": "POST"
+        },
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "claude-haiku-4-5-20251001",
+      "displayName": "claude-haiku-4-5-20251001",
+      "vendor": "Anthropic",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "modelRatio": 2,
+      "completionRatio": 5,
+      "inputPrice": 4,
+      "outputPrice": 20,
+      "cacheRatio": 0.1,
+      "createCacheRatio": 1.25,
+      "cachePrice": 0.4,
+      "createCachePrice": 5,
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "anthropic",
+        "openai"
+      ],
+      "endpoints": {
+        "anthropic": {
+          "path": "/v1/messages",
+          "method": "POST"
+        },
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "claude-opus-4-6",
+      "displayName": "claude-opus-4-6",
+      "vendor": "Anthropic",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "modelRatio": 10,
+      "completionRatio": 5,
+      "inputPrice": 20,
+      "outputPrice": 100,
+      "cacheRatio": 0.1,
+      "createCacheRatio": 1.25,
+      "cachePrice": 2,
+      "createCachePrice": 25,
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "anthropic",
+        "openai"
+      ],
+      "endpoints": {
+        "anthropic": {
+          "path": "/v1/messages",
+          "method": "POST"
+        },
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "claude-opus-4-7",
+      "displayName": "claude-opus-4-7",
+      "vendor": "Anthropic",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "modelRatio": 10,
+      "completionRatio": 5,
+      "inputPrice": 20,
+      "outputPrice": 100,
+      "cacheRatio": 0.1,
+      "createCacheRatio": 1.25,
+      "cachePrice": 2,
+      "createCachePrice": 25,
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "anthropic",
+        "openai"
+      ],
+      "endpoints": {
+        "anthropic": {
+          "path": "/v1/messages",
+          "method": "POST"
+        },
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "claude-opus-4-8",
+      "displayName": "claude-opus-4-8",
+      "vendor": "Anthropic",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "modelRatio": 10,
+      "completionRatio": 5,
+      "inputPrice": 20,
+      "outputPrice": 100,
+      "cacheRatio": 0.1,
+      "createCacheRatio": 1.25,
+      "cachePrice": 2,
+      "createCachePrice": 25,
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "anthropic",
+        "openai"
+      ],
+      "endpoints": {
+        "anthropic": {
+          "path": "/v1/messages",
+          "method": "POST"
+        },
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "claude-opus-5",
+      "displayName": "claude-opus-5",
+      "vendor": "Anthropic",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "modelRatio": 10,
+      "completionRatio": 5,
+      "inputPrice": 20,
+      "outputPrice": 100,
+      "cacheRatio": 0.1,
+      "createCacheRatio": 1.25,
+      "cachePrice": 2,
+      "createCachePrice": 25,
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "anthropic",
+        "openai"
+      ],
+      "endpoints": {
+        "anthropic": {
+          "path": "/v1/messages",
+          "method": "POST"
+        },
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "claude-opus-5-5",
+      "displayName": "claude-opus-5-5",
+      "vendor": "Anthropic",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "modelRatio": 8,
+      "completionRatio": 5,
+      "inputPrice": 16,
+      "outputPrice": 80,
+      "cacheRatio": 0.05,
+      "createCacheRatio": 1.25,
+      "cachePrice": 0.8,
+      "createCachePrice": 20,
+      "billingMode": "tiered_expr",
+      "billingExpr": "tier(\"base\", p * 16 + c * 80 + cr * 0.8 + cc * 20 + cc1h * 32)",
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "anthropic",
+        "openai"
+      ],
+      "endpoints": {
+        "anthropic": {
+          "path": "/v1/messages",
+          "method": "POST"
+        },
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "claude-sonnet-4-6",
+      "displayName": "claude-sonnet-4-6",
+      "vendor": "Anthropic",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "modelRatio": 5,
+      "completionRatio": 5,
+      "inputPrice": 10,
+      "outputPrice": 50,
+      "cacheRatio": 0.1,
+      "createCacheRatio": 1.25,
+      "cachePrice": 1,
+      "createCachePrice": 12.5,
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "anthropic",
+        "openai"
+      ],
+      "endpoints": {
+        "anthropic": {
+          "path": "/v1/messages",
+          "method": "POST"
+        },
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "claude-sonnet-5",
+      "displayName": "claude-sonnet-5",
+      "vendor": "Anthropic",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "modelRatio": 4,
+      "completionRatio": 5,
+      "inputPrice": 8,
+      "outputPrice": 40,
+      "cacheRatio": 0.1,
+      "createCacheRatio": 1.25,
+      "cachePrice": 0.8,
+      "createCachePrice": 10,
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "anthropic",
+        "openai"
+      ],
+      "endpoints": {
+        "anthropic": {
+          "path": "/v1/messages",
+          "method": "POST"
+        },
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "claude-sonnet-5-5",
+      "displayName": "claude-sonnet-5-5",
+      "vendor": "Anthropic",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "completionRatio": 1,
+      "billingMode": "tiered_expr",
+      "billingExpr": "tier(\"base\", p * 8 + c * 40 + cr * 0.8 + cc * 10 + cc1h * 16)",
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "anthropic",
+        "openai"
+      ],
+      "endpoints": {
+        "anthropic": {
+          "path": "/v1/messages",
+          "method": "POST"
+        },
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "codex/gpt-5.5",
+      "displayName": "codex/gpt-5.5",
+      "vendor": "OpenAI",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "completionRatio": 1,
+      "billingMode": "tiered_expr",
+      "billingExpr": "len < 272000 ? tier(\"L1\", p * 5 + c * 30 + cr * 0.5) : tier(\"L2\", p * 10 + c * 60 + cr * 1)",
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "openai"
+      ],
+      "endpoints": {
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "deepseek-flash",
+      "displayName": "deepseek-flash",
+      "vendor": "DeepSeek",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "completionRatio": 1,
+      "billingMode": "tiered_expr",
+      "billingExpr": "(tier(\"base\", p * 0.5 + c * 2 + cr * 0.01)) * (hour(\"Asia/Shanghai\") >= 9 && hour(\"Asia/Shanghai\") < 12 ? 2 : 1) * (hour(\"Asia/Shanghai\") >= 14 && hour(\"Asia/Shanghai\") < 18 ? 2 : 1)",
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "openai"
+      ],
+      "endpoints": {
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "deepseek-v4-flash",
+      "displayName": "deepseek-v4-flash",
+      "vendor": "DeepSeek",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "modelRatio": 0.5,
+      "completionRatio": 2,
+      "inputPrice": 1,
+      "outputPrice": 2,
+      "cacheRatio": 0.2,
+      "cachePrice": 0.2,
+      "billingMode": "tiered_expr",
+      "billingExpr": "(tier(\"base\", p * 0.75 + c * 2.25 + cr * 0.025)) * (hour(\"Asia/Shanghai\") >= 9 && hour(\"Asia/Shanghai\") < 12 ? 2 : 1) * (hour(\"Asia/Shanghai\") >= 14 && hour(\"Asia/Shanghai\") < 18 ? 2 : 1)",
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "openai"
+      ],
+      "endpoints": {
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "deepseek-v4-flash-0731",
+      "displayName": "deepseek-v4-flash-0731",
+      "vendor": "DeepSeek",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "modelRatio": 0.5,
+      "completionRatio": 2,
+      "inputPrice": 1,
+      "outputPrice": 2,
+      "cacheRatio": 0.2,
+      "cachePrice": 0.2,
+      "billingMode": "tiered_expr",
+      "billingExpr": "(tier(\"base\", p * 0.75 + c * 2.25 + cr * 0.025)) * (hour(\"Asia/Shanghai\") >= 9 && hour(\"Asia/Shanghai\") < 12 ? 2 : 1) * (hour(\"Asia/Shanghai\") >= 14 && hour(\"Asia/Shanghai\") < 18 ? 2 : 1)",
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "openai"
+      ],
+      "endpoints": {
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "deepseek-v4-pro",
+      "displayName": "deepseek-v4-pro",
+      "vendor": "DeepSeek",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "modelRatio": 1.5,
+      "completionRatio": 2,
+      "inputPrice": 3,
+      "outputPrice": 6,
+      "cacheRatio": 0.1,
+      "cachePrice": 0.30000000000000004,
+      "billingMode": "tiered_expr",
+      "billingExpr": "(tier(\"base\", p * 2.25 + c * 6.75 + cr * 0.075)) * (hour(\"Asia/Shanghai\") >= 9 && hour(\"Asia/Shanghai\") < 12 ? 2 : 1) * (hour(\"Asia/Shanghai\") >= 14 && hour(\"Asia/Shanghai\") < 18 ? 2 : 1)",
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "openai"
+      ],
+      "endpoints": {
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "deepseek-v4-pro-0813",
+      "displayName": "deepseek-v4-pro-0813",
+      "vendor": "DeepSeek",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "completionRatio": 1,
+      "billingMode": "tiered_expr",
+      "billingExpr": "(tier(\"base\", p * 2.25 + c * 6.75 + cr * 0.075)) * (hour(\"Asia/Shanghai\") >= 9 && hour(\"Asia/Shanghai\") < 12 ? 2 : 1) * (hour(\"Asia/Shanghai\") >= 14 && hour(\"Asia/Shanghai\") < 18 ? 2 : 1)",
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "openai"
+      ],
+      "endpoints": {
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "deepseek-v4.1-flash-1017",
+      "displayName": "deepseek-v4.1-flash-1017",
+      "vendor": "DeepSeek",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "completionRatio": 1,
+      "billingMode": "tiered_expr",
+      "billingExpr": "(tier(\"base\", p * 0.5 + c * 2 + cr * 0.01)) * (hour(\"Asia/Shanghai\") >= 9 && hour(\"Asia/Shanghai\") < 12 ? 2 : 1)",
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "openai"
+      ],
+      "endpoints": {
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "id": 499,
+      "name": "gemini-2.5-flash-image-bs",
+      "displayName": "gemini-2.5-flash-image-bs",
+      "vendor": "Google",
+      "vendorId": 0,
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [
+        "image"
+      ],
+      "quotaType": 1,
+      "completionRatio": 1,
+      "modelPrice": 0.05,
+      "requestPrice": 0.05,
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "gemini",
+        "openai"
+      ],
+      "endpoints": {
+        "gemini": {
+          "path": "/v1beta/models/{model}:generateContent",
+          "method": "POST"
+        },
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "gemini-3-flash-preview",
+      "displayName": "gemini-3-flash-preview",
+      "vendor": "Google",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "modelRatio": 1,
+      "completionRatio": 6,
+      "inputPrice": 2,
+      "outputPrice": 12,
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "gemini",
+        "openai"
+      ],
+      "endpoints": {
+        "gemini": {
+          "path": "/v1beta/models/{model}:generateContent",
+          "method": "POST"
+        },
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "id": 501,
+      "name": "gemini-3-pro-image-preview-bs",
+      "displayName": "gemini-3-pro-image-preview-bs",
+      "vendor": "Google",
+      "vendorId": 0,
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [
+        "image"
+      ],
+      "quotaType": 1,
+      "completionRatio": 1,
+      "modelPrice": 0.25,
+      "requestPrice": 0.25,
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "gemini",
+        "openai"
+      ],
+      "endpoints": {
+        "gemini": {
+          "path": "/v1beta/models/{model}:generateContent",
+          "method": "POST"
+        },
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "id": 502,
+      "name": "gemini-3.1-flash-image",
+      "displayName": "gemini-3.1-flash-image",
+      "vendor": "Google",
+      "vendorId": 0,
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [
+        "image"
+      ],
+      "quotaType": 0,
+      "modelRatio": 1,
+      "completionRatio": 120,
+      "inputPrice": 2,
+      "outputPrice": 240,
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "gemini",
+        "openai"
+      ],
+      "endpoints": {
+        "gemini": {
+          "path": "/v1beta/models/{model}:generateContent",
+          "method": "POST"
+        },
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "id": 503,
+      "name": "gemini-3.1-flash-image-preview-bs",
+      "displayName": "gemini-3.1-flash-image-preview-bs",
+      "vendor": "Google",
+      "vendorId": 0,
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [
+        "image"
+      ],
+      "quotaType": 1,
+      "completionRatio": 1,
+      "modelPrice": 0.2,
+      "requestPrice": 0.2,
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "gemini",
+        "openai"
+      ],
+      "endpoints": {
+        "gemini": {
+          "path": "/v1beta/models/{model}:generateContent",
+          "method": "POST"
+        },
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "gemini-3.1-pro-preview",
+      "displayName": "gemini-3.1-pro-preview",
+      "vendor": "Google",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "completionRatio": 1,
+      "billingMode": "tiered_expr",
+      "billingExpr": "len < 200000 ? tier(\"L1\", p * 8 + c * 48) : tier(\"L2\", p * 16 + c * 96)",
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "gemini",
+        "openai"
+      ],
+      "endpoints": {
+        "gemini": {
+          "path": "/v1beta/models/{model}:generateContent",
+          "method": "POST"
+        },
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "gemini-3.5-flash",
+      "displayName": "gemini-3.5-flash",
+      "vendor": "Google",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "modelRatio": 3,
+      "completionRatio": 6,
+      "inputPrice": 6,
+      "outputPrice": 36,
+      "cacheRatio": 0.1,
+      "cachePrice": 0.6000000000000001,
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "gemini",
+        "openai"
+      ],
+      "endpoints": {
+        "gemini": {
+          "path": "/v1beta/models/{model}:generateContent",
+          "method": "POST"
+        },
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "gemini-3.6-flash",
+      "displayName": "gemini-3.6-flash",
+      "vendor": "Google",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "modelRatio": 3,
+      "completionRatio": 5,
+      "inputPrice": 6,
+      "outputPrice": 30,
+      "cacheRatio": 0.1,
+      "cachePrice": 0.6000000000000001,
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "gemini",
+        "openai"
+      ],
+      "endpoints": {
+        "gemini": {
+          "path": "/v1beta/models/{model}:generateContent",
+          "method": "POST"
+        },
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "gemini-3.7-flash",
+      "displayName": "gemini-3.7-flash",
+      "vendor": "Google",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "modelRatio": 1.5,
+      "completionRatio": 5,
+      "inputPrice": 3,
+      "outputPrice": 15,
+      "cacheRatio": 0.1,
+      "cachePrice": 0.30000000000000004,
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "gemini",
+        "openai"
+      ],
+      "endpoints": {
+        "gemini": {
+          "path": "/v1beta/models/{model}:generateContent",
+          "method": "POST"
+        },
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "gemini-3.8-flash",
+      "displayName": "gemini-3.8-flash",
+      "vendor": "Google",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "modelRatio": 1.5,
+      "completionRatio": 5,
+      "inputPrice": 3,
+      "outputPrice": 15,
+      "cacheRatio": 0.1,
+      "cachePrice": 0.30000000000000004,
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "gemini",
+        "openai"
+      ],
+      "endpoints": {
+        "gemini": {
+          "path": "/v1beta/models/{model}:generateContent",
+          "method": "POST"
+        },
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "gemini-4-argon",
+      "displayName": "gemini-4-argon",
+      "vendor": "Google",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "modelRatio": 4,
+      "completionRatio": 5,
+      "inputPrice": 8,
+      "outputPrice": 40,
+      "cacheRatio": 0.05,
+      "cachePrice": 0.4,
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "gemini",
+        "openai"
+      ],
+      "endpoints": {
+        "gemini": {
+          "path": "/v1beta/models/{model}:generateContent",
+          "method": "POST"
+        },
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "gemini-4-carbon",
+      "displayName": "gemini-4-carbon",
+      "vendor": "Google",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "completionRatio": 1,
+      "billingMode": "tiered_expr",
+      "billingExpr": "tier(\"base\", p * 16 + c * 80 + cr * 0.4)",
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "gemini",
+        "openai"
+      ],
+      "endpoints": {
+        "gemini": {
+          "path": "/v1beta/models/{model}:generateContent",
+          "method": "POST"
+        },
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "gemini-4-hydrogen",
+      "displayName": "gemini-4-hydrogen",
+      "vendor": "Google",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "modelRatio": 0.75,
+      "completionRatio": 1,
+      "inputPrice": 1.5,
+      "outputPrice": 1.5,
+      "billingMode": "tiered_expr",
+      "billingExpr": "tier(\"base\", p * 6 + c * 30 + cr * 0.3)",
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "gemini",
+        "openai"
+      ],
+      "endpoints": {
+        "gemini": {
+          "path": "/v1beta/models/{model}:generateContent",
+          "method": "POST"
+        },
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "gemini-nano-banana-2.1-bs",
+      "displayName": "gemini-nano-banana-2.1-bs",
+      "vendor": "Google",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 1,
+      "completionRatio": 1,
+      "modelPrice": 0.06,
+      "requestPrice": 0.06,
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "gemini",
+        "openai"
+      ],
+      "endpoints": {
+        "gemini": {
+          "path": "/v1beta/models/{model}:generateContent",
+          "method": "POST"
+        },
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "glm-5.3",
+      "displayName": "glm-5.3",
+      "vendor": "Zhipu AI",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "modelRatio": 2,
+      "completionRatio": 3.5,
+      "inputPrice": 4,
+      "outputPrice": 14,
+      "cacheRatio": 0.25,
+      "cachePrice": 1,
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "openai"
+      ],
+      "endpoints": {
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "gpt-3.5-turbo",
+      "displayName": "gpt-3.5-turbo",
+      "vendor": "OpenAI",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "modelRatio": 1,
+      "completionRatio": 1,
+      "inputPrice": 2,
+      "outputPrice": 2,
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "openai"
+      ],
+      "endpoints": {
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "gpt-4.1",
+      "displayName": "gpt-4.1",
+      "vendor": "OpenAI",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "modelRatio": 4,
+      "completionRatio": 4,
+      "inputPrice": 8,
+      "outputPrice": 32,
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "openai"
+      ],
+      "endpoints": {
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "gpt-4.1-mini",
+      "displayName": "gpt-4.1-mini",
+      "vendor": "OpenAI",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "modelRatio": 0.8,
+      "completionRatio": 4,
+      "inputPrice": 1.6,
+      "outputPrice": 6.4,
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "openai"
+      ],
+      "endpoints": {
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "gpt-4.1-nano",
+      "displayName": "gpt-4.1-nano",
+      "vendor": "OpenAI",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "modelRatio": 0.2,
+      "completionRatio": 4,
+      "inputPrice": 0.4,
+      "outputPrice": 1.6,
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "openai"
+      ],
+      "endpoints": {
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "gpt-4o",
+      "displayName": "gpt-4o",
+      "vendor": "OpenAI",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "modelRatio": 5,
+      "completionRatio": 1,
+      "inputPrice": 10,
+      "outputPrice": 10,
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "openai"
+      ],
+      "endpoints": {
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "gpt-4o-2024-11-20",
+      "displayName": "gpt-4o-2024-11-20",
+      "vendor": "OpenAI",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "modelRatio": 5,
+      "completionRatio": 1,
+      "inputPrice": 10,
+      "outputPrice": 10,
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "openai"
+      ],
+      "endpoints": {
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "gpt-4o-mini",
+      "displayName": "gpt-4o-mini",
+      "vendor": "OpenAI",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "modelRatio": 0.3,
+      "completionRatio": 1,
+      "inputPrice": 0.6,
+      "outputPrice": 0.6,
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "openai"
+      ],
+      "endpoints": {
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "gpt-5",
+      "displayName": "gpt-5",
+      "vendor": "OpenAI",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "modelRatio": 2.5,
+      "completionRatio": 8,
+      "inputPrice": 5,
+      "outputPrice": 40,
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "openai"
+      ],
+      "endpoints": {
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "gpt-5-mini",
+      "displayName": "gpt-5-mini",
+      "vendor": "OpenAI",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "modelRatio": 0.5,
+      "completionRatio": 8,
+      "inputPrice": 1,
+      "outputPrice": 8,
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "openai"
+      ],
+      "endpoints": {
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "gpt-5-nano",
+      "displayName": "gpt-5-nano",
+      "vendor": "OpenAI",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "modelRatio": 0.1,
+      "completionRatio": 8,
+      "inputPrice": 0.2,
+      "outputPrice": 1.6,
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "openai"
+      ],
+      "endpoints": {
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "gpt-5.1",
+      "displayName": "gpt-5.1",
+      "vendor": "OpenAI",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "modelRatio": 2.5,
+      "completionRatio": 8,
+      "inputPrice": 5,
+      "outputPrice": 40,
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "openai"
+      ],
+      "endpoints": {
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "gpt-5.2",
+      "displayName": "gpt-5.2",
+      "vendor": "OpenAI",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "modelRatio": 3.5,
+      "completionRatio": 8,
+      "inputPrice": 7,
+      "outputPrice": 56,
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "openai"
+      ],
+      "endpoints": {
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "gpt-5.4",
+      "displayName": "gpt-5.4",
+      "vendor": "OpenAI",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "modelRatio": 5,
+      "completionRatio": 8,
+      "inputPrice": 10,
+      "outputPrice": 80,
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "openai"
+      ],
+      "endpoints": {
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "gpt-5.4-mini",
+      "displayName": "gpt-5.4-mini",
+      "vendor": "OpenAI",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "modelRatio": 1.5,
+      "completionRatio": 6,
+      "inputPrice": 3,
+      "outputPrice": 18,
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "openai"
+      ],
+      "endpoints": {
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "gpt-5.4-nano",
+      "displayName": "gpt-5.4-nano",
+      "vendor": "OpenAI",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "modelRatio": 0.4,
+      "completionRatio": 6,
+      "inputPrice": 0.8,
+      "outputPrice": 4.800000000000001,
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "openai"
+      ],
+      "endpoints": {
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "gpt-5.5",
+      "displayName": "gpt-5.5",
+      "vendor": "OpenAI",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "completionRatio": 1,
+      "billingMode": "tiered_expr",
+      "billingExpr": "len < 272000 ? tier(\"L1\", p * 20 + c * 120 + cr * 2) : tier(\"L2\", p * 40 + c * 240 + cr * 4)",
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "openai"
+      ],
+      "endpoints": {
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "gpt-5.6-luna",
+      "displayName": "gpt-5.6-luna",
+      "vendor": "OpenAI",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "completionRatio": 1,
+      "billingMode": "tiered_expr",
+      "billingExpr": "len <= 272000 ? tier(\"L1\", p * 0.8 + c * 4.8 + cr * 0.08 + cc * 1) : tier(\"L2\", p * 1.6 + c * 7.2 + cr * 0.16 + cc * 2)",
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "openai"
+      ],
+      "endpoints": {
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "gpt-5.6-sol",
+      "displayName": "gpt-5.6-sol",
+      "vendor": "OpenAI",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "completionRatio": 1,
+      "billingMode": "tiered_expr",
+      "billingExpr": "len <= 272000 ? tier(\"L1\", p * 20 + c * 120 + cr * 2 + cc * 25) : tier(\"L2\", p * 40 + c * 180 + cr * 4 + cc * 50)",
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "openai"
+      ],
+      "endpoints": {
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "gpt-5.6-terra",
+      "displayName": "gpt-5.6-terra",
+      "vendor": "OpenAI",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "completionRatio": 1,
+      "billingMode": "tiered_expr",
+      "billingExpr": "len <= 272000 ? tier(\"L1\", p * 8 + c * 48 + cr * 0.8 + cc * 10) : tier(\"L2\", p * 16 + c * 72 + cr * 1.6 + cc * 20)",
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "openai"
+      ],
+      "endpoints": {
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "gpt-6-astra",
+      "displayName": "gpt-6-astra",
+      "vendor": "OpenAI",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "completionRatio": 1,
+      "billingMode": "tiered_expr",
+      "billingExpr": "len <= 272000 ? tier(\"L1\", p * 40 + c * 200 + cr * 4 + cc * 49.999999) : tier(\"L2\", p * 80 + c * 300 + cr * 8 + cc * 100)",
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "openai"
+      ],
+      "endpoints": {
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "gpt-6-luna",
+      "displayName": "gpt-6-luna",
+      "vendor": "OpenAI",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "completionRatio": 1,
+      "billingMode": "tiered_expr",
+      "billingExpr": "len <= 272000 ? tier(\"L1\", p * 0.4 + c * 2 + cr * 0.04 + cc * 0.5) : tier(\"L2\", p * 0.8 + c * 3 + cr * 0.08 + cc * 1)",
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "openai"
+      ],
+      "endpoints": {
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "gpt-6-sol",
+      "displayName": "gpt-6-sol",
+      "vendor": "OpenAI",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "completionRatio": 1,
+      "billingMode": "tiered_expr",
+      "billingExpr": "len <= 272000 ? tier(\"L1\", p * 8 + c * 40 + cr * 0.8 + cc * 10) : tier(\"L2\", p * 16 + c * 60 + cr * 1.6 + cc * 20)",
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "openai"
+      ],
+      "endpoints": {
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "gpt-6.1-sol",
+      "displayName": "gpt-6.1-sol",
+      "vendor": "OpenAI",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "completionRatio": 1,
+      "billingMode": "tiered_expr",
+      "billingExpr": "len <= 272000 ? tier(\"L1\", p * 8 + c * 40 + cr * 0.8 + cc * 10) : tier(\"L2\", p * 16 + c * 60 + cr * 1.6 + cc * 20)",
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "openai"
+      ],
+      "endpoints": {
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "gpt-6.1-terra",
+      "displayName": "gpt-6.1-terra",
+      "vendor": "OpenAI",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "completionRatio": 1,
+      "billingMode": "tiered_expr",
+      "billingExpr": "len <= 272000 ? tier(\"L1\", p * 4 + c * 20 + cr * 0.2 + cc * 5 + cc1h * 10) : tier(\"L2\", p * 8 + c * 30 + cr * 0.4 + cc * 10 + cc1h * 20)",
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "openai"
+      ],
+      "endpoints": {
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "gpt-6.2-astra",
+      "displayName": "gpt-6.2-astra",
+      "vendor": "OpenAI",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "completionRatio": 1,
+      "billingMode": "tiered_expr",
+      "billingExpr": "len <= 272000 ? tier(\"standard\", p * 32 + c * 160 + cr * 1.6 + cc * 40 + cc1h * 80 + cc12h * 80) : tier(\"long_context\", p * 64 + c * 240 + cr * 3.2 + cc * 80 + cc1h * 160 + cc12h * 160)",
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "openai"
+      ],
+      "endpoints": {
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "gpt-6.2-sol",
+      "displayName": "gpt-6.2-sol",
+      "vendor": "OpenAI",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "completionRatio": 1,
+      "billingMode": "tiered_expr",
+      "billingExpr": "len <= 272000 ? tier(\"standard\", p * 8 + c * 40 + cr * 0.4 + cc * 10 + cc1h * 20 + cc12h * 20) : tier(\"long_context\", p * 16 + c * 60 + cr * 0.8 + cc * 20 + cc1h * 40 + cc12h * 40)",
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "openai"
+      ],
+      "endpoints": {
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "id": 487,
+      "name": "gpt-image-2-4k-c",
+      "displayName": "gpt-image-2-4k-c",
+      "vendor": "OpenAI",
+      "vendorId": 1,
+      "vendorIcon": "OpenAI",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [
+        "image"
+      ],
+      "quotaType": 1,
+      "completionRatio": 1,
+      "modelPrice": 0.12,
+      "requestPrice": 0.12,
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "image-generation",
+        "openai"
+      ],
+      "endpoints": {
+        "image-generation": {
+          "path": "/v1/images/generations",
+          "method": "POST"
+        },
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "id": 486,
+      "name": "gpt-image-2-c",
+      "displayName": "gpt-image-2-c",
+      "vendor": "OpenAI",
+      "vendorId": 1,
+      "vendorIcon": "OpenAI",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [
+        "image"
+      ],
+      "quotaType": 1,
+      "completionRatio": 1,
+      "modelPrice": 0.06,
+      "requestPrice": 0.06,
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "image-generation",
+        "openai"
+      ],
+      "endpoints": {
+        "image-generation": {
+          "path": "/v1/images/generations",
+          "method": "POST"
+        },
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "id": 504,
+      "name": "gpt-image-2.5-flare",
+      "displayName": "gpt-image-2.5-flare",
+      "vendor": "OpenAI",
+      "vendorId": 0,
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [
+        "image"
+      ],
+      "quotaType": 0,
+      "modelRatio": 16,
+      "completionRatio": 3.75,
+      "inputPrice": 32,
+      "outputPrice": 120,
+      "cacheRatio": 0.25,
+      "cachePrice": 8,
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "image-generation",
+        "openai"
+      ],
+      "endpoints": {
+        "image-generation": {
+          "path": "/v1/images/generations",
+          "method": "POST"
+        },
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "id": 496,
+      "name": "gpt-image-2.5-flare-c",
+      "displayName": "gpt-image-2.5-flare-c",
+      "vendor": "OpenAI",
+      "vendorId": 1,
+      "vendorIcon": "OpenAI",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [
+        "image"
+      ],
+      "quotaType": 1,
+      "completionRatio": 1,
+      "modelPrice": 0.06,
+      "requestPrice": 0.06,
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "image-generation",
+        "openai"
+      ],
+      "endpoints": {
+        "image-generation": {
+          "path": "/v1/images/generations",
+          "method": "POST"
+        },
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "id": 505,
+      "name": "gpt-image-2.5-sunburst",
+      "displayName": "gpt-image-2.5-sunburst",
+      "vendor": "OpenAI",
+      "vendorId": 0,
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [
+        "image"
+      ],
+      "quotaType": 0,
+      "modelRatio": 16,
+      "completionRatio": 3.75,
+      "inputPrice": 32,
+      "outputPrice": 120,
+      "cacheRatio": 0.25,
+      "cachePrice": 8,
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "image-generation",
+        "openai"
+      ],
+      "endpoints": {
+        "image-generation": {
+          "path": "/v1/images/generations",
+          "method": "POST"
+        },
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "id": 497,
+      "name": "gpt-image-2.5-sunburst-c",
+      "displayName": "gpt-image-2.5-sunburst-c",
+      "vendor": "OpenAI",
+      "vendorId": 1,
+      "vendorIcon": "OpenAI",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [
+        "image"
+      ],
+      "quotaType": 1,
+      "completionRatio": 1,
+      "modelPrice": 0.06,
+      "requestPrice": 0.06,
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "image-generation",
+        "openai"
+      ],
+      "endpoints": {
+        "image-generation": {
+          "path": "/v1/images/generations",
+          "method": "POST"
+        },
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "id": 506,
+      "name": "gpt-image-2.6-flare-4k-c",
+      "displayName": "gpt-image-2.6-flare-4k-c",
+      "vendor": "OpenAI",
+      "vendorId": 0,
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [
+        "image"
+      ],
+      "quotaType": 1,
+      "completionRatio": 1,
+      "modelPrice": 0.1,
+      "requestPrice": 0.1,
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "image-generation",
+        "openai"
+      ],
+      "endpoints": {
+        "image-generation": {
+          "path": "/v1/images/generations",
+          "method": "POST"
+        },
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "id": 507,
+      "name": "gpt-image-2.6-flare-c",
+      "displayName": "gpt-image-2.6-flare-c",
+      "vendor": "OpenAI",
+      "vendorId": 0,
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [
+        "image"
+      ],
+      "quotaType": 1,
+      "completionRatio": 1,
+      "modelPrice": 0.06,
+      "requestPrice": 0.06,
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "image-generation",
+        "openai"
+      ],
+      "endpoints": {
+        "image-generation": {
+          "path": "/v1/images/generations",
+          "method": "POST"
+        },
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "id": 508,
+      "name": "gpt-image-2.6-sunburst-4k-c",
+      "displayName": "gpt-image-2.6-sunburst-4k-c",
+      "vendor": "OpenAI",
+      "vendorId": 0,
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [
+        "image"
+      ],
+      "quotaType": 1,
+      "completionRatio": 1,
+      "modelPrice": 0.1,
+      "requestPrice": 0.1,
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "image-generation",
+        "openai"
+      ],
+      "endpoints": {
+        "image-generation": {
+          "path": "/v1/images/generations",
+          "method": "POST"
+        },
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "id": 509,
+      "name": "gpt-image-2.6-sunburst-c",
+      "displayName": "gpt-image-2.6-sunburst-c",
+      "vendor": "OpenAI",
+      "vendorId": 0,
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [
+        "image"
+      ],
+      "quotaType": 1,
+      "completionRatio": 1,
+      "modelPrice": 0.06,
+      "requestPrice": 0.06,
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "image-generation",
+        "openai"
+      ],
+      "endpoints": {
+        "image-generation": {
+          "path": "/v1/images/generations",
+          "method": "POST"
+        },
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "grok-4.7",
+      "displayName": "grok-4.7",
+      "vendor": "xAI",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "completionRatio": 1,
+      "billingMode": "tiered_expr",
+      "billingExpr": "len < 200000 ? tier(\"L1\", p * 8 + c * 24 + cr * 2) : tier(\"L2\", p * 16 + c * 48 + cr * 4)",
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "openai",
+        "openai-response"
+      ],
+      "endpoints": {
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        },
+        "openai-response": {
+          "path": "/v1/responses",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "id": 498,
+      "name": "grok-imagine-video-1.5",
+      "displayName": "grok-imagine-video-1.5",
+      "vendor": "xAI",
+      "vendorId": 0,
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [
+        "video"
+      ],
+      "quotaType": 0,
+      "completionRatio": 1,
+      "billingMode": "tiered_expr",
+      "billingExpr": "tier(\"base\", u(\"input_images\") * 0 + u(\"seconds\") * 0.08)",
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "openai",
+        "openai-response"
+      ],
+      "endpoints": {
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        },
+        "openai-response": {
+          "path": "/v1/responses",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "kimi-k3",
+      "displayName": "kimi-k3",
+      "vendor": "Moonshot",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "modelRatio": 5,
+      "completionRatio": 5,
+      "inputPrice": 10,
+      "outputPrice": 50,
+      "cacheRatio": 0.1,
+      "cachePrice": 1,
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "openai"
+      ],
+      "endpoints": {
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "kimi-k3.1-pro",
+      "displayName": "kimi-k3.1-pro",
+      "vendor": "Moonshot",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "completionRatio": 1,
+      "billingMode": "tiered_expr",
+      "billingExpr": "tier(\"base\", p * 6.5 + c * 34 + cr * 0.65)",
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "openai"
+      ],
+      "endpoints": {
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "kimi-k3.1-pro-highspeed",
+      "displayName": "kimi-k3.1-pro-highspeed",
+      "vendor": "Moonshot",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "completionRatio": 1,
+      "billingMode": "tiered_expr",
+      "billingExpr": "tier(\"base\", p * 13 + c * 68 + cr * 0.65)",
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "openai"
+      ],
+      "endpoints": {
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "openclaw/gpt-5.5",
+      "displayName": "openclaw/gpt-5.5",
+      "vendor": "OpenAI",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "completionRatio": 1,
+      "billingMode": "tiered_expr",
+      "billingExpr": "len < 272000 ? tier(\"L1\", p * 2.5 + c * 15 + cr * 0.25) : tier(\"L2\", p * 5 + c * 30 + cr * 0.5)",
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "openai"
+      ],
+      "endpoints": {
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "qwen-max",
+      "displayName": "qwen-max",
+      "vendor": "Qwen",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "modelRatio": 0.6,
+      "completionRatio": 4,
+      "inputPrice": 1.2,
+      "outputPrice": 4.8,
+      "cacheRatio": 0.2,
+      "cachePrice": 0.24,
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "openai"
+      ],
+      "endpoints": {
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "qwen-max-2025-01-25",
+      "displayName": "qwen-max-2025-01-25",
+      "vendor": "Qwen",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "modelRatio": 0.6,
+      "completionRatio": 4,
+      "inputPrice": 1.2,
+      "outputPrice": 4.8,
+      "cacheRatio": 0.2,
+      "cachePrice": 0.24,
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "openai"
+      ],
+      "endpoints": {
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "qwen-vl-ocr",
+      "displayName": "qwen-vl-ocr",
+      "vendor": "Qwen",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "modelRatio": 0.15,
+      "completionRatio": 1.666666666667,
+      "inputPrice": 0.3,
+      "outputPrice": 0.5000000000001,
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "openai"
+      ],
+      "endpoints": {
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "qwen3-vl-plus",
+      "displayName": "qwen3-vl-plus",
+      "vendor": "Qwen",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "completionRatio": 1,
+      "billingMode": "tiered_expr",
+      "billingExpr": "len < 200000 ? tier(\"L1\", p * 1.5 + c * 15 + cr * 0.3 + cc * 1.875) : tier(\"L2\", p * 3 + c * 30 + cr * 0.6 + cc * 3.75)",
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "openai"
+      ],
+      "endpoints": {
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "standard/claude-fable-5",
+      "displayName": "standard/claude-fable-5",
+      "vendor": "Anthropic",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "modelRatio": 10,
+      "completionRatio": 5,
+      "inputPrice": 20,
+      "outputPrice": 100,
+      "cacheRatio": 0.1,
+      "createCacheRatio": 1.25,
+      "cachePrice": 2,
+      "createCachePrice": 25,
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "anthropic",
+        "openai"
+      ],
+      "endpoints": {
+        "anthropic": {
+          "path": "/v1/messages",
+          "method": "POST"
+        },
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "standard/claude-fable-5-1",
+      "displayName": "standard/claude-fable-5-1",
+      "vendor": "Anthropic",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "modelRatio": 10,
+      "completionRatio": 5,
+      "inputPrice": 20,
+      "outputPrice": 100,
+      "cacheRatio": 0.025,
+      "createCacheRatio": 1.25,
+      "cachePrice": 0.5,
+      "createCachePrice": 25,
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "anthropic",
+        "openai"
+      ],
+      "endpoints": {
+        "anthropic": {
+          "path": "/v1/messages",
+          "method": "POST"
+        },
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "standard/claude-fable-5-2",
+      "displayName": "standard/claude-fable-5-2",
+      "vendor": "Anthropic",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "completionRatio": 1,
+      "billingMode": "tiered_expr",
+      "billingExpr": "tier(\"base\", p * 16 + c * 80 + cr * 0.4 + cc * 20 + cc1h * 32)",
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "anthropic",
+        "openai"
+      ],
+      "endpoints": {
+        "anthropic": {
+          "path": "/v1/messages",
+          "method": "POST"
+        },
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "standard/claude-opus-5",
+      "displayName": "standard/claude-opus-5",
+      "vendor": "Anthropic",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "modelRatio": 5,
+      "completionRatio": 5,
+      "inputPrice": 10,
+      "outputPrice": 50,
+      "cacheRatio": 0.1,
+      "createCacheRatio": 1.25,
+      "cachePrice": 1,
+      "createCachePrice": 12.5,
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "anthropic",
+        "openai"
+      ],
+      "endpoints": {
+        "anthropic": {
+          "path": "/v1/messages",
+          "method": "POST"
+        },
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "standard/claude-opus-5-5",
+      "displayName": "standard/claude-opus-5-5",
+      "vendor": "Anthropic",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "modelRatio": 4,
+      "completionRatio": 1,
+      "inputPrice": 8,
+      "outputPrice": 8,
+      "billingMode": "tiered_expr",
+      "billingExpr": "tier(\"base\", p * 8 + c * 40 + cr * 0.4 + cc * 10 + cc1h * 16)",
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "anthropic",
+        "openai"
+      ],
+      "endpoints": {
+        "anthropic": {
+          "path": "/v1/messages",
+          "method": "POST"
+        },
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "standard/claude-sonnet-5",
+      "displayName": "standard/claude-sonnet-5",
+      "vendor": "Anthropic",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "modelRatio": 2,
+      "completionRatio": 5,
+      "inputPrice": 4,
+      "outputPrice": 20,
+      "cacheRatio": 0.1,
+      "createCacheRatio": 1.25,
+      "cachePrice": 0.4,
+      "createCachePrice": 5,
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "anthropic",
+        "openai"
+      ],
+      "endpoints": {
+        "anthropic": {
+          "path": "/v1/messages",
+          "method": "POST"
+        },
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "standard/claude-sonnet-5-5",
+      "displayName": "standard/claude-sonnet-5-5",
+      "vendor": "Anthropic",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "completionRatio": 1,
+      "billingMode": "tiered_expr",
+      "billingExpr": "tier(\"base\", p * 4 + c * 20 + cr * 0.4 + cc * 5 + cc1h * 8)",
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "anthropic",
+        "openai"
+      ],
+      "endpoints": {
+        "anthropic": {
+          "path": "/v1/messages",
+          "method": "POST"
+        },
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "standard/gemini-3.8-flash",
+      "displayName": "standard/gemini-3.8-flash",
+      "vendor": "Google",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "modelRatio": 0.75,
+      "completionRatio": 5,
+      "inputPrice": 1.5,
+      "outputPrice": 7.5,
+      "cacheRatio": 0.1,
+      "cachePrice": 0.15000000000000002,
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "gemini",
+        "openai"
+      ],
+      "endpoints": {
+        "gemini": {
+          "path": "/v1beta/models/{model}:generateContent",
+          "method": "POST"
+        },
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "standard/gemini-4-argon",
+      "displayName": "standard/gemini-4-argon",
+      "vendor": "Google",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "modelRatio": 2,
+      "completionRatio": 5,
+      "inputPrice": 4,
+      "outputPrice": 20,
+      "cacheRatio": 0.05,
+      "cachePrice": 0.2,
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "gemini",
+        "openai"
+      ],
+      "endpoints": {
+        "gemini": {
+          "path": "/v1beta/models/{model}:generateContent",
+          "method": "POST"
+        },
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "standard/gemini-4-carbon",
+      "displayName": "standard/gemini-4-carbon",
+      "vendor": "Google",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "completionRatio": 1,
+      "billingMode": "tiered_expr",
+      "billingExpr": "tier(\"base\", p * 8 + c * 40 + cr * 0.4)",
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "gemini",
+        "openai"
+      ],
+      "endpoints": {
+        "gemini": {
+          "path": "/v1beta/models/{model}:generateContent",
+          "method": "POST"
+        },
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "standard/gemini-4-hydrogen",
+      "displayName": "standard/gemini-4-hydrogen",
+      "vendor": "Google",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "completionRatio": 1,
+      "billingMode": "tiered_expr",
+      "billingExpr": "tier(\"base\", p * 3 + c * 15 + cr * 0.15)",
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "gemini",
+        "openai"
+      ],
+      "endpoints": {
+        "gemini": {
+          "path": "/v1beta/models/{model}:generateContent",
+          "method": "POST"
+        },
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "standard/gpt-4o",
+      "displayName": "standard/gpt-4o",
+      "vendor": "OpenAI",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "modelRatio": 2.5,
+      "completionRatio": 4,
+      "inputPrice": 5,
+      "outputPrice": 20,
+      "cacheRatio": 0.5,
+      "cachePrice": 2.5,
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "openai"
+      ],
+      "endpoints": {
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "standard/gpt-5.6-luna",
+      "displayName": "standard/gpt-5.6-luna",
+      "vendor": "OpenAI",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "completionRatio": 1,
+      "billingMode": "tiered_expr",
+      "billingExpr": "len <= 272000 ? tier(\"L1\", p * 0.4 + c * 2.4 + cr * 0.04 + cc * 0.5) : tier(\"L2\", p * 0.8 + c * 3.6 + cr * 0.08 + cc * 1)",
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "openai"
+      ],
+      "endpoints": {
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "standard/gpt-5.6-sol",
+      "displayName": "standard/gpt-5.6-sol",
+      "vendor": "OpenAI",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "completionRatio": 1,
+      "billingMode": "tiered_expr",
+      "billingExpr": "len <= 272000 ? tier(\"L1\", p * 10 + c * 60 + cr * 1 + cc * 12.5) : tier(\"L2\", p * 20 + c * 90 + cr * 2 + cc * 25)",
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "openai"
+      ],
+      "endpoints": {
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "standard/gpt-5.6-terra",
+      "displayName": "standard/gpt-5.6-terra",
+      "vendor": "OpenAI",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "completionRatio": 1,
+      "billingMode": "tiered_expr",
+      "billingExpr": "len <= 272000 ? tier(\"L1\", p * 4 + c * 24 + cr * 0.4 + cc * 5) : tier(\"L2\", p * 8 + c * 36 + cr * 0.8 + cc * 10)",
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "openai"
+      ],
+      "endpoints": {
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "standard/gpt-6-astra",
+      "displayName": "standard/gpt-6-astra",
+      "vendor": "OpenAI",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "completionRatio": 1,
+      "billingMode": "tiered_expr",
+      "billingExpr": "len <= 272000 ? tier(\"L1\", p * 20 + c * 100 + cr * 2 + cc * 25) : tier(\"L2\", p * 40 + c * 150 + cr * 4 + cc * 50)",
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "openai"
+      ],
+      "endpoints": {
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "standard/gpt-6.1-sol",
+      "displayName": "standard/gpt-6.1-sol",
+      "vendor": "OpenAI",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "completionRatio": 1,
+      "billingMode": "tiered_expr",
+      "billingExpr": "len <= 272000 ? tier(\"L1\", p * 4 + c * 20 + cr * 0.4 + cc * 5) : tier(\"L2\", p * 8 + c * 30 + cr * 0.8 + cc * 10)",
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "openai"
+      ],
+      "endpoints": {
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "standard/gpt-6.2-astra",
+      "displayName": "standard/gpt-6.2-astra",
+      "vendor": "OpenAI",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "completionRatio": 1,
+      "billingMode": "tiered_expr",
+      "billingExpr": "len <= 272000 ? tier(\"standard\", p * 16 + c * 80 + cr * 0.8 + cc * 20 + cc1h * 40 + cc12h * 40) : tier(\"long_context\", p * 32 + c * 120 + cr * 1.6 + cc * 40 + cc1h * 80 + cc12h * 80)",
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "openai"
+      ],
+      "endpoints": {
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "standard/gpt-6.2-sol",
+      "displayName": "standard/gpt-6.2-sol",
+      "vendor": "OpenAI",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "completionRatio": 1,
+      "billingMode": "tiered_expr",
+      "billingExpr": "len <= 272000 ? tier(\"standard\", p * 4 + c * 20 + cr * 0.2 + cc * 5 + cc1h * 10 + cc12h * 10) : tier(\"long_context\", p * 8 + c * 30 + cr * 0.4 + cc * 10 + cc1h * 20 + cc12h * 20)",
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "openai"
+      ],
+      "endpoints": {
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "standard/grok-4.7",
+      "displayName": "standard/grok-4.7",
+      "vendor": "xAI",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "completionRatio": 1,
+      "billingMode": "tiered_expr",
+      "billingExpr": "len < 200000 ? tier(\"L1\", p * 4 + c * 12 + cr * 1) : tier(\"L2\", p * 8 + c * 24 + cr * 2)",
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "openai",
+        "openai-response"
+      ],
+      "endpoints": {
+        "openai": {
+          "path": "/v1/chat/completions",
+          "method": "POST"
+        },
+        "openai-response": {
+          "path": "/v1/responses",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "text-embedding-3-large",
+      "displayName": "text-embedding-3-large",
+      "vendor": "OpenAI",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "modelRatio": 0.26,
+      "completionRatio": 1,
+      "inputPrice": 0.52,
+      "outputPrice": 0.52,
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "embeddings"
+      ],
+      "endpoints": {
+        "embeddings": {
+          "path": "/v1/embeddings",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "text-embedding-3-small",
+      "displayName": "text-embedding-3-small",
+      "vendor": "OpenAI",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "modelRatio": 0.04,
+      "completionRatio": 1,
+      "inputPrice": 0.08,
+      "outputPrice": 0.08,
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "embeddings"
+      ],
+      "endpoints": {
+        "embeddings": {
+          "path": "/v1/embeddings",
+          "method": "POST"
+        }
+      }
+    },
+    {
+      "name": "text-embedding-ada-002",
+      "displayName": "text-embedding-ada-002",
+      "vendor": "OpenAI",
+      "vendorIcon": "",
+      "vendorDescription": "",
+      "description": "",
+      "icon": "",
+      "tags": [],
+      "quotaType": 0,
+      "modelRatio": 0.2,
+      "completionRatio": 1,
+      "inputPrice": 0.4,
+      "outputPrice": 0.4,
+      "enabledGroups": [
+        "default",
+        "vip"
+      ],
+      "supportedEndpointTypes": [
+        "embeddings"
+      ],
+      "endpoints": {
+        "embeddings": {
+          "path": "/v1/embeddings",
+          "method": "POST"
+        }
+      }
+    }
   ]
 }

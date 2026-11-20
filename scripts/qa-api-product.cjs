@@ -77,28 +77,77 @@ async function run() {
 
       await visit(page, '/api', 'api-' + width);
       const publicCopy = await page.locator('main').innerText();
-      for (const forbidden of ['HTTP 200 已实测', '已完成的实际验证', '反代', '临时域名', '待逐项验证', '上游扣费']) {
-        assert.equal(publicCopy.includes(forbidden), false, 'customer-facing copy contains internal language: ' + forbidden);
+      for (const forbidden of [
+        'HTTP 200 已实测', '已完成的实际验证', '反代', '临时域名',
+        '待逐项验证', '上游扣费', '较新版本优先', '117 个型号',
+        'API ID（含不同线路）', '分档计费', '复杂计费'
+      ]) {
+        assert.equal(publicCopy.includes(forbidden), false, 'customer-facing copy contains internal or unclear language: ' + forbidden);
       }
+
+      const sectionOrder = await page.locator('main').evaluate((main) =>
+        Array.from(main.querySelectorAll('#pricing, #models')).map((section) => section.id)
+      );
+      assert.deepEqual(sectionOrder, ['pricing', 'models'], 'credit offers should appear before model prices');
+
+      const overview = page.locator('aside[aria-label="API 接入概览"]');
+      const modelNav = overview.getByRole('link', { name: '跳转到模型列表和价格' });
+      const quickCallNav = overview.getByRole('link', { name: '打开快速调用示例' });
+      assert.equal(await modelNav.getAttribute('href'), '#models', 'model overview card should link to model catalog');
+      assert.equal(await quickCallNav.getAttribute('href'), '/api/docs#first-call', 'quick call overview card should link to code examples');
+
+      const pricing = page.locator('#pricing');
+      assert(await pricing.getByRole('heading', { name: '美元 API 额度，人民币优惠购买' }).isVisible(), 'credit pricing must remain visible');
       const catalog = page.locator('#models');
-      assert(await catalog.getByRole('heading', { name: /发现主流 AI 模型/ }).isVisible(), 'model catalog section must exist');
-      assert(await catalog.locator('article').count() >= 1, 'model catalog must show featured models or family fallback');
-      const spotlightIds = (await catalog.locator('article h3').allTextContents()).map((id) => id.trim());
-      assert.equal(spotlightIds.length, 8, 'eight featured model cards are expected');
-      assert(spotlightIds.every((id) => id && !id.includes('/')), 'featured cards must not show basic/standard model IDs');
-      console.log('FEATURED_MODEL_CARDS', spotlightIds);
-      assert(await catalog.getByText(/\d+ 个型号 · 较新版本优先/).isVisible(), 'full model count and ranking description missing');
-      const directory = catalog.locator('.divide-y > div code');
-      assert.equal(await directory.count() > 0, true, 'full directory should render model IDs');
-      const firstDirectoryIds = (await directory.allTextContents()).map((id) => id.trim());
-      assert(firstDirectoryIds.every((id) => !/^(basic|standard)\//.test(id)), 'channel aliases must not dominate first catalog page');
-      if (await catalog.getByRole('searchbox', { name: '搜索模型' }).count()) {
-        await catalog.getByRole('searchbox', { name: '搜索模型' }).fill('a-match-that-should-never-exist');
-        assert(await catalog.getByText('没有找到符合条件的模型').isVisible(), 'model catalog search should filter');
-        await catalog.getByRole('searchbox', { name: '搜索模型' }).fill('');
-        await catalog.getByRole('button', { name: 'Claude', exact: true }).click();
-        assert.equal(await catalog.getByRole('button', { name: 'Claude', exact: true }).getAttribute('aria-pressed'), 'true');
-      }
+      assert(await catalog.getByRole('heading', { name: '模型目录与调用价格' }).isVisible(), 'model pricing catalog must exist');
+      assert(await catalog.getByText(/价格单位说明/).isVisible(), 'model price unit explanation must be visible');
+      assert(await catalog.getByText(/不是人民币价格/).first().isVisible(), 'quota unit must not be confused with RMB prices');
+      assert(await catalog.getByText(/每百万 Token/).first().isVisible(), 'token price unit must be clear');
+      assert(await catalog.getByRole('searchbox', { name: '搜索模型' }).isVisible(), 'model search must exist');
+
+      const modelRows = catalog.locator('.divide-y > article');
+      assert.equal(await modelRows.count(), 10, 'the first view should show exactly ten models');
+      assert.equal(await catalog.locator('article h3').count(), 0, 'duplicated featured model cards should be removed');
+
+      const firstGroup = modelRows.first();
+      await firstGroup.locator('summary').click();
+      assert.equal(await firstGroup.locator('details[open]').count(), 1, 'model details should expand');
+      assert(await firstGroup.getByText(/⚡表示模型调用时消耗的额度单位/).count() > 0, 'expanded pricing unit explanation missing');
+
+      await catalog.getByRole('searchbox', { name: '搜索模型' }).fill('qwen3-vl-plus');
+      const qwenRow = catalog.locator('.divide-y > article').filter({ hasText: 'qwen3-vl-plus' });
+      assert.equal(await qwenRow.count(), 1, 'search should find Qwen VL Plus');
+      const qwenText = await qwenRow.innerText();
+      assert(qwenText.includes('上下文 < 200,000 Token'), 'tiered model should explain the short-context price band');
+      assert(qwenText.includes('上下文 ≥ 200,000 Token'), 'tiered model should explain the long-context price band');
+      assert(qwenText.includes('⚡1.5') && qwenText.includes('⚡15'), 'tiered model should show input and output prices directly');
+      assert.equal(qwenText.includes('分档计费'), false, 'unclear tiered billing badge must not be shown');
+
+      await catalog.getByRole('searchbox', { name: '搜索模型' }).fill('kimi-k3.1-pro-highspeed');
+      const kimiRow = catalog.locator('.divide-y > article').filter({ hasText: 'kimi-k3.1-pro-highspeed' });
+      assert.equal(await kimiRow.count(), 1, 'search should find Kimi high-speed model');
+      const kimiText = await kimiRow.innerText();
+      assert(kimiText.includes('⚡13') && kimiText.includes('⚡68'), 'single-tier billing expression should show input and output prices directly');
+
+      await catalog.getByRole('searchbox', { name: '搜索模型' }).fill('glm-5.3');
+      const glmRow = catalog.locator('.divide-y > article').filter({ hasText: 'glm-5.3' });
+      assert.equal(await glmRow.count(), 1, 'search should find GLM 5.3');
+      const glmText = await glmRow.innerText();
+      assert(glmText.includes('⚡4') && glmText.includes('⚡14'), 'flat token pricing should remain directly visible');
+
+      await catalog.getByRole('searchbox', { name: '搜索模型' }).fill('grok-imagine-video-1.5');
+      const videoRow = catalog.locator('.divide-y > article').filter({ hasText: 'grok-imagine-video-1.5' });
+      assert.equal(await videoRow.count(), 1, 'search should find video model');
+      assert((await videoRow.innerText()).includes('⚡0.08 / 秒'), 'video billing should show per-second price');
+
+      await catalog.getByRole('searchbox', { name: '搜索模型' }).fill('');
+      await catalog.getByRole('button', { name: 'Claude', exact: true }).click();
+      assert.equal(await catalog.getByRole('button', { name: 'Claude', exact: true }).getAttribute('aria-pressed'), 'true');
+      assert.equal(await modelRows.count(), 10, 'filter should also limit first view to ten models');
+      await catalog.getByRole('button', { name: '全部', exact: true }).click();
+      await catalog.getByRole('button', { name: '显示更多模型' }).click();
+      assert.equal(await modelRows.count(), 20, 'show more should add ten models');
+
       assert(await page.getByRole('heading', { name: /一个 Key/ }).isVisible());
       assert.equal(await page.locator('#direct-use').count(), 0, 'API product page must not repeat the online-tools section');
       for (const site of ['librechat.chatgpt5x.com', 'art.chatgpt5x.com', 'aiview.chatgpt5x.com']) {
@@ -106,9 +155,6 @@ async function run() {
       }
       assert.equal(await page.getByRole('link', { name: /查看接入文档/ }).count() >= 1, true, 'API docs CTA missing');
       assert.equal(await page.locator('code').filter({ hasText: 'https://api.zhibeimao.com/v1' }).count() >= 1, true, 'API Base URL missing');
-      const pricing = page.locator('#pricing');
-      assert(await pricing.getByRole('heading', { name: '美元 API 额度，人民币优惠购买' }).isVisible(), 'pricing heading missing');
-      assert(await pricing.getByText('3 美元额度通用 Key').isVisible());
       assert.equal(await pricing.locator('a[aria-label*="美元额度，人民币"]').count(), 3, 'expect three credit offers');
       for (const [amount, price, fold, percent] of [['3', '10', '5.0', '50'], ['10', '30', '4.5', '55'], ['20', '55', '4.1', '59']]) {
         const offer = pricing.locator('a[aria-label^="' + amount + ' 美元额度，人民币"]');
@@ -119,11 +165,16 @@ async function run() {
         assert(flatText.includes('约' + fold + '折'), 'missing discount fold for ' + amount);
         assert(flatText.includes('约省' + percent + '%'), 'missing discount saving for ' + amount);
       }
-      assert(await pricing.getByText(/不代表各模型调用费用比官方 API 便宜相同比例/).isVisible(), 'model price caveat missing');
+      assert(await pricing.getByText(/不代表各模型调用费用比官方 API 便宜相同比例/).isVisible(), 'credit savings caveat missing');
       assert(await pricing.getByText(/参考汇率：2026-11-20/).isVisible(), 'dated exchange rate note missing');
       assert(await pricing.locator('a[href="https://online.chatgpt5x.com/"]').count() >= 3);
+
       await page.screenshot({ path: path.join(output, 'api-' + width + '.png'), fullPage: true });
 
+      await modelNav.click();
+      await page.waitForFunction(() => window.location.hash === '#models');
+      await quickCallNav.click();
+      await page.waitForURL('**/api/docs#first-call');
       await visit(page, '/api/docs', 'docs-' + width);
       const docsCopy = await page.locator('main').innerText();
       for (const forbidden of ['HTTP 200 已实测', '待逐项验证', '反代', '项目临时域名', '验收']) {
@@ -139,7 +190,7 @@ async function run() {
       await page.screenshot({ path: path.join(output, 'docs-' + width + '.png'), fullPage: true });
       await page.close();
     }
-    console.log('PASS: responsive API product and docs browser regression');
+    console.log('PASS: customer-focused API pricing, model navigation and responsive browser regression');
   } finally {
     await browser.close();
   }
