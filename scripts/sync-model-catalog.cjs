@@ -71,7 +71,7 @@ function parseModelNames(content) {
       value = value.id ?? value.model_id ?? value.modelId ?? value.model ?? value.name;
     }
     if (typeof value !== 'string') {
-      rejected.push({ reason: 'missing-id', fields: row && typeof row === 'object' ? Object.keys(row).slice(0,8) : [] });
+      rejected.push({ reason: 'missing-id', id: row?.id, name: row?.name, displayName: row?.displayName, vendor: row?.vendor });
       continue;
     }
     const id = value.trim();
