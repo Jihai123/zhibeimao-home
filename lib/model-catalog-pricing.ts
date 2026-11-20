@@ -15,9 +15,15 @@ export type BillingTier = {
   terms: PriceTerms;
 };
 
+export type TimePriceWindow = {
+  startHour: number;
+  endHour: number;
+  multiplier: number;
+};
+
 export type ModelPricing =
   | { kind: 'token'; input?: number; output?: number; cacheRead?: number; cacheWrite?: number }
-  | { kind: 'tiered'; tiers: BillingTier[]; timeVariable: boolean }
+  | { kind: 'tiered'; tiers: BillingTier[]; timeVariable: boolean; timeWindows: TimePriceWindow[] }
   | { kind: 'request'; perRequest?: number }
   | { kind: 'complex' }
   | { kind: 'unavailable' };
@@ -115,37 +121,61 @@ function extractTierCalls(expression: string): Array<{ label: string; formula: s
 
 function tierLabel(raw: string): string {
   const normalized = raw.toLowerCase();
-  if (normalized === 'base') return '基础计价';
-  if (normalized === 'standard' || normalized === 'l1') return '标准上下文';
-  if (normalized === 'long_context' || normalized === 'l2') return '长上下文';
+  if (normalized === 'base') return '统一计价';
+  if (normalized === 'standard') return '标准上下文';
+  if (normalized === 'long_context') return '长上下文';
+  if (normalized === 'l1') return '常规上下文';
+  if (normalized === 'l2') return '长上下文';
   return raw.replace(/[_-]+/g, ' ');
+}
+
+function parseTimeWindows(expression: string): TimePriceWindow[] {
+  const pattern = /hour\(\s*["']Asia\/Shanghai["']\s*\)\s*>=\s*(\d+)\s*&&\s*hour\(\s*["']Asia\/Shanghai["']\s*\)\s*<\s*(\d+)\s*\?\s*(\d+(?:\.\d+)?)\s*:\s*1/gi;
+  return Array.from(expression.matchAll(pattern), (match) => ({
+    startHour: Number(match[1]),
+    endHour: Number(match[2]),
+    multiplier: Number(match[3])
+  })).filter((window) =>
+    Number.isInteger(window.startHour) &&
+    Number.isInteger(window.endHour) &&
+    window.startHour >= 0 &&
+    window.endHour <= 24 &&
+    window.startHour < window.endHour &&
+    Number.isFinite(window.multiplier) &&
+    window.multiplier > 0
+  );
 }
 
 export function parseBillingExpression(expression: string): {
   tiers: BillingTier[];
   timeVariable: boolean;
+  timeWindows: TimePriceWindow[];
 } {
   const rawTiers = extractTierCalls(expression);
   const tiers: BillingTier[] = [];
   const threshold = expression.match(/\blen\s*(<=|<|>=|>)\s*(\d+)/i);
-  const thresholdLabel = threshold
-    ? '上下文长度 ' + threshold[1] + ' ' + Number(threshold[2]).toLocaleString('en-US') + ' Token'
-    : undefined;
+  const thresholdValue = threshold ? Number(threshold[2]) : undefined;
+  const thresholdText = thresholdValue === undefined ? undefined : thresholdValue.toLocaleString('zh-CN');
+  const oppositeOperator: Record<string, string> = { '<': '≥', '<=': '>', '>': '≤', '>=': '<' };
 
   for (let index = 0; index < rawTiers.length; index++) {
     const raw = rawTiers[index];
     const terms = parseTerms(raw.formula);
     if (Object.keys(terms).length === 0) continue;
     let condition: string | undefined;
-    if (rawTiers.length > 1 && thresholdLabel) {
-      condition = index === 0 ? thresholdLabel : '超过上述长度';
-    } else if (rawTiers.length === 1) {
-      condition = thresholdLabel;
+    if (rawTiers.length > 1 && threshold && thresholdText) {
+      condition = '上下文 ' + (index === 0 ? threshold[1] : oppositeOperator[threshold[1]]) + ' ' + thresholdText + ' Token';
+    } else if (rawTiers.length === 1 && threshold && thresholdText) {
+      condition = '上下文 ' + threshold[1] + ' ' + thresholdText + ' Token';
     }
     tiers.push({ label: tierLabel(raw.label), condition, terms });
   }
 
-  return { tiers, timeVariable: /\bhour\s*\(/i.test(expression) };
+  return {
+    tiers,
+    timeVariable: /\bhour\s*\(/i.test(expression),
+    timeWindows: parseTimeWindows(expression)
+  };
 }
 
 export function parseModelPricing(model: Record<string, unknown>): ModelPricing {
@@ -161,7 +191,7 @@ export function parseModelPricing(model: Record<string, unknown>): ModelPricing 
     if (!expression) return { kind: 'complex' };
     const parsed = parseBillingExpression(expression);
     return parsed.tiers.length
-      ? { kind: 'tiered', tiers: parsed.tiers, timeVariable: parsed.timeVariable }
+      ? { kind: 'tiered', tiers: parsed.tiers, timeVariable: parsed.timeVariable, timeWindows: parsed.timeWindows }
       : { kind: 'complex' };
   }
 
