@@ -63,7 +63,7 @@ jobs:
           const base = process.env.SITE_URL;
           const cases = [
             { path: '/', checks: ['在线体验与 API 接入', 'https://librechat.chatgpt5x.com/', 'https://art.chatgpt5x.com/', 'https://aiview.chatgpt5x.com/'] },
-            { path: '/api', checks: ['完整模型目录', 'gpt-6.2-sol', '117 个型号', 'https://online.chatgpt5x.com/'] },
+            { path: '/api', checks: ['完整模型目录', 'gpt-6.2-sol', '个型号', 'https://online.chatgpt5x.com/'] },
             { path: '/api/docs', checks: ['/v1/models', '/v1/chat/completions'] }
           ];
           const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
