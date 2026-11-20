@@ -30,7 +30,7 @@ function classify(id: string): string {
 export function getPublicModelCatalog(): ModelCatalog {
   // Static, validated snapshot produced by the scheduled website-file download.
   // No customer or server API Key is needed to render the model catalog.
-  const ids = Array.isArray(snapshot.models) ? snapshot.models : [];
+  const ids: unknown[] = Array.isArray(snapshot.models) ? snapshot.models : [];
   const unique = new Set<string>();
   const models: ListedModel[] = [];
 
