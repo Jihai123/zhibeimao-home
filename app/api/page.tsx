@@ -13,10 +13,11 @@ import {
 } from 'lucide-react';
 
 import { siteLinks } from '@/data/site-links';
+import { ModelCatalog } from '@/components/ModelCatalog';
+import { getPublicModelCatalog } from '@/lib/model-catalog';
 import {
   apiBaseUrl,
-  keyOffers,
-  modelFamilies
+  keyOffers
 } from '@/data/api-product';
 
 export const metadata: Metadata = {
@@ -31,13 +32,6 @@ export const metadata: Metadata = {
   }
 };
 
-const modelTones = [
-  'border-emerald-400/25 bg-emerald-400/10 text-emerald-200',
-  'border-orange-400/25 bg-orange-400/10 text-orange-200',
-  'border-sky-400/25 bg-sky-400/10 text-sky-200',
-  'border-violet-400/25 bg-violet-400/10 text-violet-200'
-];
-
 const advantages = [
   { icon: Layers3, title: '统一模型接口', detail: '多个模型系列，共用一个 API 地址' },
   { icon: CreditCard, title: '人民币购买', detail: '提供多档 Key 额度，按需选择' },
@@ -50,7 +44,11 @@ const journeys = [
   { number: '03', title: '选择模型', desc: '查询当前 Key 可用模型，发起首次调用。' }
 ];
 
-export default function ApiProductPage() {
+export const revalidate = 3600;
+
+export default async function ApiProductPage() {
+  const catalog = await getPublicModelCatalog();
+
   return (
     <main className="mx-auto w-full min-w-0 max-w-7xl px-4 pb-16 pt-5 sm:px-6 md:px-8 md:pt-9">
       <section className="relative isolate overflow-hidden rounded-[26px] border border-white/10 bg-[#10172b] px-5 py-9 shadow-[0_20px_80px_rgba(0,0,0,0.18)] sm:px-8 md:rounded-[32px] md:px-10 md:py-14 lg:px-12">
@@ -88,10 +86,10 @@ export default function ApiProductPage() {
                 获取 API Key <ArrowUpRight className="h-4 w-4" />
               </a>
               <Link
-                href="/api/docs"
+                href="#models"
                 className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/[0.03] px-6 py-3 text-sm font-semibold text-white transition hover:border-cyan-300/40 hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
               >
-                <BookOpen className="h-4 w-4" /> 查看接入文档
+                <Layers3 className="h-4 w-4" /> 查看模型目录
               </Link>
             </div>
             <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-slate-400">
@@ -143,37 +141,7 @@ export default function ApiProductPage() {
         </div>
       </section>
 
-      <section className="mt-14 scroll-mt-24" id="models" aria-labelledby="model-title">
-        <div className="flex flex-wrap items-end justify-between gap-3">
-          <div>
-            <p className="text-xs font-semibold tracking-[0.2em] text-cyan-300">MODEL ECOSYSTEM</p>
-            <h2 id="model-title" className="mt-2 text-2xl font-bold tracking-tight text-white sm:text-3xl">
-              统一接口，连接多个模型系列
-            </h2>
-            <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-400">
-              通过统一 API 地址调用所需模型，具体型号与权限请通过模型列表查询。
-            </p>
-          </div>
-          <Link href="/api/docs#models" className="inline-flex items-center gap-1.5 text-sm font-medium text-cyan-200 transition hover:text-white">
-            查看模型查询方法 <ArrowRight className="h-4 w-4" />
-          </Link>
-        </div>
-        <div className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-4">
-          {modelFamilies.map((model, index) => (
-            <article key={model.name} className="group surface-panel min-w-0 rounded-2xl p-4 transition duration-200 hover:-translate-y-0.5 hover:border-cyan-300/35 sm:p-5">
-              <div className={'flex h-11 w-11 items-center justify-center rounded-xl border text-base font-black ' + modelTones[index % modelTones.length]}>
-                {model.initials}
-              </div>
-              <h3 className="mt-4 break-words text-base font-bold text-white sm:text-lg">{model.name}</h3>
-              <p className="mt-1 text-xs text-slate-400">{model.provider}</p>
-              <p className="mt-3 text-xs leading-5 text-slate-300">{model.description}</p>
-            </article>
-          ))}
-        </div>
-        <p className="mt-3 text-xs leading-6 text-slate-500">
-          具体模型版本和调用权限以您的 API Key 可查询到的模型列表为准。
-        </p>
-      </section>
+      <ModelCatalog models={catalog.models} available={catalog.available} />
 
       <section className="mt-16 scroll-mt-24" id="pricing" aria-labelledby="pricing-title">
         <div className="grid gap-6 lg:grid-cols-[minmax(0,0.75fr)_minmax(0,1.25fr)] lg:items-center">
