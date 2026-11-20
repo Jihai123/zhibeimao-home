@@ -64,17 +64,33 @@ function parseModelNames(content) {
 
   const seen = new Set();
   const ids = [];
+  const rejected = [];
   for (const row of rows) {
     let value = row;
     if (value && typeof value === 'object') {
       value = value.id ?? value.model_id ?? value.modelId ?? value.model ?? value.name;
     }
-    if (typeof value !== 'string') continue;
+    if (typeof value !== 'string') {
+      rejected.push({ reason: 'missing-id', fields: row && typeof row === 'object' ? Object.keys(row).slice(0,8) : [] });
+      continue;
+    }
     const id = value.trim();
-    if (!VALID_ID.test(id) || seen.has(id)) continue;
+    if (!VALID_ID.test(id)) {
+      rejected.push({ reason: 'invalid-id', id: id.slice(0,120) });
+      continue;
+    }
+    if (seen.has(id)) {
+      rejected.push({ reason: 'duplicate', id: id.slice(0,120) });
+      continue;
+    }
     seen.add(id);
     ids.push(id);
     if (ids.length > MAX_MODELS) throw new Error('Excessive number of model IDs');
+  }
+  if (process.env.CATALOG_AUDIT === '1') {
+    console.log('CATALOG_PARSE_AUDIT=' + JSON.stringify({
+      rawCount: rows.length, accepted: ids.length, rejected
+    }));
   }
   return ids.sort((a, b) => a.localeCompare(b, 'en', { numeric: true }));
 }
