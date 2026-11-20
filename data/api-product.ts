@@ -2,7 +2,11 @@
 // Product/stock data must be rechecked in the store before publishing promotional prices.
 export const apiBaseUrl = 'https://api.zhibeimao.com/v1';
 export const alternativeApiBaseUrl = 'https://api.chatgpt5x.com/v1';
-export const priceCheckedOn = '2026-11-19';
+export const priceCheckedOn = '2026-11-20';
+
+// Dated reference FX rate (not a guaranteed exchange or settlement rate).
+// Used ONLY to compare the RMB purchase price with the USD credit face value.
+export const usdCnyReference = { rate: 6.67, asOf: '2026-11-20' } as const;
 
 export const modelFamilies = [
   { name: 'GPT', provider: 'OpenAI', initials: 'G', description: '对话 · 推理 · 开发' },

@@ -14,11 +14,9 @@ import {
 
 import { siteLinks } from '@/data/site-links';
 import { ModelCatalog } from '@/components/ModelCatalog';
+import { CreditPricingSection } from '@/components/CreditPricingSection';
 import { getPublicModelCatalog } from '@/lib/model-catalog';
-import {
-  apiBaseUrl,
-  keyOffers
-} from '@/data/api-product';
+import { apiBaseUrl } from '@/data/api-product';
 
 export const metadata: Metadata = {
   title: '智享AI API｜统一模型 API 接入服务',
@@ -34,7 +32,7 @@ export const metadata: Metadata = {
 
 const advantages = [
   { icon: Layers3, title: '统一模型接口', detail: '多个模型系列，共用一个 API 地址' },
-  { icon: CreditCard, title: '人民币购买', detail: '提供多档 Key 额度，按需选择' },
+  { icon: CreditCard, title: '美元额度，人民币优惠购买', detail: '多档美元额度，人民币优惠入手' },
   { icon: Globe2, title: '便捷开发', detail: '兼容 OpenAI SDK 与自定义 API 客户端' }
 ];
 
@@ -67,10 +65,10 @@ export default async function ApiProductPage() {
               </span>
             </h1>
             <p className="mt-5 max-w-2xl text-[15px] leading-8 text-slate-300 sm:text-base">
-              通过统一 API 地址连接多个主流 AI 模型系列，简化应用、智能体及开发工具的接入。人民币购买 API Key，按需选择使用额度。
+              通过统一 API 地址连接多个主流 AI 模型系列，简化应用、智能体及开发工具的接入。美元计价的 API 额度也能直接用人民币优惠购买，明码标价，按需选择。
             </p>
             <div className="mt-6 flex flex-wrap gap-2">
-              {['OpenAI 兼容接口', '多模型接入', '人民币购买'].map((tag) => (
+              {['OpenAI 兼容接口', '多模型接入', '美元额度折扣购买'].map((tag) => (
                 <span key={tag} className="rounded-full border border-white/15 bg-white/[0.05] px-3 py-1.5 text-[11px] font-medium text-slate-200 sm:text-xs">
                   {tag}
                 </span>
@@ -143,49 +141,7 @@ export default async function ApiProductPage() {
 
       <ModelCatalog models={catalog.models} available={catalog.available} />
 
-      <section className="mt-16 scroll-mt-24" id="pricing" aria-labelledby="pricing-title">
-        <div className="grid gap-6 lg:grid-cols-[minmax(0,0.75fr)_minmax(0,1.25fr)] lg:items-center">
-          <div>
-            <p className="text-xs font-semibold tracking-[0.2em] text-cyan-300">ACCESSIBLE PRICING</p>
-            <h2 id="pricing-title" className="mt-2 text-2xl font-bold tracking-tight text-white sm:text-3xl">
-              多种套餐，按需选择
-            </h2>
-            <p className="mt-4 text-sm leading-8 text-slate-300">
-              人民币购买，无需海外银行卡。提供多种额度选择，可根据实际使用需求灵活购买。
-            </p>
-            <p className="mt-3 text-sm leading-7 text-slate-400">
-              不同模型采用不同计费规则。具体价格、可用额度与商品信息，请以购买页面为准。
-            </p>
-            <a href={siteLinks.apiKey} target="_blank" rel="noopener noreferrer" className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-xl border border-cyan-300/30 bg-cyan-300/10 px-5 py-2.5 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-300/15">
-              查看商城实时价格 <ArrowUpRight className="h-4 w-4" />
-            </a>
-          </div>
-          <div className="grid gap-3 sm:grid-cols-3">
-            {keyOffers.map((offer, index) => (
-              <a
-                key={offer.amount}
-                href={siteLinks.apiKey}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={'surface-panel group relative flex min-w-0 flex-col rounded-2xl p-5 transition hover:border-cyan-300/40 ' + (index === 1 ? 'ring-1 ring-cyan-300/30' : '')}
-              >
-                <span className="text-xs font-semibold text-slate-400">{offer.label}</span>
-                <div className="mt-3 flex items-end gap-1 text-white">
-                  <span className="pb-1 text-lg font-bold">¥</span>
-                  <span className="text-4xl font-black tracking-tight">{offer.price}</span>
-                </div>
-                <p className="mt-2 text-sm font-medium text-slate-200">{offer.amount} 美元额度通用 Key</p>
-                <span className="mt-auto inline-flex items-center gap-1 pt-6 text-sm font-semibold text-cyan-200 group-hover:text-white">
-                  查看库存并购买 <ArrowRight className="h-4 w-4" />
-                </span>
-              </a>
-            ))}
-          </div>
-        </div>
-        <p className="mt-4 text-xs leading-6 text-slate-500">
-          以上为套餐参考信息，实际售价及库存以商城为准；不同模型的使用费用可能不同。
-        </p>
-      </section>
+      <CreditPricingSection />
 
       <section className="mt-16 scroll-mt-24" id="quickstart" aria-labelledby="start-title">
         <div className="flex flex-wrap items-end justify-between gap-3">

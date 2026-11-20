@@ -106,8 +106,22 @@ async function run() {
       }
       assert.equal(await page.getByRole('link', { name: /查看接入文档/ }).count() >= 1, true, 'API docs CTA missing');
       assert.equal(await page.locator('code').filter({ hasText: 'https://api.zhibeimao.com/v1' }).count() >= 1, true, 'API Base URL missing');
-      assert(await page.locator('#pricing').getByText('3 美元额度通用 Key').isVisible());
-      assert(await page.locator('#pricing a[href="https://online.chatgpt5x.com/"]').count() >= 3);
+      const pricing = page.locator('#pricing');
+      assert(await pricing.getByRole('heading', { name: '美元 API 额度，人民币优惠购买' }).isVisible(), 'pricing heading missing');
+      assert(await pricing.getByText('3 美元额度通用 Key').isVisible());
+      assert.equal(await pricing.locator('a[aria-label*="美元额度，人民币"]').count(), 3, 'expect three credit offers');
+      for (const [amount, price, fold, percent] of [['3', '10', '5.0', '50'], ['10', '30', '4.5', '55'], ['20', '55', '4.1', '59']]) {
+        const offer = pricing.locator('a[aria-label^="' + amount + ' 美元额度，人民币"]');
+        assert.equal(await offer.count(), 1, 'missing credit offer for amount ' + amount);
+        const label = await offer.getAttribute('aria-label');
+        assert(label.includes('人民币 ' + price + ' 元'), 'wrong RMB price for credit amount ' + amount);
+        const flatText = (await offer.innerText()).replace(/\s+/g, '');
+        assert(flatText.includes('约' + fold + '折'), 'missing discount fold for ' + amount);
+        assert(flatText.includes('约省' + percent + '%'), 'missing discount saving for ' + amount);
+      }
+      assert(await pricing.getByText(/不代表各模型调用费用比官方 API 便宜相同比例/).isVisible(), 'model price caveat missing');
+      assert(await pricing.getByText(/参考汇率：2026-11-20/).isVisible(), 'dated exchange rate note missing');
+      assert(await pricing.locator('a[href="https://online.chatgpt5x.com/"]').count() >= 3);
       await page.screenshot({ path: path.join(output, 'api-' + width + '.png'), fullPage: true });
 
       await visit(page, '/api/docs', 'docs-' + width);
