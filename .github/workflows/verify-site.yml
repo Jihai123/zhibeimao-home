@@ -24,6 +24,8 @@ jobs:
         run: node scripts/test-model-catalog.cjs
       - name: Verify latest model ranking
         run: node scripts/test-model-ranking.cjs
+      - name: Verify RMB credit savings math and disclaimers
+        run: node scripts/test-credit-pricing.cjs
       - name: Build and type-check
         run: npm run build
       - name: Install browser QA runner
