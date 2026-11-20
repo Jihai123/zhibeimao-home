@@ -17,6 +17,17 @@ function test() {
   ] });
   assert.deepEqual(parseModelNames(json), ['claude-sonnet-4-6', 'gpt-5.6-terra']);
 
+  const mediaModels = JSON.stringify({ models: [
+    { id: 499, name: 'gemini-2.5-flash-image-bs', vendor: 'Google' },
+    { id: 498, name: 'grok-imagine-video-1.5', vendor: 'xAI' },
+    { id: 509, name: 'gpt-image-2.6-sunburst-c', vendor: 'OpenAI' }
+  ] });
+  assert.deepEqual(parseModelNames(mediaModels), [
+    'gemini-2.5-flash-image-bs',
+    'gpt-image-2.6-sunburst-c',
+    'grok-imagine-video-1.5'
+  ]);
+
   const csv = 'model_id,provider\r\ngpt-5.6-terra,OpenAI\r\nclaude-sonnet-4-6,Anthropic\r\n';
   assert.deepEqual(parseModelNames(csv), ['claude-sonnet-4-6', 'gpt-5.6-terra']);
 
