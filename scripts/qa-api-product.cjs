@@ -115,7 +115,7 @@ async function run() {
         assert.equal(await offer.count(), 1, 'missing credit offer for amount ' + amount);
         const label = await offer.getAttribute('aria-label');
         assert(label.includes('人民币 ' + price + ' 元'), 'wrong RMB price for credit amount ' + amount);
-        const flatText = (await offer.innerText()).replace(/\\s+/g, '');
+        const flatText = (await offer.innerText()).replace(/\s+/g, '');
         assert(flatText.includes('约' + fold + '折'), 'missing discount fold for ' + amount);
         assert(flatText.includes('约省' + percent + '%'), 'missing discount saving for ' + amount);
       }
