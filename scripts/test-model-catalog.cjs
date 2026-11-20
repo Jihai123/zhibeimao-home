@@ -72,14 +72,20 @@ function test() {
   assert.equal(tiers.tiers[0].terms.input, 2);
   assert.equal(tiers.tiers[0].terms.output, 10);
   assert.equal(tiers.tiers[1].terms.input, 4);
-  assert.match(tiers.tiers[0].condition, /272,000/);
+  assert.match(tiers.tiers[0].condition, /上下文 <= 272,000 Token/);
+  assert.match(tiers.tiers[1].condition, /上下文 > 272,000 Token/);
   assert.equal(tiers.timeVariable, false);
+  assert.deepEqual(tiers.timeWindows, []);
 
   const timed = pricingParser.parseBillingExpression(
     '(tier("base", p * 0.5 + c * 2 + cr * 0.01)) * (hour("Asia/Shanghai") >= 9 ? 2 : 1)'
   );
   assert.equal(timed.tiers.length, 1);
   assert.equal(timed.timeVariable, true);
+  assert.deepEqual(timed.timeWindows, [
+    { startHour: 9, endHour: 12, multiplier: 2 },
+    { startHour: 14, endHour: 18, multiplier: 2 }
+  ]);
   const video = pricingParser.parseBillingExpression('tier("base", u("input_images") * 0 + u("seconds") * 0.08)');
   assert.equal(video.tiers.length, 1);
   assert.equal(video.tiers[0].terms.seconds, 0.08);
