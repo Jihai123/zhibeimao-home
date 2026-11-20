@@ -29,18 +29,9 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Check configured source
-        env:
-          MODEL_CATALOG_DOWNLOAD_URL: ${{ vars.MODEL_CATALOG_DOWNLOAD_URL }}
-        run: |
-          if [ -z "$MODEL_CATALOG_DOWNLOAD_URL" ]; then
-            echo "::error::Missing repository variable MODEL_CATALOG_DOWNLOAD_URL (actual website model export file URL)"
-            exit 1
-          fi
-
       - name: Download and validate model file
         env:
-          MODEL_CATALOG_DOWNLOAD_URL: ${{ vars.MODEL_CATALOG_DOWNLOAD_URL }}
+          MODEL_CATALOG_DOWNLOAD_URL: https://www.juhenext.com/api/catalog
           MODEL_CATALOG_ALLOWED_HOSTS: ${{ vars.MODEL_CATALOG_ALLOWED_HOSTS }}
         run: node scripts/sync-model-catalog.cjs
 
