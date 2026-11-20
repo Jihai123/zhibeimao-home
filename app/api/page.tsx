@@ -20,8 +20,7 @@ import {
   alternativeApiBaseUrl,
   apiBaseUrl,
   keyOffers,
-  modelFamilies,
-  priceCheckedOn
+  modelFamilies
 } from '@/data/api-product';
 
 export const metadata: Metadata = {
@@ -218,7 +217,7 @@ export default function ApiProductPage() {
           </div>
         </div>
         <p className="mt-4 text-xs leading-6 text-slate-500">
-          套餐展示为 {priceCheckedOn} 价格参考。美元额度为商城商品标称额度，模型实际使用费用及最新价格以购买页面为准。
+          以上为套餐参考信息，实际售价及库存以商城为准；不同模型的使用费用可能不同。
         </p>
       </section>
 
