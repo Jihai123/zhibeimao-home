@@ -89,8 +89,8 @@ async function run() {
       assert(await pricing.getByRole('heading', { name: '美元 API 额度，人民币优惠购买' }).isVisible(), 'credit pricing must remain visible');
       const catalog = page.locator('#models');
       assert(await catalog.getByRole('heading', { name: '模型目录与调用价格' }).isVisible(), 'model pricing catalog must exist');
-      assert(await catalog.getByText(/个模型/).isVisible(), 'unique model count must be visible');
-      assert(await catalog.getByText(/个 API ID/).isVisible(), 'API ID count must be visible');
+      assert(await catalog.getByText(/^\d+ 个模型$/).isVisible(), 'unique model count must be visible');
+      assert(await catalog.getByText(/^\d+ 个 API ID（含不同线路）$/).isVisible(), 'API ID count must be visible');
       assert(await catalog.getByText(/⚡/).count() > 0, 'catalog prices must be rendered');
       assert(await catalog.getByRole('searchbox', { name: '搜索模型' }).isVisible(), 'model search must exist');
       const featured = catalog.locator('article h3');
