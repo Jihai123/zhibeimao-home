@@ -14,11 +14,13 @@ function loadTs(path) {
     if (name === '@/data/api-product') return { modelFamilies: sourceFamilies };
     if (name === '@/data/model-catalog.json') return require('../data/model-catalog.json');
     if (name === '@/lib/model-ranking') return modules.ranking;
+    if (name === '@/lib/model-catalog-pricing') return modules.pricing;
     throw new Error('Unexpected module dependency: ' + name);
   };
   new Function('require', 'module', 'exports', transpiled)(localRequire, module, module.exports);
   return module.exports;
 }
+modules.pricing = loadTs('lib/model-catalog-pricing.ts');
 modules.ranking = loadTs('lib/model-ranking.ts');
 modules.catalog = loadTs('lib/model-catalog.ts');
 
