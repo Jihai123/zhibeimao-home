@@ -6,11 +6,20 @@ import { ArrowRight, Layers3, Search } from 'lucide-react';
 
 import { modelFamilies } from '@/data/api-product';
 import type { ListedModel } from '@/lib/model-catalog';
-import { isFeaturedModel } from '@/lib/model-ranking';
+import type { BillingTier, ModelPricing, PriceTerms } from '@/lib/model-catalog-pricing';
 
 type Props = {
   models: ListedModel[];
   available: boolean;
+  total?: number;
+  syncedAt?: string | null;
+};
+
+type ModelGroup = {
+  canonicalId: string;
+  family: string;
+  variants: ListedModel[];
+  primary: ListedModel;
 };
 
 const tones = [
@@ -23,27 +32,177 @@ const tones = [
 const PAGE_SIZE = 18;
 const choices = ['全部', ...modelFamilies.map((family) => family.name), '其他'];
 
-export function ModelCatalog({ models, available }: Props) {
+function formatPrice(value: number | undefined): string {
+  if (value === undefined || !Number.isFinite(value)) return '—';
+  return new Intl.NumberFormat('zh-CN', { maximumFractionDigits: 4 }).format(value);
+}
+
+function PriceSummary({ pricing }: { pricing: ModelPricing }) {
+  if (pricing.kind === 'token') {
+    return (
+      <div className="text-right text-[11px] leading-5 text-slate-300 sm:text-xs">
+        <div>输入 <strong className="text-cyan-100">⚡{formatPrice(pricing.input)}</strong></div>
+        <div>输出 <strong className="text-cyan-100">⚡{formatPrice(pricing.output)}</strong></div>
+      </div>
+    );
+  }
+  if (pricing.kind === 'tiered') {
+    return <span className="rounded-full border border-amber-300/20 bg-amber-300/10 px-2.5 py-1 text-[11px] font-medium text-amber-100">分档计费</span>;
+  }
+  if (pricing.kind === 'request') {
+    return <span className="text-right text-xs font-semibold text-cyan-100">按次 ⚡{formatPrice(pricing.perRequest)}</span>;
+  }
+  if (pricing.kind === 'complex') {
+    return <span className="text-right text-xs text-amber-100">复杂计费</span>;
+  }
+  return <span className="text-right text-xs text-slate-500">价格待核实</span>;
+}
+
+function Metric({ label, value }: { label: string; value: number | undefined }) {
+  if (value === undefined) return null;
+  return (
+    <div className="rounded-lg border border-white/10 bg-slate-950/40 px-3 py-2">
+      <p className="text-[11px] text-slate-500">{label}</p>
+      <p className="mt-1 text-sm font-semibold text-slate-100">⚡{formatPrice(value)}</p>
+    </div>
+  );
+}
+
+function TermsGrid({ terms }: { terms: PriceTerms }) {
+  const metrics: Array<[string, number | undefined]> = [
+    ['输入 / 百万 Token', terms.input],
+    ['输出 / 百万 Token', terms.output],
+    ['缓存读取 / 百万 Token', terms.cacheRead],
+    ['缓存写入 / 百万 Token', terms.cacheWrite],
+    ['1 小时缓存写入', terms.cacheWrite1h],
+    ['12 小时缓存写入', terms.cacheWrite12h]
+  ];
+  const visible = metrics.filter(([, value]) => value !== undefined);
+  return (
+    <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+      {visible.map(([label, value]) => <Metric key={label} label={label} value={value} />)}
+    </div>
+  );
+}
+
+function PricingDetails({ pricing }: { pricing: ModelPricing }) {
+  if (pricing.kind === 'token') {
+    return (
+      <div className="mt-3">
+        <TermsGrid terms={{ input: pricing.input, output: pricing.output, cacheRead: pricing.cacheRead, cacheWrite: pricing.cacheWrite }} />
+        <p className="mt-2 text-[11px] text-slate-500">目录计价单位：⚡ / 百万 Token</p>
+      </div>
+    );
+  }
+  if (pricing.kind === 'tiered') {
+    return (
+      <div className="mt-3 space-y-3">
+        {pricing.tiers.map((tier: BillingTier, index: number) => (
+          <div key={tier.label + index} className="rounded-xl border border-white/10 bg-slate-950/35 p-3">
+            <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
+              <span className="text-xs font-semibold text-white">{tier.label}</span>
+              {tier.condition && <span className="text-[11px] text-slate-400">{tier.condition}</span>}
+            </div>
+            <TermsGrid terms={tier.terms} />
+          </div>
+        ))}
+        {pricing.timeVariable && (
+          <p className="rounded-lg border border-amber-300/15 bg-amber-300/[0.06] px-3 py-2 text-[11px] leading-5 text-amber-100/80">
+            该模型还包含时段倍率，以上为表达式中的基础计价系数，实际费用会随计费时段变化。
+          </p>
+        )}
+        <p className="text-[11px] text-slate-500">目录计价单位：⚡ / 百万 Token；最终扣费以 Key 用量记录为准。</p>
+      </div>
+    );
+  }
+  if (pricing.kind === 'request') {
+    return (
+      <div className="mt-3">
+        <Metric label="每次请求" value={pricing.perRequest} />
+        <p className="mt-2 text-[11px] text-slate-500">目录计价单位：⚡ / 次</p>
+      </div>
+    );
+  }
+  if (pricing.kind === 'complex') {
+    return <p className="mt-3 text-xs leading-5 text-amber-100/80">该模型使用复合计费规则，暂不展示估算单价，避免误导；实际扣费以 Key 用量记录为准。</p>;
+  }
+  return <p className="mt-3 text-xs text-slate-500">当前目录没有提供可确认的价格字段，请以实际用量记录为准。</p>;
+}
+
+function ModelRow({ group }: { group: ModelGroup }) {
+  const hasMore = group.variants.length > 1;
+  return (
+    <article className="min-w-0 px-3 py-3.5 sm:px-5">
+      <div className="grid min-w-0 grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
+        <div className="min-w-0">
+          <code className="block break-all select-all text-xs font-semibold leading-6 text-slate-100 sm:text-sm">{group.primary.id}</code>
+          <p className="mt-0.5 text-[11px] text-slate-500">{group.family}{group.primary.vendor ? ' · ' + group.primary.vendor : ''}</p>
+        </div>
+        <div className="shrink-0">
+          <PriceSummary pricing={group.primary.pricing} />
+        </div>
+      </div>
+      <details className="group/details mt-2 border-t border-white/[0.06] pt-2">
+        <summary className="cursor-pointer list-none text-[11px] font-medium text-cyan-200 marker:hidden hover:text-white">
+          {hasMore ? '查看价格详情及其他接入 ID' : '查看价格详情'}
+          <span className="ml-1 inline-block transition group-open/details:rotate-90">›</span>
+        </summary>
+        <div className="mt-3 space-y-3">
+          {group.variants.map((variant) => (
+            <div key={variant.id} className="rounded-xl border border-white/10 bg-white/[0.025] p-3">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <span className="rounded-full border border-white/10 bg-white/[0.05] px-2 py-1 text-[11px] text-slate-300">{variant.variant}</span>
+                <code className="max-w-full break-all select-all text-[11px] text-slate-400">{variant.id}</code>
+              </div>
+              <PricingDetails pricing={variant.pricing} />
+            </div>
+          ))}
+        </div>
+      </details>
+    </article>
+  );
+}
+
+export function ModelCatalog({ models, available, total, syncedAt }: Props) {
   const [keyword, setKeyword] = useState('');
   const [family, setFamily] = useState('全部');
   const [visible, setVisible] = useState(PAGE_SIZE);
 
+  const groups = useMemo(() => {
+    const byName = new Map<string, ListedModel[]>();
+    for (const model of models) {
+      const variants = byName.get(model.canonicalId) ?? [];
+      variants.push(model);
+      byName.set(model.canonicalId, variants);
+    }
+    return Array.from(byName.entries()).map(([canonicalId, variants]) => {
+      const primary = variants.find((item) => item.variant === '默认线路') ?? variants[0];
+      return { canonicalId, family: primary.family, variants, primary };
+    });
+  }, [models]);
+
   const featured = useMemo(() =>
     modelFamilies
-      .map((group) => ({ group, model: models.find((item) => item.family === group.name && isFeaturedModel(item)) }))
+      .map((group) => ({
+        group,
+        model: groups.find((item) => item.family === group.name && !item.primary.id.includes('/'))
+      }))
       .filter((entry) => entry.model !== undefined),
-    [models]
+    [groups]
   );
 
   const filtered = useMemo(() => {
     const q = keyword.trim().toLowerCase();
-    return models.filter((model) =>
-      (family === '全部' || model.family === family) &&
-      (!q || model.id.toLowerCase().includes(q) || model.family.toLowerCase().includes(q))
+    return groups.filter((group) =>
+      (family === '全部' || group.family === family) &&
+      (!q || group.canonicalId.toLowerCase().includes(q) ||
+        group.family.toLowerCase().includes(q) ||
+        group.variants.some((variant) => variant.id.toLowerCase().includes(q)))
     );
-  }, [models, keyword, family]);
+  }, [groups, keyword, family]);
 
-  const hasCatalog = available && models.length > 0;
+  const hasCatalog = available && groups.length > 0;
+  const idCount = total ?? models.length;
 
   return (
     <section className="mt-14 scroll-mt-24" id="models" aria-labelledby="model-catalog-title">
@@ -51,11 +210,11 @@ export function ModelCatalog({ models, available }: Props) {
         <div className="min-w-0 max-w-3xl">
           <p className="text-xs font-semibold tracking-[0.16em] text-cyan-300">MODEL CATALOG</p>
           <h2 id="model-catalog-title" className="mt-2 text-2xl font-bold tracking-tight text-white sm:text-3xl">
-            发现主流 AI 模型
+            模型目录与调用价格
           </h2>
           <p className="mt-3 text-sm leading-7 text-slate-400">
             {hasCatalog
-              ? '浏览当前目录中的较新版本及全部模型 ID。数据每日同步更新。'
+              ? '先看输入、输出价格；缓存、分档和不同线路的详细规则按需展开。'
               : '通过统一 API 连接 GPT、Claude、Gemini、Grok 等模型系列。'}
           </p>
         </div>
@@ -66,7 +225,13 @@ export function ModelCatalog({ models, available }: Props) {
 
       {hasCatalog ? (
         <>
-          <div className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-4">
+          <div className="mt-5 flex flex-wrap items-center gap-2 text-[11px] text-slate-400">
+            <span className="rounded-full border border-white/10 bg-white/[0.04] px-2.5 py-1">{groups.length} 个模型</span>
+            <span className="rounded-full border border-white/10 bg-white/[0.04] px-2.5 py-1">{idCount} 个 API ID（含不同线路）</span>
+            <span>价格按上游目录同步</span>
+          </div>
+
+          <div className="mt-5 grid grid-cols-2 gap-3 md:grid-cols-4">
             {featured.map(({ group, model }, index) => (
               <article key={group.name} className="surface-panel min-w-0 rounded-2xl p-4 transition hover:border-cyan-300/35 sm:p-5">
                 <div className="flex items-center justify-between gap-2">
@@ -77,16 +242,19 @@ export function ModelCatalog({ models, available }: Props) {
                 </div>
                 <p className="mt-4 text-xs font-medium text-slate-400">{group.name} · 较新版本</p>
                 <h3 className="mt-2 min-h-12 break-all select-all text-base font-bold leading-6 text-white sm:text-lg">
-                  {model?.id}
+                  {model?.primary.canonicalId}
                 </h3>
+                <div className="mt-2 border-t border-white/10 pt-2">
+                  <PriceSummary pricing={model!.primary.pricing} />
+                </div>
               </article>
             ))}
           </div>
 
           <div className="surface-panel mt-6 min-w-0 rounded-2xl p-4 sm:p-6">
             <div className="flex flex-wrap items-center justify-between gap-2">
-              <h3 className="text-lg font-semibold text-white">完整模型目录</h3>
-              <span className="text-xs text-slate-400">{models.length} 个型号 · 较新版本优先</span>
+              <h3 className="text-lg font-semibold text-white">全部模型</h3>
+              <span className="text-xs text-slate-400">较新版本优先 · 同名线路合并展示</span>
             </div>
 
             <div className="relative mt-4 min-w-0">
@@ -95,7 +263,7 @@ export function ModelCatalog({ models, available }: Props) {
                 type="search"
                 value={keyword}
                 onChange={(event) => { setKeyword(event.target.value); setVisible(PAGE_SIZE); }}
-                placeholder="搜索模型名称或 ID"
+                placeholder="搜索模型名称或完整 API ID"
                 aria-label="搜索模型"
                 className="w-full min-w-0 rounded-xl border border-white/15 bg-slate-950/60 py-3 pl-10 pr-4 text-sm text-white outline-none placeholder:text-slate-500 focus:border-cyan-300/50"
               />
@@ -121,12 +289,7 @@ export function ModelCatalog({ models, available }: Props) {
             <div className="mt-5 min-w-0 overflow-hidden rounded-xl border border-white/10">
               {filtered.length ? (
                 <div className="divide-y divide-white/10">
-                  {filtered.slice(0, visible).map((model) => (
-                    <div key={model.id} className="grid min-w-0 grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-3 py-3.5 sm:px-5">
-                      <code className="min-w-0 break-all select-all text-xs font-medium leading-6 text-slate-100 sm:text-sm">{model.id}</code>
-                      <span className="shrink-0 text-xs text-slate-400">{model.family}</span>
-                    </div>
-                  ))}
+                  {filtered.slice(0, visible).map((group) => <ModelRow key={group.canonicalId} group={group} />)}
                 </div>
               ) : (
                 <p className="px-4 py-8 text-center text-sm text-slate-400">没有找到符合条件的模型</p>
@@ -134,7 +297,7 @@ export function ModelCatalog({ models, available }: Props) {
             </div>
 
             <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
-              <p className="text-xs text-slate-400">显示 {Math.min(visible, filtered.length)} / {filtered.length} 个型号</p>
+              <p className="text-xs text-slate-400">显示 {Math.min(visible, filtered.length)} / {filtered.length} 个模型</p>
               {filtered.length > visible && (
                 <button
                   type="button"
@@ -148,8 +311,9 @@ export function ModelCatalog({ models, available }: Props) {
           </div>
 
           <p className="mt-3 text-xs leading-6 text-slate-500">
-            型号根据模型目录同步更新，优先展示较新版本；该顺序不代表官方发布日期。实际可调用范围及计费以购买的 API Key 权限和套餐为准。
+            价格单位为上游用量计价单位 ⚡，Token 价格按百万 Token 展示，图片等按次模型单独标注。基础、标准等同名线路已合并，展开后可查看准确 API ID 与各自价格。不同 Key 分组、缓存及特殊计费条件可能影响最终扣费，请以实际用量记录为准。
           </p>
+          {syncedAt && <p className="mt-1 text-[11px] text-slate-600">目录更新时间：{new Date(syncedAt).toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' })}</p>}
         </>
       ) : (
         <>
