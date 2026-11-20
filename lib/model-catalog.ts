@@ -13,7 +13,7 @@ export type ModelCatalog = {
 };
 
 const familyMatchers: Array<{ name: string; test: RegExp }> = [
-  { name: 'GPT', test: /^(gpt[-_.]|chatgpt[-_.]|o[134][-_.]|codex[-_.])/i },
+  { name: 'GPT', test: /(?:^|\/)(?:gpt[-_.]|chatgpt[-_.]|o[134][-_.]|codex[-_.])/i },
   { name: 'Claude', test: /claude/i },
   { name: 'Gemini', test: /gemini|nano[-_.]?banana/i },
   { name: 'Grok', test: /grok/i },
