@@ -80,6 +80,11 @@ async function run() {
       for (const forbidden of ['HTTP 200 已实测', '已完成的实际验证', '反代', '临时域名', '待逐项验证', '上游扣费']) {
         assert.equal(publicCopy.includes(forbidden), false, 'customer-facing copy contains internal language: ' + forbidden);
       }
+      const sectionOrder = await page.locator('main').evaluate((main) =>
+        Array.from(main.querySelectorAll('#pricing, #models')).map((section) => section.id)
+      );
+      assert.deepEqual(sectionOrder, ['pricing', 'models'], 'credit offers should appear before model prices');
+
       const pricing = page.locator('#pricing');
       assert(await pricing.getByRole('heading', { name: '美元 API 额度，人民币优惠购买' }).isVisible(), 'credit pricing must remain visible');
       const catalog = page.locator('#models');
@@ -91,18 +96,19 @@ async function run() {
       const featured = catalog.locator('article h3');
       assert.equal(await featured.count(), 8, 'eight featured model cards are expected');
       const featuredIds = (await featured.allTextContents()).map((id) => id.trim());
-      assert(featuredIds.every((id) => id && !id.includes('/')), 'featured cards must not show channel aliases');
-      const firstGroup = catalog.locator('article').filter({ has: catalog.locator('summary') }).first();
+      assert(featuredIds.every((id) => id && !id.includes('/'), 'featured cards must not show channel aliases');
+      const firstGroup = catalog.locator('.divide-y > article').first();
       if (await firstGroup.count()) {
         await firstGroup.locator('summary').click();
-        assert(await firstGroup.locator('details[open]').count() === 1, 'model details should expand');
+        assert.equal(await firstGroup.locator('details[open]').count(), 1, 'model details should expand');
+        assert(await firstGroup.getByText(/目录计价单位：⚡ \/ 百万 Token/).count() > 0, 'expanded model pricing unit missing');
       }
       await catalog.getByRole('searchbox', { name: '搜索模型' }).fill('gpt-6.2-sol');
       assert(await catalog.getByText('gpt-6.2-sol', { exact: true }).count() >= 1, 'search must find canonical model names');
       await catalog.getByRole('searchbox', { name: '搜索模型' }).fill('');
       await catalog.getByRole('button', { name: 'Claude', exact: true }).click();
       assert.equal(await catalog.getByRole('button', { name: 'Claude', exact: true }).getAttribute('aria-pressed'), 'true');
-      assert(await catalog.getByText(/⚡ \/ 百万 Token/).count() > 0, 'price unit disclaimer missing');
+      assert(await catalog.getByText(/价格单位为上游用量计价单位/).isVisible(), 'price unit disclaimer missing');
 
       assert(await page.getByRole('heading', { name: /一个 Key/ }).isVisible());
       assert.equal(await page.locator('#direct-use').count(), 0, 'API product page must not repeat the online-tools section');
