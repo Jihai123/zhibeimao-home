@@ -28,6 +28,9 @@ jobs:
         run: |
           npm install --no-save --no-package-lock playwright@1.55.1
           google-chrome --version
+      - name: Probe aggregation website catalog network
+        continue-on-error: true
+        run: node scripts/probe-juhenext-catalog.cjs
       - name: Start isolated local preview
         run: |
           npm run start -- -p 3000 >/tmp/zhibeimao-next-start.log 2>&1 &
