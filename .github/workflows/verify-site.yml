@@ -20,6 +20,8 @@ jobs:
           cache: npm
       - name: Install dependencies
         run: npm ci
+      - name: Verify model catalog normalization
+        run: node scripts/test-model-catalog.cjs
       - name: Build and type-check
         run: npm run build
       - name: Install browser QA runner
