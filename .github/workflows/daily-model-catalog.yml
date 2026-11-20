@@ -1,0 +1,60 @@
+name: Daily model catalog file sync
+
+on:
+  schedule:
+    # 02:15 Asia/Shanghai every day
+    - cron: '15 18 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: daily-model-catalog-sync
+  cancel-in-progress: false
+
+jobs:
+  import-model-file:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out catalog branch
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          persist-credentials: true
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Check configured source
+        env:
+          MODEL_CATALOG_DOWNLOAD_URL: ${{ vars.MODEL_CATALOG_DOWNLOAD_URL }}
+        run: |
+          if [ -z "$MODEL_CATALOG_DOWNLOAD_URL" ]; then
+            echo "::error::Missing repository variable MODEL_CATALOG_DOWNLOAD_URL (actual website model export file URL)"
+            exit 1
+          fi
+
+      - name: Download and validate model file
+        env:
+          MODEL_CATALOG_DOWNLOAD_URL: ${{ vars.MODEL_CATALOG_DOWNLOAD_URL }}
+          MODEL_CATALOG_ALLOWED_HOSTS: ${{ vars.MODEL_CATALOG_ALLOWED_HOSTS }}
+        run: node scripts/sync-model-catalog.cjs
+
+      - name: Run model catalog integrity tests
+        run: node scripts/test-model-catalog.cjs
+
+      - name: Commit valid catalog only
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- data/model-catalog.json
+          if git diff --cached --quiet; then
+            echo "Model catalog unchanged."
+          else
+            git commit -m "data: refresh daily model catalog from website file"
+            git push origin HEAD:main
+          fi
