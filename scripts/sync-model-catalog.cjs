@@ -136,6 +136,10 @@ function updateSnapshot(content, filePath = DESTINATION) {
   if (previousCount && ids.length < Math.ceil(previousCount * 0.5)) {
     throw new Error('Model count dropped sharply (' + previousCount + ' -> ' + ids.length + '), preserving last good snapshot');
   }
+  if (previousCount === ids.length && Array.isArray(previous.models) &&
+      previous.models.every((id, index) => id === ids[index])) {
+    return { count: ids.length, previousCount, changed: false, snapshot: previous };
+  }
   const snapshot = {
     version: 1,
     source: 'website-file-export',
@@ -145,15 +149,16 @@ function updateSnapshot(content, filePath = DESTINATION) {
   const tmpPath = filePath + '.tmp';
   fs.writeFileSync(tmpPath, JSON.stringify(snapshot, null, 2) + '\n', { encoding: 'utf8' });
   fs.renameSync(tmpPath, filePath);
-  return { count: ids.length, previousCount, snapshot };
+  return { count: ids.length, previousCount, changed: true, snapshot };
 }
 
 async function main() {
   const url = validateDownloadUrl(process.env.MODEL_CATALOG_DOWNLOAD_URL || DEFAULT_CATALOG_URL);
   const content = await downloadText(url);
   const result = updateSnapshot(content);
-  console.log('Model file imported successfully; models=' + result.count +
-    ', previous=' + result.previousCount + ', updated=' + result.snapshot.syncedAt);
+  console.log('Model catalog checked; models=' + result.count +
+    ', previous=' + result.previousCount + ', changed=' + result.changed +
+    ', snapshot=' + result.snapshot.syncedAt);
 }
 
 if (require.main === module) {
