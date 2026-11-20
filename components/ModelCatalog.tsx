@@ -6,6 +6,7 @@ import { ArrowRight, Layers3, Search } from 'lucide-react';
 
 import { modelFamilies } from '@/data/api-product';
 import type { ListedModel } from '@/lib/model-catalog';
+import { isFeaturedModel } from '@/lib/model-ranking';
 
 type Props = {
   models: ListedModel[];
@@ -29,7 +30,7 @@ export function ModelCatalog({ models, available }: Props) {
 
   const featured = useMemo(() =>
     modelFamilies
-      .map((group) => ({ group, model: models.find((item) => item.family === group.name) }))
+      .map((group) => ({ group, model: models.find((item) => item.family === group.name && isFeaturedModel(item)) }))
       .filter((entry) => entry.model !== undefined),
     [models]
   );
@@ -54,7 +55,7 @@ export function ModelCatalog({ models, available }: Props) {
           </h2>
           <p className="mt-3 text-sm leading-7 text-slate-400">
             {hasCatalog
-              ? '浏览当前可用的模型 ID，按系列查找适合的接入型号。模型目录定期同步更新。'
+              ? '浏览当前目录中的较新版本及全部模型 ID。数据每日同步更新。'
               : '通过统一 API 连接 GPT、Claude、Gemini、Grok 等模型系列。'}
           </p>
         </div>
@@ -75,7 +76,7 @@ export function ModelCatalog({ models, available }: Props) {
                   <span className="text-[11px] text-slate-400">{group.provider}</span>
                 </div>
                 <h3 className="mt-4 text-base font-bold text-white sm:text-lg">{group.name}</h3>
-                <p className="mt-1 text-xs text-slate-400">精选接入型号</p>
+                <p className="mt-1 text-xs text-slate-400">较新版本</p>
                 <code className="mt-3 block break-all select-all rounded-lg border border-white/10 bg-slate-950/50 px-2.5 py-2 text-xs leading-5 text-cyan-100">
                   {model?.id}
                 </code>
@@ -85,8 +86,8 @@ export function ModelCatalog({ models, available }: Props) {
 
           <div className="surface-panel mt-6 min-w-0 rounded-2xl p-4 sm:p-6">
             <div className="flex flex-wrap items-center justify-between gap-2">
-              <h3 className="text-lg font-semibold text-white">模型目录</h3>
-              <span className="text-xs text-slate-400">{models.length} 个可查询型号</span>
+              <h3 className="text-lg font-semibold text-white">完整模型目录</h3>
+              <span className="text-xs text-slate-400">{models.length} 个型号 · 较新版本优先</span>
             </div>
 
             <div className="relative mt-4 min-w-0">
@@ -148,7 +149,7 @@ export function ModelCatalog({ models, available }: Props) {
           </div>
 
           <p className="mt-3 text-xs leading-6 text-slate-500">
-            以上型号来自模型列表接口。实际可调用范围以您购买的 API Key 权限为准，模型定价以相应套餐为准。
+            型号根据模型目录同步更新，优先展示较新版本；该顺序不代表官方发布日期。实际可调用范围及计费以购买的 API Key 权限和套餐为准。
           </p>
         </>
       ) : (
