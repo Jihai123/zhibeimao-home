@@ -106,20 +106,30 @@ export default async function ApiProductPage() {
               <code className="mt-2 block break-all select-all rounded-xl border border-white/10 bg-[#090f1d] px-4 py-3 text-sm leading-6 text-cyan-200">{apiBaseUrl}</code>
             </div>
             <div className="mt-5 grid gap-3">
-              <div className="flex items-start gap-3 rounded-xl border border-white/10 bg-white/[0.025] p-3.5">
+              <Link
+                href="#models"
+                aria-label="跳转到模型列表和价格"
+                className="group flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.025] p-3.5 transition hover:border-cyan-300/35 hover:bg-white/[0.06] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
+              >
                 <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-cyan-300/10 text-cyan-200"><Layers3 className="h-4 w-4" /></span>
-                <div>
-                  <h3 className="text-sm font-semibold text-white">模型列表</h3>
-                  <p className="mt-1 text-xs leading-5 text-slate-400">查询当前 Key 可访问的模型 ID</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-3 rounded-xl border border-white/10 bg-white/[0.025] p-3.5">
+                <span className="min-w-0 flex-1">
+                  <span className="block text-sm font-semibold text-white">模型列表</span>
+                  <span className="mt-1 block text-xs leading-5 text-slate-400">查看模型、输入价格和输出价格</span>
+                </span>
+                <ArrowRight className="h-4 w-4 shrink-0 text-slate-500 transition group-hover:translate-x-0.5 group-hover:text-cyan-200" />
+              </Link>
+              <Link
+                href="/api/docs#first-call"
+                aria-label="打开快速调用示例"
+                className="group flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.025] p-3.5 transition hover:border-violet-300/35 hover:bg-white/[0.06] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-200"
+              >
                 <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-violet-300/10 text-violet-200"><Terminal className="h-4 w-4" /></span>
-                <div>
-                  <h3 className="text-sm font-semibold text-white">快速调用</h3>
-                  <p className="mt-1 text-xs leading-5 text-slate-400">使用 SDK 或兼容客户端发起模型请求</p>
-                </div>
-              </div>
+                <span className="min-w-0 flex-1">
+                  <span className="block text-sm font-semibold text-white">快速调用</span>
+                  <span className="mt-1 block text-xs leading-5 text-slate-400">查看 cURL 和 Python 调用示例</span>
+                </span>
+                <ArrowRight className="h-4 w-4 shrink-0 text-slate-500 transition group-hover:translate-x-0.5 group-hover:text-violet-200" />
+              </Link>
             </div>
             <Link href="/api/docs#first-call" className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-cyan-200 hover:text-white">
               查看调用示例 <ArrowRight className="h-4 w-4" />
@@ -141,7 +151,7 @@ export default async function ApiProductPage() {
 
       <CreditPricingSection />
 
-      <ModelCatalog models={catalog.models} available={catalog.available} total={catalog.total} syncedAt={catalog.syncedAt} />
+      <ModelCatalog models={catalog.models} available={catalog.available} syncedAt={catalog.syncedAt} />
 
       <section className="mt-16 scroll-mt-24" id="quickstart" aria-labelledby="start-title">
         <div className="flex flex-wrap items-end justify-between gap-3">
