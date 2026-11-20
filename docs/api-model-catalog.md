@@ -1,25 +1,26 @@
-# 模型目录：聚合网页导出文件每日同步
+# 模型目录：聚合官网 catalog 每日同步
 
-本功能**不使用** `/v1/models` 做目录来源，不依赖 `ZHIXIANG_MODEL_CATALOG_KEY`。
+## 已验证数据源
 
-## 数据链路
+- 网页：`https://www.juhenext.com/models/`
+- 刷新时自动请求：`GET https://www.juhenext.com/api/catalog`
+- 真实 Chrome 网络采样：HTTP 200、`application/json`、响应 57,795 字节、`models` 数组 117 条（2026-11-20）
+- JSON 顶层键：`vendors`、`models`、`groupRatio`、`usableGroups`、`refreshedAt`、`source`
+- 每个 `models[]` 含 `name`（真实模型 ID）、`displayName`、`vendor`、`tags`、部分计费字段。
+- 此资源是网页自动加载的模型目录 JSON，**不是**需要 API Key 的 `/v1/models`。
 
-1. GitHub Actions 每天北京时间 **02:15** 运行 `.github/workflows/daily-model-catalog.yml`（仅合入 main 后生效）。
-2. 从聚合网页实际提供的**文件下载 URL**获取模型名单。URL 保存在仓库 Actions Variables：`MODEL_CATALOG_DOWNLOAD_URL`。
-3. `scripts/sync-model-catalog.cjs` 读取 JSON、CSV 或单列 TXT，校验并去重模型 ID。
-4. 仅在新文件有效、包含至少 20 个模型且未比上次骤降超过 50% 时更新 `data/model-catalog.json`，否则任务失败、旧目录保留。
-5. 有效数据提交至 main，由既有 Vercel 自动部署机制发布。API 产品页的 `ModelCatalog` 展示精选型号和搜索/筛选目录。
+## 运行方式
 
-## 当前阻断
+GitHub Actions `.github/workflows/daily-model-catalog.yml` 每天北京时间 02:15 从已确认 URL 下载 JSON，无需手工配置密钥或下载 URL。 `scripts/sync-model-catalog.cjs` 解析 `models[].name`，去重、校验并更新 `data/model-catalog.json`，有效变化提交到 main 并由既有站点部署链路发布。
 
-**尚未定位聚合网页实际可下载的模型名单文件 URL。** 在公开 JuheNext 模型页面没有找到直接下载按钮，因此不能捏造 URL。只有获取真实文件 URL，完成一次成功下载、解析与页面验收后，才能标记自动同步为 PASS。
+若数据源返回 HTML、请求失败、模型数不足 20 个或相对上次有效模型数减少超过一半，任务失败且旧目录保留；不把错误数据投放给客户。
 
-变量配置方法：GitHub 仓库 Settings → Secrets and variables → Actions → Variables，新建 `MODEL_CATALOG_DOWNLOAD_URL`，填入实际 HTTPS 文件地址。支持 `juhenext.com` 与 `juhenextvip.com` 域内地址；若实际文件托管在另一 CDN，先核实并通过 `MODEL_CATALOG_ALLOWED_HOSTS` 显式加入对应域名。
+## 页面
 
-## 安全与正确性边界
+`app/api/page.tsx` 读取本地已验证快照，`components/ModelCatalog.tsx` 展示精选型号、完整目录、搜索、系列筛选。客户无需提供 Key。模型 ID 列表不等同于客户购买的 Key 都拥有相同权限；也不能将字母/版本排序说成正式发布时间排序。
 
-- 下载源无 API Key 时不配置任何密钥；URL 不含登录凭据。
-- 不把代理来源、测试日志或下载路径展示给网站客户。
-- 默认快照空，仅回退显示 8 个模型系列，绝不编造型号。
-- 文件中不包含可靠的模型发布日期或计费信息，不据此声称“最新模型排行”或显示逐型号价格。
-- 业务接口、商城、三个在线使用网站保持不变。
+## 验收边界
+
+- 在 PR 分支取得一次真实 catalog 快照，完成页面交互和构建验证后，才能说预览有完整数据。
+- GitHub 定时工作流只有合并到默认分支 main 后才生效；合并前不能宣称生产已经每日运行。
+- 不修改现有商城、API 反代和三个工具站。
