@@ -101,7 +101,7 @@ async function run() {
       const catalog = page.locator('#models');
       assert(await catalog.getByRole('heading', { name: '模型目录与调用价格' }).isVisible(), 'model pricing catalog must exist');
       assert(await catalog.getByText(/价格单位说明/).isVisible(), 'model price unit explanation must be visible');
-      assert(await catalog.getByText(/每百万 Token/).isVisible(), 'token price unit must be clear');
+      assert(await catalog.getByText(/每百万 Token/).first().isVisible(), 'token price unit must be clear');
       assert(await catalog.getByRole('searchbox', { name: '搜索模型' }).isVisible(), 'model search must exist');
 
       const modelRows = catalog.locator('.divide-y > article');
