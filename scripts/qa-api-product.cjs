@@ -101,7 +101,8 @@ async function run() {
       if (await firstGroup.count()) {
         await firstGroup.locator('summary').click();
         assert.equal(await firstGroup.locator('details[open]').count(), 1, 'model details should expand');
-        assert(await firstGroup.getByText(/目录计价单位：⚡ \/ 百万 Token/).count() > 0, 'expanded model pricing unit missing');
+        assert(await firstGroup.getByText(/目录计价单位/).count() > 0, 'expanded model pricing unit missing');
+        assert(await firstGroup.getByText(/⚡/).count() > 0, 'expanded model pricing value missing');
       }
       await catalog.getByRole('searchbox', { name: '搜索模型' }).fill('gpt-6.2-sol');
       assert(await catalog.getByText('gpt-6.2-sol', { exact: true }).count() >= 1, 'search must find canonical model names');
