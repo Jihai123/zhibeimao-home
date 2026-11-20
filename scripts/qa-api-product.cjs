@@ -122,11 +122,17 @@ async function run() {
       assert(qwenText.includes('⚡1.5') && qwenText.includes('⚡15'), 'tiered model should show input and output prices directly');
       assert.equal(qwenText.includes('分档计费'), false, 'unclear tiered billing badge must not be shown');
 
-      await catalog.getByRole('searchbox', { name: '搜索模型' }).fill('kimi-k3.1-pro');
-      const kimiRow = catalog.locator('.divide-y > article').filter({ hasText: 'kimi-k3.1-pro' });
-      assert.equal(await kimiRow.count(), 1, 'search should find Kimi K3.1 Pro');
+      await catalog.getByRole('searchbox', { name: '搜索模型' }).fill('kimi-k3.1-pro-highspeed');
+      const kimiRow = catalog.locator('.divide-y > article').filter({ hasText: 'kimi-k3.1-pro-highspeed' });
+      assert.equal(await kimiRow.count(), 1, 'search should find Kimi high-speed model');
       const kimiText = await kimiRow.innerText();
-      assert(kimiText.includes('⚡6.5') && kimiText.includes('⚡34'), 'single-tier billing expression should show input and output prices directly');
+      assert(kimiText.includes('⚡13') && kimiText.includes('⚡68'), 'single-tier billing expression should show input and output prices directly');
+
+      await catalog.getByRole('searchbox', { name: '搜索模型' }).fill('glm-5.3');
+      const glmRow = catalog.locator('.divide-y > article').filter({ hasText: 'glm-5.3' });
+      assert.equal(await glmRow.count(), 1, 'search should find GLM 5.3');
+      const glmText = await glmRow.innerText();
+      assert(glmText.includes('⚡4') && glmText.includes('⚡14'), 'flat token pricing should remain directly visible');
 
       await catalog.getByRole('searchbox', { name: '搜索模型' }).fill('grok-imagine-video-1.5');
       const videoRow = catalog.locator('.divide-y > article').filter({ hasText: 'grok-imagine-video-1.5' });
@@ -164,6 +170,10 @@ async function run() {
 
       await page.screenshot({ path: path.join(output, 'api-' + width + '.png'), fullPage: true });
 
+      await modelNav.click();
+      await page.waitForFunction(() => window.location.hash === '#models');
+      await quickCallNav.click();
+      await page.waitForURL('**/api/docs#first-call');
       await visit(page, '/api/docs', 'docs-' + width);
       const docsCopy = await page.locator('main').innerText();
       for (const forbidden of ['HTTP 200 已实测', '待逐项验证', '反代', '项目临时域名', '验收']) {
