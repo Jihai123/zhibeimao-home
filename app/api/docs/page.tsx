@@ -3,11 +3,12 @@ import Link from 'next/link';
 import { ArrowLeft, ArrowRight, BookOpen, KeyRound, ShieldAlert, Terminal } from 'lucide-react';
 
 import { siteLinks } from '@/data/site-links';
+import { StoreAttributionLink } from '@/components/StoreAttributionLink';
 import { alternativeApiBaseUrl, apiBaseUrl } from '@/data/api-product';
 
 export const metadata: Metadata = {
   title: 'API 接入文档与快速开始｜指北猫',
-  description: '配置智享AI API Base URL、API Key 和 OpenAI 兼容接口，了解模型列表、调用示例及 AI 客户端设置。',
+  description: '智享AI API 开发者接入文档：配置 API Base URL 与 Key，查询可用模型和余额，复制 OpenAI SDK、curl、Python 等示例，并了解不同模型格式、调用能力及常见问题。',
   alternates: { canonical: 'https://www.zhibeimao.com/api/docs' }
 };
 
@@ -99,9 +100,9 @@ export default function ApiDocsPage() {
           </div>
         </div>
         <div className="mt-5 flex flex-wrap gap-3">
-          <a href={siteLinks.apiKey} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-xl bg-cyan-400 px-5 py-2.5 text-sm font-bold text-slate-950 hover:bg-cyan-300">
+          <StoreAttributionLink placement="api_docs" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-xl bg-cyan-400 px-5 py-2.5 text-sm font-bold text-slate-950 hover:bg-cyan-300">
             获取 API Key <ArrowRight className="h-4 w-4" />
-          </a>
+          </StoreAttributionLink>
           <a href={siteLinks.apiKeyBalance} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-xl border border-white/15 px-5 py-2.5 text-sm text-slate-200 hover:bg-white/5">
             查询 Key 余额
           </a>

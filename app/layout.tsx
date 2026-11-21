@@ -3,10 +3,11 @@ import Script from 'next/script';
 import { SiteFooter } from '@/components/SiteFooter';
 import { SiteHeader } from '@/components/SiteHeader';
 import './globals.css';
+import { AttributionCapture } from '@/components/StoreAttributionLink';
 
 export const metadata: Metadata = {
   title: '指北猫 - AI决策平台 | 新股分析 · 养老金测算 · AI工具推荐',
-  description: '用AI帮你做决策：新股、养老金、AI工具选择等'
+  description: '指北猫聚合 AI 工具、模型服务与实用决策产品，提供 AI API 统一接入、模型价格查询、养老金测算、宜居城市对比及新股研究入口，帮助你更快找到适合的工具。'
 };
 
 export default function RootLayout({
@@ -17,6 +18,7 @@ export default function RootLayout({
   return (
     <html lang="zh-CN">
       <body className="bg-slate-950 text-slate-100 antialiased">
+        <AttributionCapture />
         <SiteHeader />
         {children}
         <SiteFooter />

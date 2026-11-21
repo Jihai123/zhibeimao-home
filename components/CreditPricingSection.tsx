@@ -1,7 +1,7 @@
 import { ArrowRight, ArrowUpRight, BadgePercent } from 'lucide-react';
 
 import { keyOffers, priceCheckedOn, usdCnyReference } from '@/data/api-product';
-import { siteLinks } from '@/data/site-links';
+import { StoreAttributionLink } from '@/components/StoreAttributionLink';
 import { calculateCreditSavings } from '@/lib/credit-pricing';
 
 export function CreditPricingSection() {
@@ -35,20 +35,18 @@ export function CreditPricingSection() {
               按参考汇率 $1 ≈ ¥{usdCnyReference.rate.toFixed(2)} 对比，折扣仅针对额度面值换算。
             </p>
           </div>
-          <a
-            href={siteLinks.apiKey}
+          <StoreAttributionLink placement="api_pricing_summary"
             target="_blank"
             rel="noopener noreferrer"
             className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-xl border border-cyan-300/30 bg-cyan-300/10 px-5 py-2.5 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-300/15"
           >
             查看商城实时售价 <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
-          </a>
+          </StoreAttributionLink>
         </div>
         <div className="grid min-w-0 gap-3 sm:grid-cols-3">
           {offers.map((offer, index) => (
-            <a
+            <StoreAttributionLink placement={'api_plan_' + offer.amount}
               key={offer.amount}
-              href={siteLinks.apiKey}
               target="_blank"
               rel="noopener noreferrer"
               aria-label={offer.amount + ' 美元额度，人民币 ' + offer.price + ' 元，约 ' + offer.savings.discountFold + ' 折，前往商城'}
@@ -76,7 +74,7 @@ export function CreditPricingSection() {
               <span className="mt-auto inline-flex items-center gap-1 pt-5 text-sm font-semibold text-cyan-200 group-hover:text-white">
                 查看库存并购买 <ArrowRight className="h-4 w-4" aria-hidden="true" />
               </span>
-            </a>
+            </StoreAttributionLink>
           ))}
         </div>
       </div>

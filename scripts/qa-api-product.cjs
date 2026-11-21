@@ -44,6 +44,22 @@ async function visit(page, pathname, label) {
 
 async function run() {
   fs.mkdirSync(output, { recursive: true });
+
+  // Validate SEO discovery endpoints against the same Next production preview
+  // used for the rest of the browser regression.
+  const robotsResponse = await fetch(base + '/robots.txt');
+  assert.equal(robotsResponse.status, 200, 'SEO robots.txt must return HTTP 200');
+  const robotsBody = await robotsResponse.text();
+  assert.match(robotsBody, /Sitemap:\s*https:\/\/www\.zhibeimao\.com\/sitemap\.xml/, 'robots.txt must advertise the canonical sitemap');
+
+  const sitemapResponse = await fetch(base + '/sitemap.xml');
+  assert.equal(sitemapResponse.status, 200, 'SEO sitemap.xml must return HTTP 200');
+  const sitemapBody = await sitemapResponse.text();
+  for (const pagePath of ['/', '/api', '/api/docs', '/about']) {
+    assert(sitemapBody.includes('<loc>https://www.zhibeimao.com' + pagePath + '</loc>'),
+      'sitemap.xml is missing canonical URL: ' + pagePath);
+  }
+  console.log('PASS: SEO discovery endpoints and four canonical sitemap URLs');
   const browser = await chromium.launch({ channel: 'chrome', headless: true, args: ['--no-sandbox'] });
   try {
     for (const width of [320, 390, 1280]) {
@@ -56,7 +72,7 @@ async function run() {
       assert.equal(await page.locator('section[aria-label="AI API 开放平台推荐"]').count(), 0, 'duplicate API banner must be absent');
       assert.equal(await page.locator('section[aria-label="指北猫AI直通"]').count(), 1, 'only one unified AI direct section is expected');
       assert(await homeDirect.getByRole('heading', { name: /在线体验与 API 接入/ }).isVisible());
-      assert.equal(await homeDirect.locator('a[href="https://online.chatgpt5x.com/"]').count(), 1, 'unified panel purchase link missing');
+      assert.equal(await homeDirect.locator('a[href^="https://online.chatgpt5x.com/"]').count(), 1, 'unified panel purchase link missing');
       assert.equal(await homeDirect.locator('a[href="https://checkbalance.chatgpt5x.com/"]').count(), 1, 'unified panel balance link missing');
       assert.equal(await homeDirect.locator('a[href="/api"]').count(), 1, 'unified panel API page link missing');
       assert.equal(await homeDirect.locator('a[href="/api/docs"]').count(), 1, 'unified panel developer docs link missing');
@@ -168,7 +184,15 @@ async function run() {
       }
       assert(await pricing.getByText(/不代表各模型调用费用比官方 API 便宜相同比例/).isVisible(), 'credit savings caveat missing');
       assert(await pricing.getByText(/参考汇率：2026-11-20/).isVisible(), 'dated exchange rate note missing');
-      assert(await pricing.locator('a[href="https://online.chatgpt5x.com/"]').count() >= 3);
+      assert(await pricing.locator('a[href^="https://online.chatgpt5x.com/"]').count() >= 3);
+      await page.waitForFunction(() => {
+        const a = document.querySelector('#pricing a[aria-label*="美元额度，人民币"]');
+        return a && a.getAttribute('href')?.includes('utm_source=zhibeimao');
+      }, null, { timeout: 5000 });
+      const outbound = await pricing.locator('a[aria-label*="美元额度，人民币"]').first().getAttribute('href');
+      assert(outbound.includes('utm_campaign=api_key_sales'), 'store attribution campaign must pass through');
+      assert(outbound.includes('zbm_placement=api_plan_'), 'store checkout placement must pass through');
+
 
       await page.screenshot({ path: path.join(output, 'api-' + width + '.png'), fullPage: true });
 
@@ -189,6 +213,27 @@ async function run() {
       const docsWidth = await page.evaluate(() => document.documentElement.scrollWidth);
       assert(docsWidth <= width + 2, 'expanded API docs must not overflow viewport');
       await page.screenshot({ path: path.join(output, 'docs-' + width + '.png'), fullPage: true });
+
+      // A visitor referred by chatgpt5x must keep the FIRST site and placement
+      // when landing on this site and going on to the standalone Key store.
+      if (width === 1280) {
+        await visit(page, '/api?utm_source=chatgpt5x&utm_medium=referral&utm_campaign=api_key_sales&utm_content=nav_dropdown', 'attribution-api');
+        const offerLink = page.locator('#pricing a[aria-label*="美元额度，人民币"]').first();
+        await page.waitForFunction(() => {
+          const anchor = document.querySelector('#pricing a[aria-label*="美元额度，人民币"]');
+          return anchor && anchor.getAttribute('href')?.includes('utm_source=chatgpt5x');
+        }, null, { timeout: 5000 });
+        const taggedHref = await offerLink.getAttribute('href');
+        assert(taggedHref.includes('utm_content=nav_dropdown'), 'original referral placement must survive');
+        assert(taggedHref.includes('zbm_placement=api_plan_'), 'checkout placement must survive');
+        await visit(page, '/api/docs', 'attribution-docs');
+        await page.waitForFunction(() => {
+          const link = document.querySelector('main a[href^="https://online.chatgpt5x.com/"]');
+          return link && link.getAttribute('href')?.includes('utm_source=chatgpt5x');
+        }, null, { timeout: 5000 });
+        const docsTagged = await page.locator('main a[href^="https://online.chatgpt5x.com/"]').first().getAttribute('href');
+        assert(docsTagged.includes('utm_content=nav_dropdown'), 'first referral attribution lost on internal navigation');
+      }
       await page.close();
     }
     console.log('PASS: customer-focused API pricing, model navigation and responsive browser regression');
