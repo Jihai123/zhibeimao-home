@@ -56,7 +56,7 @@ async function run() {
       assert.equal(await page.locator('section[aria-label="AI API 开放平台推荐"]').count(), 0, 'duplicate API banner must be absent');
       assert.equal(await page.locator('section[aria-label="指北猫AI直通"]').count(), 1, 'only one unified AI direct section is expected');
       assert(await homeDirect.getByRole('heading', { name: /在线体验与 API 接入/ }).isVisible());
-      assert.equal(await homeDirect.locator('a[href="https://online.chatgpt5x.com/"]').count(), 1, 'unified panel purchase link missing');
+      assert.equal(await homeDirect.locator('a[href^="https://online.chatgpt5x.com/"]').count(), 1, 'unified panel purchase link missing');
       assert.equal(await homeDirect.locator('a[href="https://checkbalance.chatgpt5x.com/"]').count(), 1, 'unified panel balance link missing');
       assert.equal(await homeDirect.locator('a[href="/api"]').count(), 1, 'unified panel API page link missing');
       assert.equal(await homeDirect.locator('a[href="/api/docs"]').count(), 1, 'unified panel developer docs link missing');
@@ -168,7 +168,15 @@ async function run() {
       }
       assert(await pricing.getByText(/不代表各模型调用费用比官方 API 便宜相同比例/).isVisible(), 'credit savings caveat missing');
       assert(await pricing.getByText(/参考汇率：2026-11-20/).isVisible(), 'dated exchange rate note missing');
-      assert(await pricing.locator('a[href="https://online.chatgpt5x.com/"]').count() >= 3);
+      assert(await pricing.locator('a[href^="https://online.chatgpt5x.com/"]').count() >= 3);
+      await page.waitForFunction(() => {
+        const a = document.querySelector('#pricing a[aria-label*="美元额度，人民币"]');
+        return a && a.getAttribute('href')?.includes('utm_source=zhibeimao');
+      }, { timeout: 5000 });
+      const outbound = await pricing.locator('a[aria-label*="美元额度，人民币"]').first().getAttribute('href');
+      assert(outbound.includes('utm_campaign=api_key_sales'), 'store attribution campaign must pass through');
+      assert(outbound.includes('zbm_placement=api_plan_'), 'store checkout placement must pass through');
+
 
       await page.screenshot({ path: path.join(output, 'api-' + width + '.png'), fullPage: true });
 
