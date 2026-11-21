@@ -7,7 +7,7 @@ import { siteLinks } from '@/data/site-links';
 
 export const metadata: Metadata = {
   title: '智享AI工具导航 介绍 | 指北猫',
-  description: '了解智享AI工具导航的理念、承诺与联系方式。'
+  description: '了解指北猫与智享AI工具导航的产品定位、运营理念、服务边界和联系方式。我们持续整理实用 AI 工具、公开数据及接入指南，为用户提供清晰可核验的信息。'
 };
 
 const externalLinkProps = {
