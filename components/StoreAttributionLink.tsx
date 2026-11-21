@@ -62,7 +62,7 @@ export function AttributionCapture() {
 
 type Props = Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'href'> & { placement: string };
 export function StoreAttributionLink({ placement, children, onClick, ...props }: Props) {
-  const [href, setHref] = useState(siteLinks.apiKey);
+  const [href, setHref] = useState<string>(siteLinks.apiKey);
   useEffect(() => { setHref(storeHref(placement)); }, [placement]);
   return (
     <a {...props} href={href} target="_blank" rel="noopener noreferrer"
