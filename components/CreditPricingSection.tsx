@@ -1,7 +1,6 @@
 import { ArrowRight, ArrowUpRight, BadgePercent } from 'lucide-react';
 
 import { keyOffers, priceCheckedOn, usdCnyReference } from '@/data/api-product';
-import { siteLinks } from '@/data/site-links';
 import { StoreAttributionLink } from '@/components/StoreAttributionLink';
 import { calculateCreditSavings } from '@/lib/credit-pricing';
 
