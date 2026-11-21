@@ -77,7 +77,6 @@ export default async function ApiProductPage() {
             </div>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               <StoreAttributionLink placement="api_hero"
-                href={siteLinks.apiKey}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-violet-500 to-cyan-500 px-6 py-3 text-sm font-bold text-white shadow-[0_8px_30px_rgba(6,182,212,0.18)] transition hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
@@ -184,7 +183,7 @@ export default async function ApiProductPage() {
           使用统一 API 和开发文档，将模型能力集成到应用与开发工作流中。
         </p>
         <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
-          <StoreAttributionLink placement="api_footer" href={siteLinks.apiKey} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-cyan-400 px-6 py-3 text-sm font-bold text-slate-950 hover:bg-cyan-300">
+          <StoreAttributionLink placement="api_footer" target="_blank" rel="noopener noreferrer" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-cyan-400 px-6 py-3 text-sm font-bold text-slate-950 hover:bg-cyan-300">
             查看套餐并购买 <ArrowUpRight className="h-4 w-4" />
           </StoreAttributionLink>
           <Link href="/api/docs" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-white/20 px-6 py-3 text-sm font-semibold text-white hover:bg-white/10">
