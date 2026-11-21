@@ -100,7 +100,7 @@ export default function ApiDocsPage() {
           </div>
         </div>
         <div className="mt-5 flex flex-wrap gap-3">
-          <StoreAttributionLink placement="api_docs" href={siteLinks.apiKey} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-xl bg-cyan-400 px-5 py-2.5 text-sm font-bold text-slate-950 hover:bg-cyan-300">
+          <StoreAttributionLink placement="api_docs" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-xl bg-cyan-400 px-5 py-2.5 text-sm font-bold text-slate-950 hover:bg-cyan-300">
             获取 API Key <ArrowRight className="h-4 w-4" />
           </StoreAttributionLink>
           <a href={siteLinks.apiKeyBalance} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-xl border border-white/15 px-5 py-2.5 text-sm text-slate-200 hover:bg-white/5">
