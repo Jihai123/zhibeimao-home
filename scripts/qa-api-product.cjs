@@ -44,6 +44,22 @@ async function visit(page, pathname, label) {
 
 async function run() {
   fs.mkdirSync(output, { recursive: true });
+
+  // Validate SEO discovery endpoints against the same Next production preview
+  // used for the rest of the browser regression.
+  const robotsResponse = await fetch(base + '/robots.txt');
+  assert.equal(robotsResponse.status, 200, 'SEO robots.txt must return HTTP 200');
+  const robotsBody = await robotsResponse.text();
+  assert.match(robotsBody, /Sitemap:\s*https:\/\/www\.zhibeimao\.com\/sitemap\.xml/, 'robots.txt must advertise the canonical sitemap');
+
+  const sitemapResponse = await fetch(base + '/sitemap.xml');
+  assert.equal(sitemapResponse.status, 200, 'SEO sitemap.xml must return HTTP 200');
+  const sitemapBody = await sitemapResponse.text();
+  for (const pagePath of ['/', '/api', '/api/docs', '/about']) {
+    assert(sitemapBody.includes('<loc>https://www.zhibeimao.com' + pagePath + '</loc>'),
+      'sitemap.xml is missing canonical URL: ' + pagePath);
+  }
+  console.log('PASS: SEO discovery endpoints and four canonical sitemap URLs');
   const browser = await chromium.launch({ channel: 'chrome', headless: true, args: ['--no-sandbox'] });
   try {
     for (const width of [320, 390, 1280]) {
