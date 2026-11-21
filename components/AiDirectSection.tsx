@@ -60,7 +60,7 @@ export function AiDirectSection() {
         <div className="flex flex-col gap-3 border-t border-white/10 bg-white/[0.02] px-5 py-4 sm:px-8 lg:flex-row lg:items-center lg:justify-between">
           <span className="text-xs leading-6 text-slate-400">使用指南与账户服务</span>
           <div className="flex flex-wrap items-center gap-x-5 gap-y-3 text-sm">
-            <StoreAttributionLink placement="homepage_key" href={siteLinks.apiKey} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 font-semibold text-cyan-200 hover:text-white">
+            <StoreAttributionLink placement="homepage_key" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 font-semibold text-cyan-200 hover:text-white">
               购买 API Key <ArrowUpRight className="h-3.5 w-3.5" />
             </StoreAttributionLink>
             <a href={siteLinks.apiKeyBalance} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-slate-300 hover:text-white">
