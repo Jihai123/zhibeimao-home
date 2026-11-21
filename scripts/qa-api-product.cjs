@@ -172,7 +172,7 @@ async function run() {
       await page.waitForFunction(() => {
         const a = document.querySelector('#pricing a[aria-label*="美元额度，人民币"]');
         return a && a.getAttribute('href')?.includes('utm_source=zhibeimao');
-      }, { timeout: 5000 });
+      }, null, { timeout: 5000 });
       const outbound = await pricing.locator('a[aria-label*="美元额度，人民币"]').first().getAttribute('href');
       assert(outbound.includes('utm_campaign=api_key_sales'), 'store attribution campaign must pass through');
       assert(outbound.includes('zbm_placement=api_plan_'), 'store checkout placement must pass through');
@@ -197,6 +197,27 @@ async function run() {
       const docsWidth = await page.evaluate(() => document.documentElement.scrollWidth);
       assert(docsWidth <= width + 2, 'expanded API docs must not overflow viewport');
       await page.screenshot({ path: path.join(output, 'docs-' + width + '.png'), fullPage: true });
+
+      // A visitor referred by chatgpt5x must keep the FIRST site and placement
+      // when landing on this site and going on to the standalone Key store.
+      if (width === 1280) {
+        await visit(page, '/api?utm_source=chatgpt5x&utm_medium=referral&utm_campaign=api_key_sales&utm_content=nav_dropdown', 'attribution-api');
+        const offerLink = page.locator('#pricing a[aria-label*="美元额度，人民币"]').first();
+        await page.waitForFunction(() => {
+          const anchor = document.querySelector('#pricing a[aria-label*="美元额度，人民币"]');
+          return anchor && anchor.getAttribute('href')?.includes('utm_source=chatgpt5x');
+        }, null, { timeout: 5000 });
+        const taggedHref = await offerLink.getAttribute('href');
+        assert(taggedHref.includes('utm_content=nav_dropdown'), 'original referral placement must survive');
+        assert(taggedHref.includes('zbm_placement=api_plan_'), 'checkout placement must survive');
+        await visit(page, '/api/docs', 'attribution-docs');
+        await page.waitForFunction(() => {
+          const link = document.querySelector('main a[href^="https://online.chatgpt5x.com/"]');
+          return link && link.getAttribute('href')?.includes('utm_source=chatgpt5x');
+        }, null, { timeout: 5000 });
+        const docsTagged = await page.locator('main a[href^="https://online.chatgpt5x.com/"]').first().getAttribute('href');
+        assert(docsTagged.includes('utm_content=nav_dropdown'), 'first referral attribution lost on internal navigation');
+      }
       await page.close();
     }
     console.log('PASS: customer-focused API pricing, model navigation and responsive browser regression');
