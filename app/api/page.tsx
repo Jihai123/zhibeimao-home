@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 
 import { siteLinks } from '@/data/site-links';
+import { StoreAttributionLink } from '@/components/StoreAttributionLink';
 import { ModelCatalog } from '@/components/ModelCatalog';
 import { CreditPricingSection } from '@/components/CreditPricingSection';
 import { getPublicModelCatalog } from '@/lib/model-catalog';
@@ -20,7 +21,7 @@ import { apiBaseUrl } from '@/data/api-product';
 
 export const metadata: Metadata = {
   title: '智享AI API｜统一模型 API 接入服务',
-  description: '通过一个 OpenAI 兼容 API 地址调用多种 AI 模型。支持人民币购买、模型列表查询、客户端配置和开发者接入。',
+  description: '智享AI API 提供 OpenAI 兼容接口和多模型统一接入，展示 GPT、Claude、Gemini、DeepSeek 等模型目录、输入输出价格及开发接入示例，支持人民币购买美元 API 额度。',
   alternates: { canonical: 'https://www.zhibeimao.com/api' },
   openGraph: {
     title: '智享AI API｜多模型接入服务',
@@ -75,14 +76,14 @@ export default async function ApiProductPage() {
               ))}
             </div>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-              <a
+              <StoreAttributionLink placement="api_hero"
                 href={siteLinks.apiKey}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-violet-500 to-cyan-500 px-6 py-3 text-sm font-bold text-white shadow-[0_8px_30px_rgba(6,182,212,0.18)] transition hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
               >
                 获取 API Key <ArrowUpRight className="h-4 w-4" />
-              </a>
+              </StoreAttributionLink>
               <Link
                 href="#models"
                 className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/[0.03] px-6 py-3 text-sm font-semibold text-white transition hover:border-cyan-300/40 hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
@@ -183,9 +184,9 @@ export default async function ApiProductPage() {
           使用统一 API 和开发文档，将模型能力集成到应用与开发工作流中。
         </p>
         <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
-          <a href={siteLinks.apiKey} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-cyan-400 px-6 py-3 text-sm font-bold text-slate-950 hover:bg-cyan-300">
+          <StoreAttributionLink placement="api_footer" href={siteLinks.apiKey} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-cyan-400 px-6 py-3 text-sm font-bold text-slate-950 hover:bg-cyan-300">
             查看套餐并购买 <ArrowUpRight className="h-4 w-4" />
-          </a>
+          </StoreAttributionLink>
           <Link href="/api/docs" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-white/20 px-6 py-3 text-sm font-semibold text-white hover:bg-white/10">
             <BookOpen className="h-4 w-4" /> 查看接入文档
           </Link>
