@@ -73,7 +73,7 @@ async function run() {
       assert.equal(await page.locator('section[aria-label="指北猫AI直通"]').count(), 1, 'only one unified AI direct section is expected');
       assert(await homeDirect.getByRole('heading', { name: /在线体验与 API 接入/ }).isVisible());
       assert.equal(await homeDirect.locator('a[href^="https://online.chatgpt5x.com/"]').count(), 1, 'unified panel purchase link missing');
-      assert.equal(await homeDirect.locator('a[href="https://checkbalance.chatgpt5x.com/"]').count(), 1, 'unified panel balance link missing');
+      assert.equal(await homeDirect.locator('a[href="https://api.zhibeimao.com/balance"]').count(), 1, 'unified panel balance link missing');
       assert.equal(await homeDirect.locator('a[href="/api"]').count(), 1, 'unified panel API page link missing');
       assert.equal(await homeDirect.locator('a[href="/api/docs"]').count(), 1, 'unified panel developer docs link missing');
       assert.equal(await homeDirect.locator('a[href="https://librechat.chatgpt5x.com/"]').count(), 1, 'homepage LibreChat link missing');
