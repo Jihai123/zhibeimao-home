@@ -24,6 +24,20 @@ type ModelGroup = {
 const PAGE_SIZE = 10;
 const choices = ['全部', ...modelFamilies.map((family) => family.name), '其他'];
 
+// Route order is for comparing one canonical model, not for altering upstream
+// prices, model ranking or availability. Some models have only one route.
+const routePriority: Record<string, number> = {
+  '基础线路': 0,
+  '标准线路': 1,
+  '默认线路': 2
+};
+
+function orderRoutes(variants: ListedModel[]): ListedModel[] {
+  return [...variants].sort((a, b) =>
+    (routePriority[a.variant] ?? 3) - (routePriority[b.variant] ?? 3)
+  );
+}
+
 function formatPrice(value: number | undefined): string {
   if (value === undefined || !Number.isFinite(value)) return '—';
   return new Intl.NumberFormat('zh-CN', { maximumFractionDigits: 4 }).format(value);
@@ -209,7 +223,10 @@ function ModelRow({ group }: { group: ModelGroup }) {
       <div className="grid min-w-0 grid-cols-1 items-start gap-3 sm:grid-cols-[minmax(0,1fr)_minmax(220px,0.9fr)] sm:items-center sm:gap-5">
         <div className="min-w-0">
           <code className="block break-all select-all text-xs font-semibold leading-6 text-slate-100 sm:text-sm">{group.primary.id}</code>
-          <p className="mt-0.5 text-[11px] text-slate-500">{group.family}{group.primary.vendor ? ' · ' + group.primary.vendor : ''}</p>
+          <p className="mt-0.5 text-[11px] text-slate-500">
+            {group.family}{group.primary.vendor ? ' · ' + group.primary.vendor : ''}
+            {hasMore ? ' · 先展示' + group.primary.variant + '价格' : ''}
+          </p>
         </div>
         <div className="min-w-0 rounded-lg border border-white/[0.06] bg-slate-950/25 px-3 py-2 sm:border-0 sm:bg-transparent sm:px-0 sm:py-0">
           <PriceSummary pricing={group.primary.pricing} />
@@ -217,19 +234,41 @@ function ModelRow({ group }: { group: ModelGroup }) {
       </div>
       <details className="group/details mt-3 border-t border-white/[0.06] pt-2">
         <summary className="cursor-pointer list-none text-[11px] font-medium text-cyan-200 marker:hidden hover:text-white">
-          {hasMore ? '查看完整价格及其他接入 ID' : '查看缓存等价格明细'}
+          {hasMore ? '对比 ' + group.variants.length + ' 种线路的价格与完整模型 ID' : '查看缓存等价格明细'}
           <span className="ml-1 inline-block transition group-open/details:rotate-90">›</span>
         </summary>
-        <div className="mt-3 space-y-3">
-          {group.variants.map((variant) => (
-            <div key={variant.id} className="rounded-xl border border-white/10 bg-white/[0.025] p-3">
-              <div className="flex flex-wrap items-center justify-between gap-2">
-                <span className="rounded-full border border-white/10 bg-white/[0.05] px-2 py-1 text-[11px] text-slate-300">{variant.variant}</span>
-                <code className="max-w-full break-all select-all text-[11px] text-slate-400">{variant.id}</code>
+        <div className="mt-3">
+          <p className="mb-3 text-[11px] leading-5 text-slate-400">
+            价格和使用体验可能因线路不同而变化，以下展示各线路的真实目录价格。调用时请复制完整模型 ID（包含 basic/ 或 standard/ 前缀）。
+          </p>
+          <div className="grid gap-3 lg:grid-cols-3">
+            {group.variants.map((variant) => (
+              <div key={variant.id} className={'min-w-0 rounded-xl border p-3 ' +
+                (variant.variant === '基础线路'
+                  ? 'border-cyan-300/20 bg-cyan-300/[0.04]'
+                  : 'border-white/10 bg-white/[0.025]')}>
+                <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                  <span className="text-xs font-semibold text-slate-100">{variant.variant}</span>
+                  {variant.variant === '基础线路' && <span className="text-[10px] text-cyan-200">省额度选择</span>}
+                  {variant.variant === '标准线路' && <span className="text-[10px] text-slate-400">常用对比选项</span>}
+                  {variant.variant === '默认线路' && <span className="text-[10px] text-slate-400">请留意扣费</span>}
+                </div>
+                <code className="mt-2 block break-all select-all text-[11px] leading-5 text-slate-300">{variant.id}</code>
+                <div className="mt-3 border-t border-white/10 pt-3">
+                  <PriceSummary pricing={variant.pricing} />
+                </div>
+                {variant.variant === '基础线路' && (
+                  <p className="mt-3 text-[11px] leading-5 text-slate-400">
+                    适合日常使用，偶尔可能出现响应波动；遇到问题可对比其他线路。
+                  </p>
+                )}
+                <details className="mt-3 border-t border-white/10 pt-2">
+                  <summary className="cursor-pointer text-[11px] text-cyan-200">查看完整计费明细</summary>
+                  <PricingDetails pricing={variant.pricing} />
+                </details>
               </div>
-              <PricingDetails pricing={variant.pricing} />
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </details>
     </article>
@@ -249,8 +288,13 @@ export function ModelCatalog({ models, available, syncedAt }: Props) {
       byName.set(model.canonicalId, variants);
     }
     return Array.from(byName.entries()).map(([canonicalId, variants]) => {
-      const primary = variants.find((item) => item.variant === '默认线路') ?? variants[0];
-      return { canonicalId, family: primary.family, variants, primary };
+      const ordered = orderRoutes(variants);
+      // Standard is the balanced default for display when available; this
+      // does not claim a universal stability or quality guarantee.
+      const primary = ordered.find((item) => item.variant === '标准线路')
+        ?? ordered.find((item) => item.variant === '基础线路')
+        ?? ordered[0];
+      return { canonicalId, family: primary.family, variants: ordered, primary };
     });
   }, [models]);
 
