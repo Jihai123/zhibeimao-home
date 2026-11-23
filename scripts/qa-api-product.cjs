@@ -123,6 +123,8 @@ async function run() {
 
       const modelRows = catalog.locator('.divide-y > article');
       assert.equal(await modelRows.count(), 10, 'the first view should show exactly ten models');
+      assert(await pricing.getByText(/同一模型，不同线路/).isVisible(), 'the purchase section must explain route-cost differences');
+      assert(await pricing.getByRole('link', { name: /看各线路实际费用/ }).isVisible(), 'pricing explanation must link to comparison');
       assert.equal(await catalog.locator('article h3').count(), 0, 'duplicated featured model cards should be removed');
 
       const firstGroup = modelRows.first();
@@ -130,6 +132,18 @@ async function run() {
       assert.equal(await firstGroup.locator('details[open]').count(), 1, 'model details should expand');
       assert(await firstGroup.getByText(/⚡表示模型调用时消耗的额度单位/).count() > 0, 'expanded pricing unit explanation missing');
       assert.equal((await firstGroup.innerText()).includes('标准上下文上下文'), false, 'tier label and context condition must not be duplicated');
+
+      await catalog.getByRole('searchbox', { name: '搜索模型' }).fill('claude-sonnet-5');
+      const sonnetRow = modelRows.filter({ has: page.locator('code').getByText('standard/claude-sonnet-5', { exact: true }) });
+      assert.equal(await sonnetRow.count(), 1, 'standard route should be the balanced displayed option when available');
+      await sonnetRow.locator('summary').first().click();
+      assert(await sonnetRow.getByText(/偶尔可能出现响应波动/).isVisible(), 'Basic note should be visible only in expanded comparison');
+      for (const modelId of ['basic/claude-sonnet-5', 'standard/claude-sonnet-5', 'claude-sonnet-5']) {
+        assert(await sonnetRow.locator('code').getByText(modelId, { exact: true }).count() >= 1, 'every route ID must remain selectable: ' + modelId);
+      }
+      assert(await sonnetRow.getByText(/⚡2/).count() >= 1, 'Basic input price should be shown');
+      assert(await sonnetRow.getByText(/⚡4/).count() >= 1, 'Standard input price should be shown');
+      assert(await sonnetRow.getByText(/⚡8/).count() >= 1, 'Unprefixed input price should be shown');
 
       await catalog.getByRole('searchbox', { name: '搜索模型' }).fill('qwen3-vl-plus');
       const qwenRow = catalog.locator('.divide-y > article').filter({ hasText: 'qwen3-vl-plus' });

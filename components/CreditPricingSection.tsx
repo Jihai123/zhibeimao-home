@@ -78,6 +78,17 @@ export function CreditPricingSection() {
           ))}
         </div>
       </div>
+      <div className="mt-5 flex flex-wrap items-center justify-between gap-x-5 gap-y-2 rounded-xl border border-cyan-300/15 bg-white/[0.025] px-4 py-3">
+        <div>
+          <p className="text-sm font-semibold text-slate-100">同一模型，不同线路，消耗的额度可能差很多</p>
+          <p className="mt-1 text-xs leading-6 text-slate-400">
+            有多条线路时，可以对比 Basic、Standard 和无前缀 ID 的实际价格，再选适合自己的线路。
+          </p>
+        </div>
+        <a href="#models" className="whitespace-nowrap text-xs font-semibold text-cyan-200 underline underline-offset-4 hover:text-white">
+          看各线路实际费用 →
+        </a>
+      </div>
       <p className="mt-4 text-xs leading-6 text-slate-500">
         参考汇率：{usdCnyReference.asOf}，1 美元约合人民币 {usdCnyReference.rate.toFixed(2)} 元。折扣是「美元额度面值按参考汇率折人民币」与「人民币购买价」之间的比较，
         不代表各模型调用费用比官方 API 便宜相同比例。套餐标价核对日期：{priceCheckedOn}；实时售价、库存、可用模型及实际扣费规则以商城和 API Key 权限为准。
