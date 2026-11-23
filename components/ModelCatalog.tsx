@@ -262,10 +262,7 @@ function ModelRow({ group }: { group: ModelGroup }) {
                     适合日常使用，偶尔可能出现响应波动；遇到问题可对比其他线路。
                   </p>
                 )}
-                <details className="mt-3 border-t border-white/10 pt-2">
-                  <summary className="cursor-pointer text-[11px] text-cyan-200">查看完整计费明细</summary>
-                  <PricingDetails pricing={variant.pricing} />
-                </details>
+                <PricingDetails pricing={variant.pricing} />
               </div>
             ))}
           </div>
