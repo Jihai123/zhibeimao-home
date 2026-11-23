@@ -78,20 +78,16 @@ export function CreditPricingSection() {
           ))}
         </div>
       </div>
-      <div className="mt-6 rounded-2xl border border-amber-300/25 bg-amber-300/[0.05] p-4 sm:p-5" role="note" aria-label="API 模型线路费用提醒">
-        <h3 className="text-base font-bold text-amber-100">重要：买到优惠额度，不等于每个模型都便宜</h3>
-        <p className="mt-2 text-sm leading-7 text-slate-200">
-          同一模型可能有三种接入 ID，扣费可能相差数倍。开始调用前请对比输入、输出价格，并复制包含线路前缀的完整模型 ID。
-        </p>
-        <div className="mt-3 grid gap-2 text-xs leading-6 sm:grid-cols-3">
-          <p className="rounded-lg border border-white/10 bg-slate-950/30 px-3 py-2 text-slate-200"><code className="font-bold text-cyan-100">basic/</code> 基础线路：同型号通常较省额度</p>
-          <p className="rounded-lg border border-white/10 bg-slate-950/30 px-3 py-2 text-slate-200"><code className="font-bold text-cyan-100">standard/</code> 标准线路：费用通常居中</p>
-          <p className="rounded-lg border border-white/10 bg-slate-950/30 px-3 py-2 text-slate-200"><strong className="text-amber-100">无前缀线路：</strong>可能明显更贵，首次使用请特别核对</p>
+      <div className="mt-5 flex flex-wrap items-center justify-between gap-x-5 gap-y-2 rounded-xl border border-cyan-300/15 bg-white/[0.025] px-4 py-3">
+        <div>
+          <p className="text-sm font-semibold text-slate-100">同一模型，不同线路，消耗的额度可能差很多</p>
+          <p className="mt-1 text-xs leading-6 text-slate-400">
+            有多条线路时，可以对比 Basic、Standard 和无前缀 ID 的实际价格，再选适合自己的线路。
+          </p>
         </div>
-        <p className="mt-3 text-xs leading-6 text-slate-400">
-          以上是同名线路的常见差异，不是统一倍率或性能保证；部分模型只有一种线路。实际扣费还可能受上下文长度、缓存、图片或视频计费规则影响。
-          <a className="ml-1 font-semibold text-cyan-200 underline underline-offset-4 hover:text-white" href="#models">先对比完整模型价格，再选择调用 ID</a>。
-        </p>
+        <a href="#models" className="whitespace-nowrap text-xs font-semibold text-cyan-200 underline underline-offset-4 hover:text-white">
+          看各线路实际费用 →
+        </a>
       </div>
       <p className="mt-4 text-xs leading-6 text-slate-500">
         参考汇率：{usdCnyReference.asOf}，1 美元约合人民币 {usdCnyReference.rate.toFixed(2)} 元。折扣是「美元额度面值按参考汇率折人民币」与「人民币购买价」之间的比较，
