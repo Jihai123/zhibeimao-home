@@ -147,6 +147,11 @@ export default function ApiDocsPage() {
         <h2 id="model-list" className="text-xl font-bold text-white md:text-2xl">04 / 查询模型</h2>
         <div className="surface-panel mt-4 min-w-0 rounded-2xl p-5">
           <p className="text-sm leading-7 text-slate-300">请求 <code className="text-cyan-200">GET /v1/models</code> 并携带 API Key，可获得当前可用的模型 ID。请使用返回的模型 ID 进行调用。</p>
+          <p className="mt-3 text-sm leading-7 text-slate-300">
+            同名模型可能同时提供 <code className="text-cyan-200">basic/</code>、<code className="text-cyan-200">standard/</code> 和无前缀线路，费用可能相差数倍。
+            首次使用先在 <Link href="/api#models" className="text-cyan-200 underline underline-offset-4">模型价格目录</Link> 对比，并填写完整的模型 ID。
+            基础线路适合日常任务，偶尔可能出现响应波动；如遇问题可尝试其他可用线路。
+          </p>
           <pre className="mt-4 max-w-full overflow-x-auto rounded-xl bg-slate-950/80 p-4 text-xs leading-7 text-cyan-100 md:text-sm"><code>{"curl 'https://api.zhibeimao.com/v1/models' -H 'Authorization: Bearer YOUR_API_KEY'"}</code></pre>
         </div>
       </section>
