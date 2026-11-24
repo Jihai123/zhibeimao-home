@@ -41,10 +41,8 @@ export function CopyEndpoint() {
   }}>{status}</button>;
 }
 
-export function HomeMotion({ onlineCount, toolCount }: { onlineCount: number; toolCount: number }) {
+export function HomeMotion() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const onlineRef = useRef<HTMLElement>(null);
-  const toolsRef = useRef<HTMLElement>(null);
   useEffect(() => {
     const canvas = canvasRef.current;
     const root = canvas?.closest<HTMLElement>('.zbm-home');
@@ -53,7 +51,7 @@ export function HomeMotion({ onlineCount, toolCount }: { onlineCount: number; to
     const ctx = canvas.getContext('2d');
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
     const pointer = window.matchMedia('(hover: hover) and (pointer: fine)');
-    let frame = 0, scrollFrame = 0, w = 0, h = 0, visible = true, last = 0, start = 0, progress = 0;
+    let frame = 0, scrollFrame = 0, w = 0, h = 0, visible = true, last = 0, progress = 0;
     let tone = document.documentElement.dataset.zbmTheme === 'light' ? 0 : 1;
     let mouse: {x:number;y:number} | null = null;
     let points: {x:number;y:number;vx:number;vy:number}[] = [];
@@ -70,7 +68,6 @@ export function HomeMotion({ onlineCount, toolCount }: { onlineCount: number; to
     function tick(now: number) {
       frame = 0;
       if (reduced.matches || document.hidden || !visible || !ctx) return;
-      if (!start) start = now;
       const dt = Math.min(2, (now-(last||now))/16.67); last = now;
       tone += ((document.documentElement.dataset.zbmTheme === 'light' ? 0 : 1)-tone)*.045;
       ctx.clearRect(0,0,w,h);
@@ -93,17 +90,12 @@ export function HomeMotion({ onlineCount, toolCount }: { onlineCount: number; to
             ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.stroke();}
         }
       }
-      const countProgress = Math.min(1,(now-start)/900);
-      if (onlineRef.current) onlineRef.current.textContent=String(Math.round(onlineCount*countProgress));
-      if (toolsRef.current) toolsRef.current.textContent=String(Math.round(toolCount*countProgress));
       frame=requestAnimationFrame(tick);
     }
     function sync() {
       if (frame) cancelAnimationFrame(frame);
       frame=0;last=0;
       if(reduced.matches || document.hidden || !visible){
-        if (onlineRef.current) onlineRef.current.textContent=String(onlineCount);
-        if (toolsRef.current) toolsRef.current.textContent=String(toolCount);
         if (reduced.matches) ctx?.clearRect(0,0,w,h);
       } else if(ctx) frame=requestAnimationFrame(tick);
     }
@@ -145,9 +137,9 @@ export function HomeMotion({ onlineCount, toolCount }: { onlineCount: number; to
       document.removeEventListener('visibilitychange',sync);reduced.removeEventListener('change',sync);
       cards.forEach(c=>{c.removeEventListener('pointermove',tilt);c.removeEventListener('pointerleave',reset);});
     };
-  },[onlineCount,toolCount]);
+  },[]);
   return <><canvas ref={canvasRef} aria-hidden="true"/><div className="zbm-ringstats">
-    <div className="zbm-ringstat"><svg viewBox="0 0 60 60" aria-hidden="true"><circle className="track" cx="30" cy="30" r="22"/><circle className="meter" cx="30" cy="30" r="22"/></svg><b ref={onlineRef} aria-label={String(onlineCount)}>{onlineCount}</b>在线 AI 工具</div>
-    <div className="zbm-ringstat"><svg viewBox="0 0 60 60" aria-hidden="true"><circle className="track" cx="30" cy="30" r="22"/><circle className="meter" cx="30" cy="30" r="22"/></svg><b ref={toolsRef} aria-label={String(toolCount)}>{toolCount}</b>决策工具</div>
+    <div className="zbm-ringstat"><svg viewBox="0 0 60 60" aria-hidden="true"><circle className="track" cx="30" cy="30" r="22"/><circle className="meter" cx="30" cy="30" r="22"/></svg><b>AI</b>在线体验</div>
+    <div className="zbm-ringstat"><svg viewBox="0 0 60 60" aria-hidden="true"><circle className="track" cx="30" cy="30" r="22"/><circle className="meter" cx="30" cy="30" r="22"/></svg><b>API</b>统一接入</div>
   </div></>;
 }
