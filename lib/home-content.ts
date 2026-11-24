@@ -15,7 +15,7 @@ const record = (x:unknown):Record<string,unknown> => x && typeof x==='object' &&
 const string = (x:unknown) => typeof x==='string' ? x.trim() : '';
 const number = (x:unknown):number|null => typeof x==='number' && Number.isFinite(x) ? x : null;
 async function readJson(url:string):Promise<unknown> {
-  const res=await fetch(url,{cache:'no-store',headers:{Accept:'application/json'},signal:AbortSignal.timeout(9000)});
+  const res=await fetch(url,{next:{revalidate:3600},headers:{Accept:'application/json'},signal:AbortSignal.timeout(9000)});
   if(!res.ok) throw new Error('Feed HTTP '+res.status);
   return res.json();
 }
@@ -44,7 +44,7 @@ export function parseToolFeed(raw:unknown):ToolFeed {
   return {tools,lastUpdated:string(record(data.metadata).lastUpdated)||null};
 }
 // Cache only successfully validated payloads. Failed revalidation does not replace
-// an existing valid entry; cold-cache failure uses explicit browse links below.
+// an existing valid entry; cold-cache model failure uses the dated source snapshot below.
 const readModels=unstable_cache(async ():Promise<ModelFeed>=>{
   let rows:ModelRow[];
   try { rows=parseModelFeed(await readJson(IQ_URL)); }
@@ -53,8 +53,8 @@ const readModels=unstable_cache(async ():Promise<ModelFeed>=>{
     rows=parseModelFeed(await readJson('https://news.chatgpt5x.com/zh/api/ai-iq'));
   }
   return {rows,version:rows[0].indexVersion,fetchedAt:new Date().toISOString(),snapshot:false};
-},['zbm-home-model-intelligence-v31'],{revalidate:3600});
-const readTools=unstable_cache(async()=>parseToolFeed(await readJson(TOOL_URL)),['zbm-home-tool-trend-v3'],{revalidate:3600});
+},['zbm-home-model-intelligence-v31-cache-fix'],{revalidate:3600});
+const readTools=unstable_cache(async()=>parseToolFeed(await readJson(TOOL_URL)),['zbm-home-tool-trend-v31-cache-fix'],{revalidate:3600});
 
 const practicalPicks:Pick[]=[
   {title:'AI 自动回复机器人教程',subtitle:'AI 实战精选',reason:'了解大模型消息自动回复与应用接入的实现思路。',href:featuredTopics[0].href,cta:'阅读教程'},
