@@ -90,10 +90,10 @@ async function run() {
         assert.equal(await mobileNav.isVisible(), false, 'mobile nav should start collapsed');
         await page.locator('summary').getByText('菜单').click();
         assert.equal(await mobileNav.isVisible(), true, 'mobile nav should open');
-        await mobileNav.getByRole('link', { name: 'API 接入' }).click();
+        await mobileNav.getByRole('link', { name: 'API 服务' }).click();
         await page.waitForURL('**/api');
       } else {
-        await page.getByRole('navigation', { name: '主导航' }).getByRole('link', { name: 'API 接入' }).click();
+        await page.getByRole('navigation', { name: '主导航' }).getByRole('link', { name: 'API 服务' }).click();
         await page.waitForURL('**/api');
       }
 
