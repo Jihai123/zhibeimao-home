@@ -35,7 +35,7 @@ const fallbackNews: DisplayNewsItem[] = [
     title: '查看更多 AI 资讯',
     href: NEWS_HOME,
     summary: '',
-    time: '刚刚',
+    time: '资讯暂未更新',
     cover: null
   }
 ];
@@ -130,10 +130,10 @@ export function NewsSection() {
   }, []);
 
   return (
-    <section className="mt-16 pb-16" aria-label="今日 AI 资讯">
+    <section className="mt-16 pb-16" aria-label="最新 AI 资讯">
       <div className="mb-6 flex items-center justify-between gap-3">
         <div>
-          <h2 className="text-2xl font-bold text-white md:text-3xl">今日 AI 资讯</h2>
+          <h2 className="text-2xl font-bold text-white md:text-3xl">最新 AI 资讯</h2>
         </div>
         <a
           href={siteLinks.news}
