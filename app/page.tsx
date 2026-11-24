@@ -30,8 +30,8 @@ const appTypes = ['专业 AI 工作台', '轻量 AI 对话', 'AI 视觉创作'];
 const appActions = ['进入工作台', '开始 AI 对话', '开始视觉创作'];
 const appDescriptions = ['深度问答、长文写作、知识整理与代码辅助。','简洁的多模型对话，适合日常问答与快速创作。','面向图像与视频内容的 AI 创作，探索更多视觉表达。'];
 
-function SectionTitle({ number, english, title, description }: { number:string; english:string; title:string; description:string }) {
-  return <div className="zbm-section-head"><div className="zbm-kicker">{number} / {english}</div><h2>{title}</h2><p>{description}</p></div>;
+function SectionTitle({ title, description }: { title:string; description:string }) {
+  return <div className="zbm-section-head"><h2>{title}</h2><p>{description}</p></div>;
 }
 
 function FeatureArt({ index }: {index:number}) {
@@ -57,7 +57,7 @@ export default async function HomePage() {
       <div className="zbm-wrap">
         <div className="zbm-hero-inner">
           <div className="zbm-hero-copy">
-            <div className="zbm-kicker">AI DISCOVERY &amp; SERVICES / 一站式 AI 服务平台</div>
+            <div className="zbm-kicker">一站式 AI 服务平台</div>
             <h1><span>发现 AI，</span><span className="zbm-gradient">让 AI 为你所用。</span></h1>
             <p>发现好用的 AI 工具，体验海外主流大模型，获取前沿资讯。<br/>从在线对话到 API 接入，让 AI 更容易融入工作与创作。</p>
             <div className="zbm-actions"><a href="#ai-direct" className="zbm-button zbm-primary">在线使用 AI <ArrowRight size={17}/></a><a href="#api-access" className="zbm-button zbm-secondary">了解 API 服务 <ArrowRight size={17}/></a></div>
@@ -67,7 +67,7 @@ export default async function HomePage() {
             <div className="zbm-orbit" aria-hidden="true"/>
             <div className="zbm-orb" aria-hidden="true"><Compass strokeWidth={1.15}/></div>
             <div className="zbm-chips"><span><Globe size={19}/> 海外主流模型 · 国内便捷访问</span><span><Layers3 size={19}/> 一个 Key · 多模型统一接入</span></div>
-            <div className="zbm-art-label" aria-hidden="true"><span className="zbm-dark-label">QUANTUM FIELD / 01</span><span className="zbm-light-label">DESIGNED FOR CLARITY / 01</span></div>
+            
           </div>
         </div>
         <nav className="zbm-quick" aria-label="快捷入口">{quickEntries.map((item,index)=>{const Icon=quickIcons[index]??Compass;return <a key={item.href} href={item.href} {...external}><Icon size={21} aria-hidden="true"/><span>{item.label}</span><ArrowUpRight size={15} aria-hidden="true"/></a>;})}</nav>
@@ -76,29 +76,29 @@ export default async function HomePage() {
     <div className="zbm-content">
       <div className="zbm-energy" aria-hidden="true"><i/></div>
       <section className="zbm-section" id="recommend" aria-label="精选推荐"><div className="zbm-wrap">
-        <SectionTitle number="01" english="CURATED PICKS" title="精选推荐" description="前沿模型、热门工具与 AI 实战精选，随数据和内容定期更新。"/>
+        <SectionTitle title="精选推荐" description="前沿模型、热门工具与 AI 实战精选，随数据和内容定期更新。"/>
         <div className="zbm-cards zbm-three">{picks.map((item,index)=><a key={index+'-'+item.href} href={item.href} {...(item.href.startsWith('/')?{}:external)} className="zbm-card zbm-feature">
-          <div className="zbm-topline"><span>{item.subtitle}</span><span>0{index+1}</span></div><div className="zbm-feature-art"><FeatureArt index={index===0?2:index===1?0:1}/></div>
+          <div className="zbm-topline"><span>{item.subtitle}</span></div><div className="zbm-feature-art"><FeatureArt index={index===0?2:index===1?0:1}/></div>
           <h3>{item.title}</h3><p>{item.reason}</p><div className="zbm-cardfoot">{item.cta}<ArrowRight size={17}/></div>
         </a>)}</div>
       </div></section>
       <section className="zbm-section" id="ai-direct" aria-label="指北猫AI直通"><div className="zbm-wrap">
-        <SectionTitle number="02" english="AI EXPERIENCE" title="指北猫 AI 直通" description="一个 API Key，体验三款在线 AI 工具；按使用场景选择适合的应用。"/>
+        <SectionTitle title="指北猫 AI 直通" description="一个 API Key，体验三款在线 AI 工具；按使用场景选择适合的应用。"/>
         <div className="zbm-cards zbm-three">{aiDirectEntries.map((item,index)=>{const Icon=appIcons[index]??MessagesSquare;return <a className="zbm-card zbm-app" key={item.href} href={item.href} {...external}><div className="zbm-topline"><span className="zbm-glyph"><Icon size={24}/></span><span>{appTypes[index]}</span></div><h3>{item.title}</h3><p>{appDescriptions[index]??item.description}</p><div className="zbm-cardfoot">{appActions[index]??"立即体验"}<ArrowRight size={17}/></div></a>;})}</div>
         <div className="zbm-services"><strong>首次使用？</strong><StoreAttributionLink placement="home_ai_direct">获取通用 API Key <ArrowUpRight size={15}/></StoreAttributionLink><a href={siteLinks.tutorial} {...external}>查看使用教程</a><a href={siteLinks.apiKeyBalance} {...external}>查询余额</a></div>
       </div></section>
       <section className="zbm-section" id="api-access" aria-label="统一 API 接入"><div className="zbm-wrap">
-        <SectionTitle number="03" english="DEVELOPER ACCESS" title="指北猫 API" description="面向开发者与 AI 应用的统一模型服务。"/>
+        <SectionTitle title="指北猫 API" description="面向开发者与 AI 应用的统一模型服务。"/>
         <div className="zbm-api-panel">
           <div><div className="zbm-kicker">OPENAI COMPATIBLE</div><h3>一个 Key，<br/>连接主流 AI 模型。</h3><p>连接 GPT、Claude、Gemini 等主流模型系列，支持国内网络便捷接入。美元额度可用人民币购买，按需选择模型线路与调用成本。</p><div className="zbm-actions"><Link href="/api" className="zbm-button zbm-primary">查看模型与价格 <ArrowRight size={17}/></Link><Link href="/api/docs" className="zbm-button zbm-secondary">查看接入文档</Link></div></div>
           <div className="zbm-code"><div className="zbm-code-head"><i/><i/><i/><span>API / ENDPOINT</span></div><p>Base URL</p><code>https://api.zhibeimao.com/v1</code><CopyEndpoint/><div className="zbm-route-row"><span><Globe size={13}/> 国内便捷接入</span><span><Layers3 size={13}/> 海外主流模型</span><span><Wallet size={13}/> 优惠额度</span><span><Code2 size={13}/> OpenAI 兼容</span></div></div>
         </div>
         <div className="zbm-services"><strong>使用与账户服务</strong><StoreAttributionLink placement="homepage_key">购买 API Key <ArrowUpRight size={15}/></StoreAttributionLink><a href={siteLinks.apiKeyBalance} {...external}>查询余额与消费明细</a><a href={siteLinks.tutorial} {...external}>使用教程</a></div>
       </div></section>
-      <div className="zbm-section zbm-wrap zbm-live" id="insights"><div className="zbm-kicker">04 / LIVE INSIGHTS</div><HomeInsights modelFeed={modelFeed} topics={topics}/></div>
-      <div className="zbm-section zbm-wrap zbm-live" id="today"><div className="zbm-kicker">05 / LATEST IN AI</div><NewsSection/></div>
+      <div className="zbm-section zbm-wrap zbm-live" id="insights"><HomeInsights modelFeed={modelFeed} topics={topics}/></div>
+      <div className="zbm-section zbm-wrap zbm-live" id="today"><NewsSection/></div>
       <section className="zbm-section zbm-portfolio" id="tools"><div className="zbm-wrap">
-        <SectionTitle number="06" english="OUR PRODUCTS" title="旗下产品" description="探索指北猫旗下独立应用，覆盖生活、工作与个人规划。" />
+        <SectionTitle title="旗下产品" description="探索指北猫旗下独立应用，覆盖生活、工作与个人规划。" />
         <div className="zbm-product-grid">{relatedProducts.map(item=>{const Icon=item.icon;const product=productNames[item.href];return <a key={item.href} href={item.href} {...external} className="zbm-product"><span className="zbm-glyph"><Icon size={20} aria-hidden="true"/></span><span className="zbm-product-copy"><strong>{product.title}</strong><small>{product.description}</small></span><ArrowUpRight size={15} aria-hidden="true"/></a>;})}</div>
       </div></section>
     </div>
