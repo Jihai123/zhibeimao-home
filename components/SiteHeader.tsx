@@ -1,9 +1,10 @@
 import Link from 'next/link';
+import { HomeThemeToggle } from '@/components/HomeMotion';
 import { ArrowUpRight, Menu } from 'lucide-react';
 
 const navItems = [
   { label: '首页', href: '/' },
-  { label: 'API 接入', href: '/api' },
+  { label: 'API 服务', href: '/api' },
   { label: 'AI资讯', href: 'https://news.chatgpt5x.com/' },
   { label: 'AI排行榜', href: 'https://news.chatgpt5x.com/ai-rankings' },
   { label: 'AI论坛', href: 'https://forum.chatgpt5x.com/' },
@@ -43,6 +44,7 @@ export function SiteHeader() {
           {navItems.map((item) => <NavLink key={item.href} {...item} />)}
         </nav>
 
+        <HomeThemeToggle />
         <details className="group relative ml-auto md:hidden">
           <summary className="flex min-h-11 cursor-pointer list-none items-center gap-2 rounded-xl border border-white/15 bg-white/[0.04] px-3 text-sm font-medium text-slate-100 marker:hidden [&::-webkit-details-marker]:hidden">
             <Menu className="h-4 w-4" aria-hidden="true" />

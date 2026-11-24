@@ -153,7 +153,7 @@ export function RankingList() {
   return (
     <section className="mt-16 min-w-0" aria-label="AI 榜单与专题精选">
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
-        <h2 className="text-primary text-2xl font-bold md:text-3xl">热门工具榜单与资讯</h2>
+        <h2 className="text-primary text-2xl font-bold md:text-3xl">热门 AI 榜单与专题精选</h2>
         <a href={siteLinks.rankings} {...externalLinkProps} className="text-sm font-medium text-cyan-300 transition-colors hover:text-cyan-200">
           阅读更多 →
         </a>
@@ -163,7 +163,7 @@ export function RankingList() {
         <div className="surface-panel min-w-0 rounded-2xl p-4 sm:p-5">
           <article className="flex h-full min-w-0 min-h-[380px] flex-col rounded-2xl border border-cyan-300/20 bg-gradient-to-br from-cyan-500/10 via-slate-900/70 to-slate-950 p-3 sm:p-5">
             <h3 className="text-primary text-xl font-bold">热门 AI 工具</h3>
-            <p className="text-secondary mt-2 text-sm">全球范围内热度和增长率最高的工具。</p>
+            <p className="text-secondary mt-2 text-sm">了解全球 AI 工具的热度与增长趋势。</p>
 
             <div className="mt-4 grid min-w-0 grid-cols-[30px_minmax(0,1fr)] gap-2 px-3 text-[11px] text-secondary/90 sm:grid-cols-[30px_minmax(0,1fr)_88px_86px] sm:gap-3">
               <span>排名</span>
@@ -173,7 +173,7 @@ export function RankingList() {
             </div>
 
             <div className="mt-2.5 space-y-2.5">
-              {(hasData ? popularTools : Array.from({ length: 6 })).map((tool, index) => {
+              {loadFailed ? <p role="status" className="text-secondary rounded-lg border border-white/10 p-4 text-sm">榜单暂不可用，请通过下方入口查看完整榜单。</p> : (hasData ? popularTools : Array.from({ length: 6 })).map((tool, index) => {
                 const rank = hasData ? toNumber((tool as RankingItem).rank) ?? index + 1 : index + 1;
                 const growth = hasData
                   ? formatGrowthRate((tool as RankingItem).growth_rate ?? (tool as RankingItem).growthRate)
@@ -187,7 +187,7 @@ export function RankingList() {
                     {...externalLinkProps}
                     className="group grid min-w-0 grid-cols-[30px_minmax(0,1fr)_16px] items-center gap-2 rounded-lg sm:grid-cols-[30px_minmax(0,1fr)_88px_86px_16px] sm:gap-3 border border-white/10 bg-slate-900/55 px-3 py-2 transition-all duration-300 hover:border-cyan-300/30 hover:bg-cyan-400/[0.08]"
                   >
-                    <span className="text-sm font-semibold text-cyan-300">#{rank}</span>
+                    <span className="text-sm font-semibold text-cyan-300">{hasData ? '#' + rank : '—'}</span>
                     <span className="truncate text-sm font-medium text-primary">{hasData ? (tool as RankingItem).name || '未知工具' : '数据加载中'}</span>
                     <span className="hidden text-right text-xs text-secondary sm:block">{hasData ? formatCompactNumber((tool as RankingItem).change) : '--'}</span>
                     <span className={`hidden text-right text-xs font-semibold sm:block ${growth.className}`}>{growth.text}</span>
@@ -208,7 +208,7 @@ export function RankingList() {
         </div>
 
         <div className="surface-panel min-w-0 rounded-2xl p-4 sm:p-5">
-          <h3 className="text-primary mb-4 text-base font-semibold">图文资讯精选</h3>
+          <h3 className="text-primary mb-4 text-base font-semibold">AI 专题精选</h3>
           <div className="space-y-3">
             {topicPicks.map((pick) => (
               <a

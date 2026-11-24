@@ -51,5 +51,37 @@ export const featuredTopics: FeaturedTopic[] = [
     source: 'forum',
     badge: '论坛热议',
     priority: 80
+  },
+  {
+    title: 'Cursor 多智能体协作与开发工作流',
+    summary: '了解 Cursor 多智能体协作在开发流程中的应用。',
+    href: 'https://forum.chatgpt5x.com/d/1860-ai-bian-cheng-jin-ru-xu-ni-tuan-dui-shi-dai-cursor-20yi-duo-zhi-neng-ti-zhong-su-kai-fa-zhe-gong-zuo-liu'.replace('ai-bian-cheng','aibian-cheng'),
+    source: 'forum',
+    badge: '论坛热议',
+    priority: 79
+  },
+  {
+    title: 'Cursor 智能体与 SQLite 重写实践',
+    summary: '从社区案例了解 AI 编程智能体如何参与大型代码任务。',
+    href: 'https://forum.chatgpt5x.com/d/4541-zhi-gei-wen-dang-bu-gei-yuan-ma-cursor-aizhi-neng-ti-ji-qun-yong-rustzhong-xie-sqlitece-shi-quan-tong-guan',
+    source: 'forum',
+    badge: '论坛热议',
+    priority: 78
+  },
+  {
+    title: 'Claude Code 的编程任务协作',
+    summary: '了解 Claude Code 的任务规划与开发辅助思路。',
+    href: 'https://forum.chatgpt5x.com/d/2653-aixie-dai-ma-xian-zai-lian-si-kao-du-sheng-liao-claude-codexin-zhao-rang-ni-gao-bie-ban-dui-ban-cuo-de-jiu-jie',
+    source: 'forum',
+    badge: '论坛热议',
+    priority: 77
+  },
+  {
+    title: 'Claude 与 Slack 团队协作',
+    summary: '探索 AI 助手在团队沟通与工作流中的应用。',
+    href: 'https://forum.chatgpt5x.com/d/1576-ai-zhu-shou-claude-deng-ru-slacktuan-dui-xie-zuo-xin-fan-shi-gong-zuo-liu-wu-feng-xian-jie',
+    source: 'forum',
+    badge: '论坛热议',
+    priority: 76
   }
 ];
