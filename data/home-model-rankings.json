@@ -1,0 +1,67 @@
+{
+  "source": "https://news.chatgpt5x.com/api/ai-iq",
+  "fetchedAt": "2026-11-24T03:33:57.142Z",
+  "version": 5,
+  "rows": [
+    {
+      "model": "Claude Fable 5.2 (Max, Default Fallback)",
+      "creator": "Anthropic",
+      "intelligence": 64.6,
+      "indexVersion": 5
+    },
+    {
+      "model": "Claude Fable 5.2 (Xhigh, Default Fallback)",
+      "creator": "Anthropic",
+      "intelligence": 62.2,
+      "indexVersion": 5
+    },
+    {
+      "model": "GPT-6.2 Astra (Max)",
+      "creator": "OpenAI",
+      "intelligence": 62.1,
+      "indexVersion": 5
+    },
+    {
+      "model": "Claude Fable 5.2 (High, Default Fallback)",
+      "creator": "Anthropic",
+      "intelligence": 61.8,
+      "indexVersion": 5
+    },
+    {
+      "model": "GPT-6.2 Astra (Xhigh)",
+      "creator": "OpenAI",
+      "intelligence": 61.6,
+      "indexVersion": 5
+    },
+    {
+      "model": "Gemini 4 Neon (Xhigh)",
+      "creator": "Google",
+      "intelligence": 61.4,
+      "indexVersion": 5
+    },
+    {
+      "model": "GPT-6.2 Astra (High)",
+      "creator": "OpenAI",
+      "intelligence": 60.1,
+      "indexVersion": 5
+    },
+    {
+      "model": "Gemini 4 Carbon (High)",
+      "creator": "Google",
+      "intelligence": 60,
+      "indexVersion": 5
+    },
+    {
+      "model": "Gemini 4 Neon (High)",
+      "creator": "Google",
+      "intelligence": 59.6,
+      "indexVersion": 5
+    },
+    {
+      "model": "Claude Opus 5.5 (Max, Default Fallback)",
+      "creator": "Anthropic",
+      "intelligence": 59.1,
+      "indexVersion": 5
+    }
+  ]
+}
