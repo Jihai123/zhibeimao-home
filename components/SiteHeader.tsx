@@ -4,7 +4,7 @@ import { ArrowUpRight, Menu } from 'lucide-react';
 
 const navItems = [
   { label: '首页', href: '/' },
-  { label: 'API 接入', href: '/api' },
+  { label: 'API 服务', href: '/api' },
   { label: 'AI资讯', href: 'https://news.chatgpt5x.com/' },
   { label: 'AI排行榜', href: 'https://news.chatgpt5x.com/ai-rankings' },
   { label: 'AI论坛', href: 'https://forum.chatgpt5x.com/' },
