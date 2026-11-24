@@ -32,8 +32,8 @@ export default function HomePage() {
         <div className="zbm-hero-inner">
           <div className="zbm-hero-copy">
             <div className="zbm-kicker">AI DECISION HUB / 智能决策平台</div>
-            <h1><span>发现 AI，</span><span className="zbm-gradient">让选择更清晰。</span><span className="sr-only">AI 工具导航与评测中心</span></h1>
-            <p>探索实用 AI 工具，了解前沿模型与行业动态。<br/>从工作效率到生活决策，找到适合自己的答案。</p>
+            <h1><span>发现 AI，</span><span className="zbm-gradient">让选择更清晰。</span></h1>
+            <p>AI 工具导航与评测中心，了解前沿模型与行业动态。<br/>从工作效率到生活决策，找到适合自己的答案。</p>
             <div className="zbm-actions"><a href="#ai-direct" className="zbm-button zbm-primary">探索 AI 体验 <ArrowRight size={17}/></a><a href="#tools" className="zbm-button zbm-secondary">查看决策工具 <ArrowRight size={17}/></a></div>
           </div>
           <div className="zbm-art">
