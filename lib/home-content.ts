@@ -1,11 +1,12 @@
 import { unstable_cache } from 'next/cache';
+import rankingSnapshot from '@/data/home-model-rankings.json';
 import { getPublicModelCatalog } from '@/lib/model-catalog';
 import { siteLinks } from '@/data/site-links';
 import { featuredTopics } from '@/src/data/featuredTopics';
 
 export type Pick = { title:string; subtitle:string; reason:string; href:string; cta:string };
 export type ModelRow = { model:string; creator:string; intelligence:number; indexVersion:number };
-type ModelFeed = { rows:ModelRow[]; version:number; fetchedAt:string };
+export type ModelFeed = { rows:ModelRow[]; version:number; fetchedAt:string; snapshot:boolean };
 type Tool = { name:string; rank:number };
 type ToolFeed = { tools:Tool[]; lastUpdated:string|null };
 const IQ_URL = 'https://news.chatgpt5x.com/api/ai-iq';
@@ -14,7 +15,7 @@ const record = (x:unknown):Record<string,unknown> => x && typeof x==='object' &&
 const string = (x:unknown) => typeof x==='string' ? x.trim() : '';
 const number = (x:unknown):number|null => typeof x==='number' && Number.isFinite(x) ? x : null;
 async function readJson(url:string):Promise<unknown> {
-  const res=await fetch(url,{cache:'no-store',headers:{Accept:'application/json'},signal:AbortSignal.timeout(6500)});
+  const res=await fetch(url,{cache:'no-store',headers:{Accept:'application/json'},signal:AbortSignal.timeout(9000)});
   if(!res.ok) throw new Error('Feed HTTP '+res.status);
   return res.json();
 }
@@ -45,9 +46,14 @@ export function parseToolFeed(raw:unknown):ToolFeed {
 // Cache only successfully validated payloads. Failed revalidation does not replace
 // an existing valid entry; cold-cache failure uses explicit browse links below.
 const readModels=unstable_cache(async ():Promise<ModelFeed>=>{
-  const rows=parseModelFeed(await readJson(IQ_URL));
-  return {rows,version:rows[0].indexVersion,fetchedAt:new Date().toISOString()};
-},['zbm-home-model-intelligence-v3'],{revalidate:3600});
+  let rows:ModelRow[];
+  try { rows=parseModelFeed(await readJson(IQ_URL)); }
+  catch (error) {
+    console.warn('[home-models] primary source unavailable',error instanceof Error?error.message:String(error));
+    rows=parseModelFeed(await readJson('https://news.chatgpt5x.com/zh/api/ai-iq'));
+  }
+  return {rows,version:rows[0].indexVersion,fetchedAt:new Date().toISOString(),snapshot:false};
+},['zbm-home-model-intelligence-v31'],{revalidate:3600});
 const readTools=unstable_cache(async()=>parseToolFeed(await readJson(TOOL_URL)),['zbm-home-tool-trend-v3'],{revalidate:3600});
 
 const practicalPicks:Pick[]=[
@@ -61,7 +67,8 @@ const practicalPicks:Pick[]=[
 const pinned:Partial<Record<'model'|'tool'|'practical',Pick>>={};
 export async function getHomeContent(now=Date.now()) {
   const [models,tools]=await Promise.allSettled([readModels(),readTools()]);
-  const modelFeed=models.status==='fulfilled'?models.value:null;
+  const modelFeed:ModelFeed=models.status==='fulfilled'?models.value:{rows:parseModelFeed(rankingSnapshot.rows),version:rankingSnapshot.version,fetchedAt:rankingSnapshot.fetchedAt,snapshot:true};
+  if(models.status==='rejected') console.warn('[home-models] serving dated snapshot',String(models.reason));
   const toolFeed=tools.status==='fulfilled'?tools.value:null;
   const day=Math.floor((now+8*3600000)/86400000);
   const week=Math.floor(day/7);
@@ -79,7 +86,7 @@ export async function getHomeContent(now=Date.now()) {
   const tool=hot.length?hot[day%hot.length]:null;
   const toolPick:Pick=tool?{title:tool.name,subtitle:'热门 AI 工具',reason:'当前工具热度榜第 '+tool.rank+' 名。排名反映使用热度，不代表模型能力。',href:siteLinks.aiLeaderboard,cta:'查看热度榜'}:{title:'全球 AI 工具热度',subtitle:'热门 AI 工具',reason:'浏览现有工具热度榜，了解受关注的 AI 应用。',href:siteLinks.aiLeaderboard,cta:'查看榜单'};
   const practical=pinned.practical??practicalPicks[week%practicalPicks.length];
-  const remaining=featuredTopics.filter(t=>t.href!==practical.href);
+  const remaining=featuredTopics.filter(t=>t.href!==practical.href && !/字节跳动AI|盗脸术|AI京华令/.test(t.title));
   const rotated=remaining.slice(week%Math.max(1,remaining.length)).concat(remaining.slice(0,week%Math.max(1,remaining.length)));
-  return {picks:[pinned.model??modelPick,pinned.tool??toolPick,practical],modelFeed,toolFeed,topics:rotated};
+  return {picks:[pinned.model??modelPick,pinned.tool??toolPick,practical],modelFeed,toolFeed,topics:rotated.slice(0,5)};
 }
