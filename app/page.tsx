@@ -1,10 +1,11 @@
 import Link from 'next/link';
-import { ArrowRight, ArrowUpRight, Compass, Layers3, Sparkles, LayoutGrid, ChartNoAxesColumn, Newspaper, MessagesSquare, Clapperboard, Code2, Wallet, Globe } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, Compass, Layers3, LayoutGrid, ChartNoAxesColumn, Newspaper, MessagesSquare, Clapperboard, Code2, Wallet, Globe } from 'lucide-react';
 import { aiDirectEntries, toolAssets } from '@/data/home-data';
 import { siteLinks } from '@/data/site-links';
 import { StoreAttributionLink } from '@/components/StoreAttributionLink';
 import { HomeMotion, CopyEndpoint } from '@/components/HomeMotion';
-import { RankingList } from '@/components/RankingList';
+import { HomeInsights } from '@/components/HomeInsights';
+import { getHomeContent } from '@/lib/home-content';
 import { NewsSection } from '@/components/NewsSection';
 import './home-theme.css';
 
@@ -12,14 +13,9 @@ const external = { target: '_blank', rel: 'noopener noreferrer' } as const;
 const quickIcons = [LayoutGrid, ChartNoAxesColumn, Newspaper, MessagesSquare];
 const quickEntries = [
   { label: 'AI 工具导航', href: siteLinks.nav },
-  { label: '全球 AI 榜单', href: siteLinks.aiLeaderboard },
+  { label: '全球 AI 模型总榜', href: 'https://news.chatgpt5x.com/ai-rankings/intelligence' },
   { label: 'AI 前沿资讯', href: siteLinks.news },
   { label: 'AI 交流社区', href: siteLinks.forum }
-];
-const featuredAssets = [
-  { title: 'AI 工作场景分析', subtitle: 'AI 应用', reason: '从具体工作任务出发，了解哪些环节可以借助 AI 提升效率。', href: siteLinks.aiWorkAnalyst, cta: '分析工作场景' },
-  { title: 'AI 自动回复机器人教程', subtitle: '实战教程', reason: '了解基于大模型的消息自动回复应用与接入思路。', href: 'https://forum.chatgpt5x.com/d/62-ru-he-kuai-su-da-jian-yi-ge-wei-xin-zi-dong-hui-fu-de-gptji-qi-ren', cta: '阅读教程' },
-  { title: '全球 AI 热门工具榜单', subtitle: '工具趋势', reason: '了解主流 AI 工具的热度与增长趋势，发现值得关注的应用。', href: siteLinks.aiLeaderboard, cta: '查看榜单' }
 ];
 const productNames: Record<string, {title:string;description:string}> = {
   [siteLinks.hongKongIPO]: {title:'港股新股分析',description:'新股资料与研究参考'},
@@ -47,10 +43,14 @@ function FeatureArt({ index }: {index:number}) {
 
 export const metadata = {
   title: '指北猫 - AI 工具导航 · AI 在线体验 · AI API 模型服务',
-  description: '指北猫是一站式 AI 发现、体验与应用服务平台，提供 AI 工具导航、全球 AI 热门榜单、行业资讯、在线 AI 对话与视觉创作，以及兼容 OpenAI 的 API 接入和模型价格查询。'
+  description: '指北猫是一站式 AI 发现、体验与应用服务平台，提供 AI 工具导航、全球 AI 模型能力总榜、行业资讯、在线 AI 对话与视觉创作，以及兼容 OpenAI 的 API 接入和模型价格查询。',
+  alternates: { canonical: 'https://www.zhibeimao.com/' }
 };
 
-export default function HomePage() {
+export const revalidate = 900;
+
+export default async function HomePage() {
+  const {picks,modelFeed,topics}=await getHomeContent();
   return <main className="zbm-home">
     <div className="zbm-progress" aria-hidden="true"/>
     <section className="zbm-hero" aria-label="指北猫 AI 服务平台">
@@ -59,14 +59,14 @@ export default function HomePage() {
           <div className="zbm-hero-copy">
             <div className="zbm-kicker">AI DISCOVERY &amp; SERVICES / 一站式 AI 服务平台</div>
             <h1><span>发现 AI，</span><span className="zbm-gradient">让 AI 为你所用。</span></h1>
-            <p>发现好用的 AI 工具，体验主流大模型，获取前沿资讯。<br/>从在线对话到 API 接入，让 AI 更容易融入工作与创作。</p>
+            <p>发现好用的 AI 工具，体验海外主流大模型，获取前沿资讯。<br/>从在线对话到 API 接入，让 AI 更容易融入工作与创作。</p>
             <div className="zbm-actions"><a href="#ai-direct" className="zbm-button zbm-primary">在线使用 AI <ArrowRight size={17}/></a><a href="#api-access" className="zbm-button zbm-secondary">了解 API 服务 <ArrowRight size={17}/></a></div>
           </div>
           <div className="zbm-art">
             <HomeMotion/>
             <div className="zbm-orbit" aria-hidden="true"/>
             <div className="zbm-orb" aria-hidden="true"><Compass strokeWidth={1.15}/></div>
-            <div className="zbm-chips"><span><Layers3 size={19}/> 主流模型 · 统一接入</span><span><Sparkles size={19}/> 发现 · 体验 · 应用</span></div>
+            <div className="zbm-chips"><span><Globe size={19}/> 海外主流模型 · 国内便捷访问</span><span><Layers3 size={19}/> 一个 Key · 多模型统一接入</span></div>
             <div className="zbm-art-label" aria-hidden="true"><span className="zbm-dark-label">QUANTUM FIELD / 01</span><span className="zbm-light-label">DESIGNED FOR CLARITY / 01</span></div>
           </div>
         </div>
@@ -76,25 +76,26 @@ export default function HomePage() {
     <div className="zbm-content">
       <div className="zbm-energy" aria-hidden="true"><i/></div>
       <section className="zbm-section" id="recommend" aria-label="精选推荐"><div className="zbm-wrap">
-        <SectionTitle number="01" english="CURATED PICKS" title="精选推荐" description="从实用场景出发，探索 AI 应用、教程与工具趋势。"/>
-        <div className="zbm-cards zbm-three">{featuredAssets.map((item,index)=><a key={item.href} href={item.href} {...external} className="zbm-card zbm-feature">
-          <div className="zbm-topline"><span>{item.subtitle}</span><span>0{index+1}</span></div><div className="zbm-feature-art"><FeatureArt index={index}/></div>
+        <SectionTitle number="01" english="CURATED PICKS" title="精选推荐" description="前沿模型、热门工具与 AI 实战精选，随数据和内容定期更新。"/>
+        <div className="zbm-cards zbm-three">{picks.map((item,index)=><a key={index+'-'+item.href} href={item.href} {...(item.href.startsWith('/')?{}:external)} className="zbm-card zbm-feature">
+          <div className="zbm-topline"><span>{item.subtitle}</span><span>0{index+1}</span></div><div className="zbm-feature-art"><FeatureArt index={index===0?2:index===1?0:1}/></div>
           <h3>{item.title}</h3><p>{item.reason}</p><div className="zbm-cardfoot">{item.cta}<ArrowRight size={17}/></div>
         </a>)}</div>
       </div></section>
       <section className="zbm-section" id="ai-direct" aria-label="指北猫AI直通"><div className="zbm-wrap">
         <SectionTitle number="02" english="AI EXPERIENCE" title="指北猫 AI 直通" description="一个 API Key，体验三款在线 AI 工具；按使用场景选择适合的应用。"/>
         <div className="zbm-cards zbm-three">{aiDirectEntries.map((item,index)=>{const Icon=appIcons[index]??MessagesSquare;return <a className="zbm-card zbm-app" key={item.href} href={item.href} {...external}><div className="zbm-topline"><span className="zbm-glyph"><Icon size={24}/></span><span>{appTypes[index]}</span></div><h3>{item.title}</h3><p>{appDescriptions[index]??item.description}</p><div className="zbm-cardfoot">{appActions[index]??"立即体验"}<ArrowRight size={17}/></div></a>;})}</div>
+        <div className="zbm-services"><strong>首次使用？</strong><StoreAttributionLink placement="home_ai_direct">获取通用 API Key <ArrowUpRight size={15}/></StoreAttributionLink><a href={siteLinks.tutorial} {...external}>查看使用教程</a><a href={siteLinks.apiKeyBalance} {...external}>查询余额</a></div>
       </div></section>
       <section className="zbm-section" id="api-access" aria-label="统一 API 接入"><div className="zbm-wrap">
         <SectionTitle number="03" english="DEVELOPER ACCESS" title="指北猫 API" description="面向开发者与 AI 应用的统一模型服务。"/>
         <div className="zbm-api-panel">
-          <div><div className="zbm-kicker">OPENAI COMPATIBLE</div><h3>一个 Key，<br/>连接主流 AI 模型。</h3><p>主流模型统一接入，按需选择线路与调用成本。套餐与模型价格公开展示，兼容 OpenAI API 格式。</p><div className="zbm-actions"><Link href="/api" className="zbm-button zbm-primary">查看模型与价格 <ArrowRight size={17}/></Link><Link href="/api/docs" className="zbm-button zbm-secondary">查看接入文档</Link></div></div>
-          <div className="zbm-code"><div className="zbm-code-head"><i/><i/><i/><span>API / ENDPOINT</span></div><p>Base URL</p><code>https://api.zhibeimao.com/v1</code><CopyEndpoint/><div className="zbm-route-row"><span><Layers3 size={13}/> 主流模型</span><span><Wallet size={13}/> 优惠额度</span><span><Globe size={13}/> 统一接入</span><span><Code2 size={13}/> OpenAI 兼容</span></div></div>
+          <div><div className="zbm-kicker">OPENAI COMPATIBLE</div><h3>一个 Key，<br/>连接主流 AI 模型。</h3><p>连接 GPT、Claude、Gemini 等主流模型系列，支持国内网络便捷接入。美元额度可用人民币购买，按需选择模型线路与调用成本。</p><div className="zbm-actions"><Link href="/api" className="zbm-button zbm-primary">查看模型与价格 <ArrowRight size={17}/></Link><Link href="/api/docs" className="zbm-button zbm-secondary">查看接入文档</Link></div></div>
+          <div className="zbm-code"><div className="zbm-code-head"><i/><i/><i/><span>API / ENDPOINT</span></div><p>Base URL</p><code>https://api.zhibeimao.com/v1</code><CopyEndpoint/><div className="zbm-route-row"><span><Globe size={13}/> 国内便捷接入</span><span><Layers3 size={13}/> 海外主流模型</span><span><Wallet size={13}/> 优惠额度</span><span><Code2 size={13}/> OpenAI 兼容</span></div></div>
         </div>
         <div className="zbm-services"><strong>使用与账户服务</strong><StoreAttributionLink placement="homepage_key">购买 API Key <ArrowUpRight size={15}/></StoreAttributionLink><a href={siteLinks.apiKeyBalance} {...external}>查询余额与消费明细</a><a href={siteLinks.tutorial} {...external}>使用教程</a></div>
       </div></section>
-      <div className="zbm-section zbm-wrap zbm-live" id="insights"><div className="zbm-kicker">04 / LIVE INSIGHTS</div><RankingList/></div>
+      <div className="zbm-section zbm-wrap zbm-live" id="insights"><div className="zbm-kicker">04 / LIVE INSIGHTS</div><HomeInsights modelFeed={modelFeed} topics={topics}/></div>
       <div className="zbm-section zbm-wrap zbm-live" id="today"><div className="zbm-kicker">05 / LATEST IN AI</div><NewsSection/></div>
       <section className="zbm-section zbm-portfolio" id="tools"><div className="zbm-wrap">
         <SectionTitle number="06" english="OUR PRODUCTS" title="旗下产品" description="探索指北猫旗下独立应用，覆盖生活、工作与个人规划。" />
