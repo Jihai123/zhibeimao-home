@@ -78,7 +78,7 @@ function getNewsList(data: NewsApiResponse): NewsApiItem[] {
 }
 
 function toDisplayNews(items: NewsApiItem[]): DisplayNewsItem[] {
-  return items.slice(0, 3).map((item) => {
+  return items.slice(0, 6).map((item) => {
     const hasSlug = typeof item.slug === 'string' && item.slug.trim().length > 0;
 
     return {
