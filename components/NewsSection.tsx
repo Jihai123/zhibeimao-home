@@ -1,178 +1,47 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-
+import { ArrowRight, Newspaper } from 'lucide-react';
 import { siteLinks } from '@/data/site-links';
 
-type NewsApiItem = {
-  title?: string;
-  slug?: string;
-  date?: string;
-  content?: string;
-  cover?: string;
-};
-
-type NewsApiResponse = NewsApiItem[] | { data?: NewsApiItem[]; items?: NewsApiItem[] };
-
-type DisplayNewsItem = {
-  title: string;
-  href: string;
-  summary: string;
-  time: string;
-  cover: string | null;
-};
-
-const externalLinkProps = {
-  target: '_blank',
-  rel: 'noopener noreferrer'
-};
-
-const NEWS_API = '/api/news';
-const NEWS_HOME = 'https://news.chatgpt5x.com/zh/news';
-
-const fallbackNews: DisplayNewsItem[] = [
-  {
-    title: '查看更多 AI 资讯',
-    href: NEWS_HOME,
-    summary: '',
-    time: '资讯暂未更新',
-    cover: null
-  }
-];
-
-function normalizeCover(cover?: string): string | null {
-  if (!cover || typeof cover !== 'string') {
-    return null;
-  }
-
-  return cover.startsWith('http://') ? cover.replace('http://', 'https://') : cover;
+type NewsItem = {title?:string;slug?:string;date?:string;content?:string;status?:string};
+type DisplayItem = {title:string;href:string;summary:string;time:string};
+const NEWS_HOME='https://news.chatgpt5x.com/zh/news';
+const external={target:'_blank',rel:'noopener noreferrer'} as const;
+function parseNews(raw:unknown):DisplayItem[]{
+  const payload=raw as {data?:unknown;items?:unknown}|null;
+  const rows=Array.isArray(raw)?raw:Array.isArray(payload?.data)?payload.data:Array.isArray(payload?.items)?payload.items:[];
+  const seen=new Set<string>();
+  return rows.filter((x):x is NewsItem=>!!x&&typeof x==='object'&&typeof x.title==='string'&&x.title.trim().length>0&&(!x.status||x.status==='Published')).filter(x=>{
+    const key=x.slug?.trim()||x.title!.trim();if(seen.has(key))return false;seen.add(key);return true;
+  }).slice(0,6).map(x=>({
+    title:x.title!.trim(),href:typeof x.slug==='string'&&x.slug.trim()?NEWS_HOME+'/'+encodeURIComponent(x.slug.trim()):NEWS_HOME,
+    summary:typeof x.content==='string'?x.content.replace(/\s+/g,' ').trim().slice(0,78):'',
+    time:typeof x.date==='string'&&x.date.trim()?x.date.trim():''
+  }));
 }
 
-function truncateSummary(content?: string): string {
-  if (!content || typeof content !== 'string') {
-    return '';
-  }
-
-  const cleanContent = content.replace(/\s+/g, ' ').trim();
-  if (cleanContent.length <= 78) {
-    return cleanContent;
-  }
-
-  return `${cleanContent.slice(0, 76)}...`;
-}
-
-function getNewsList(data: NewsApiResponse): NewsApiItem[] {
-  if (Array.isArray(data)) {
-    return data;
-  }
-
-  if (Array.isArray(data?.data)) {
-    return data.data;
-  }
-
-  if (Array.isArray(data?.items)) {
-    return data.items;
-  }
-
-  return [];
-}
-
-function toDisplayNews(items: NewsApiItem[]): DisplayNewsItem[] {
-  return items.slice(0, 6).map((item) => {
-    const hasSlug = typeof item.slug === 'string' && item.slug.trim().length > 0;
-
-    return {
-      title: item.title?.trim() || '未命名资讯',
-      href: hasSlug ? `${NEWS_HOME}/${encodeURIComponent(item.slug!.trim())}` : NEWS_HOME,
-      summary: truncateSummary(item.content),
-      time: item.date?.trim() || '时间待更新',
-      cover: normalizeCover(item.cover)
-    };
-  });
-}
-
-export function NewsSection() {
-  const [news, setNews] = useState<DisplayNewsItem[]>(fallbackNews);
-
-  useEffect(() => {
-    let isActive = true;
-
-    const loadNews = async () => {
-      try {
-        const response = await fetch(NEWS_API, { method: 'GET' });
-        if (!response.ok) {
-          throw new Error(`HTTP ${response.status}`);
-        }
-
-        const data = (await response.json()) as NewsApiResponse;
-        const list = getNewsList(data);
-
-        const validItems = list.filter((item) => typeof item?.title === 'string' && item.title.trim().length > 0);
-        if (!validItems.length) {
-          throw new Error('empty response');
-        }
-
-        if (isActive) {
-          setNews(toDisplayNews(validItems));
-        }
-      } catch {
-        if (isActive) {
-          setNews(fallbackNews);
-        }
-      }
-    };
-
-    loadNews();
-
-    return () => {
-      isActive = false;
-    };
-  }, []);
-
-  return (
-    <section className="mt-16 pb-16" aria-label="最新 AI 资讯">
-      <div className="mb-6 flex items-center justify-between gap-3">
-        <div>
-          <h2 className="text-2xl font-bold text-white md:text-3xl">最新 AI 资讯</h2>
-        </div>
-        <a
-          href={siteLinks.news}
-          {...externalLinkProps}
-          className="text-sm font-medium text-cyan-300 transition-colors hover:text-cyan-200"
-        >
-          阅读更多 →
-        </a>
-      </div>
-
-      <div className="grid gap-4 md:grid-cols-3">
-        {news.map((item) => (
-          <a
-            key={`${item.href}-${item.title}`}
-            href={item.href}
-            {...externalLinkProps}
-            className="group h-full min-h-[320px] rounded-2xl border border-white/10 bg-white/[0.03] p-4 transition-all duration-300 hover:-translate-y-1 hover:border-cyan-300/30 hover:shadow-xl hover:shadow-cyan-500/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300"
-          >
-            <article className="flex h-full flex-col">
-              {item.cover ? (
-                <div
-                  role="img"
-                  aria-label={item.title}
-                  className="h-40 w-full rounded-xl border border-white/10 bg-cover bg-center"
-                  style={{ backgroundImage: `url(${item.cover})` }}
-                />
-              ) : (
-                <div className="flex h-40 w-full items-center justify-center rounded-xl border border-dashed border-white/15 bg-slate-900/60 text-xs text-slate-400">
-                  暂无封面图
-                </div>
-              )}
-              <p className="mt-3 text-xs text-slate-400">{item.time}</p>
-              <h3 className="mt-1 line-clamp-2 text-lg font-semibold text-white">{item.title}</h3>
-              {item.summary ? <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-slate-300">{item.summary}</p> : null}
-              <span className="mt-auto pt-4 text-sm font-medium text-cyan-300">阅读更多 →</span>
-            </article>
-          </a>
-        ))}
-      </div>
-    </section>
-  );
+export function NewsSection(){
+  const [news,setNews]=useState<DisplayItem[]>([]);
+  const [state,setState]=useState<'loading'|'ready'|'unavailable'>('loading');
+  useEffect(()=>{
+    const ctrl=new AbortController();
+    let active=true;
+    fetch('/api/news',{signal:ctrl.signal}).then(async res=>{
+      if(!res.ok)throw Error('News HTTP '+res.status);
+      const items=parseNews(await res.json());
+      if(active){setNews(items);setState(items.length?'ready':'unavailable');}
+    }).catch(()=>{if(active)setState('unavailable');});
+    return()=>{active=false;ctrl.abort();};
+  },[]);
+  return <section aria-label="最新 AI 资讯">
+    <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
+      <h2 className="text-primary text-2xl font-bold md:text-3xl">最新 AI 资讯</h2>
+      <a href={siteLinks.news} {...external} className="zbm-more">查看更多 <ArrowRight size={16}/></a>
+    </div>
+    {state==='ready'?<div className="zbm-news-grid">{news.map(item=><a key={item.href+'-'+item.title} href={item.href} {...external} className="zbm-news-item">
+      <span className="zbm-news-icon"><Newspaper size={24} aria-hidden="true"/></span>
+      <div className="zbm-news-copy"><h3 className="line-clamp-2">{item.title}</h3>{item.summary&&<p className="line-clamp-1">{item.summary}</p>}{item.time&&<time>{item.time}</time>}</div><ArrowRight size={16} aria-hidden="true"/>
+    </a>)}</div>:<p role="status" className="surface-panel rounded-xl p-4 text-sm text-secondary">{state==='loading'?'正在获取最新资讯…':'资讯暂未更新，请前往资讯站查看更多。'}</p>}
+  </section>;
 }
