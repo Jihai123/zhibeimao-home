@@ -183,3 +183,17 @@ html[data-zbm-theme="light"] .zbm-live .text-rose-300 {color:#b42348}
 .zbm-ringstat b{font-size:17px;top:21px;letter-spacing:-.045em}
 @media(max-width:767px){.zbm-product-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.zbm-product{gap:8px;padding:10px;min-height:72px}.zbm-product .zbm-glyph{width:29px;height:29px}.zbm-product-copy strong{font-size:12px}.zbm-product-copy small{font-size:11px}.zbm-product>svg{display:none}}
 @media(max-width:350px){.zbm-product-grid{grid-template-columns:1fr}}
+
+/* V3 real leaderboard: compact on desktop, fully readable on mobile. */
+.zbm-rank-table{margin-top:15px;display:grid;gap:5px;min-width:0}
+.zbm-rank-row{display:grid;grid-template-columns:36px minmax(0,1fr) 65px;align-items:center;gap:10px;padding:9px 10px;border:1px solid var(--zline);border-radius:9px;background:var(--zpanel)}
+.zbm-rank-heading{font-size:11px;color:var(--zmuted);background:transparent;border-color:transparent;padding-block:3px}
+.zbm-rank-heading span:last-child{text-align:right}
+.zbm-rank-number{font-size:14px;color:var(--zmuted);font-weight:700;font-variant-numeric:tabular-nums}
+.zbm-rank-number.zbm-medal-0{color:#ca9635}.zbm-rank-number.zbm-medal-1{color:#8699b5}.zbm-rank-number.zbm-medal-2{color:#b78056}
+.zbm-rank-model{display:flex;flex-direction:column;gap:2px;min-width:0}
+.zbm-rank-model strong{font-size:13px;line-height:1.4;font-weight:650;color:var(--zink);overflow-wrap:anywhere}
+.zbm-rank-model small{font-size:11px;color:var(--zmuted)}
+.zbm-rank-score{text-align:right;font-size:15px;font-weight:750;letter-spacing:-.02em;color:var(--zink);font-variant-numeric:tabular-nums}
+.zbm-topic-icon{display:grid;place-items:center;width:65px;height:60px;flex:none;border:1px solid var(--zline);border-radius:10px;background:var(--zpanel);color:var(--zmuted)}
+@media(max-width:767px){.zbm-rank-row{grid-template-columns:28px minmax(0,1fr) 52px;gap:7px;padding:8px 7px}.zbm-rank-model strong{font-size:12px}.zbm-rank-score{font-size:13px}.zbm-rank-heading{font-size:10px}.zbm-topic-icon{width:48px;height:48px}}
