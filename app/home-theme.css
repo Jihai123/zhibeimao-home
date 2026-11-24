@@ -197,3 +197,21 @@ html[data-zbm-theme="light"] .zbm-live .text-rose-300 {color:#b42348}
 .zbm-rank-score{text-align:right;font-size:15px;font-weight:750;letter-spacing:-.02em;color:var(--zink);font-variant-numeric:tabular-nums}
 .zbm-topic-icon{display:grid;place-items:center;width:65px;height:60px;flex:none;border:1px solid var(--zline);border-radius:10px;background:var(--zpanel);color:var(--zmuted)}
 @media(max-width:767px){.zbm-rank-row{grid-template-columns:28px minmax(0,1fr) 52px;gap:7px;padding:8px 7px}.zbm-rank-model strong{font-size:12px}.zbm-rank-score{font-size:13px}.zbm-rank-heading{font-size:10px}.zbm-topic-icon{width:48px;height:48px}}
+
+/* V3.1: compact production content, without numbered demo markers. */
+.zbm-home .zbm-section{padding-block:40px}
+.zbm-home .zbm-section-head h2{margin-top:0;display:flex;align-items:center;gap:12px}
+.zbm-home .zbm-section-head h2:before,.zbm-live h2:before{content:"";width:3px;height:.8em;border-radius:3px;background:var(--zaccent);flex:none}
+.zbm-live h2{display:flex;align-items:center;gap:12px;margin-top:0}
+.zbm-live>section{margin-top:0;padding-bottom:0}
+.zbm-news-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.zbm-news-item{display:flex;align-items:center;gap:14px;min-width:0;min-height:105px;padding:13px 15px;border-radius:13px;border:1px solid var(--zline);background:var(--zpanel);transition:background .25s,border-color .25s}
+.zbm-news-item:hover{background:var(--zhover);border-color:var(--zline2)}
+.zbm-news-item:last-child:nth-child(odd){grid-column:1/-1}
+.zbm-news-icon{display:grid;place-items:center;width:68px;height:64px;border-radius:10px;flex:none;background:var(--zglyph);color:var(--zglyphink);border:1px solid var(--zline)}
+.zbm-news-copy{flex:1;min-width:0}
+.zbm-news-copy h3{color:var(--zink);font-size:15px;font-weight:650;line-height:1.5}
+.zbm-news-copy p{color:var(--zmuted);font-size:12px;margin:4px 0 0;line-height:1.6}
+.zbm-news-item time{display:block;color:var(--zmuted);font-size:11px;margin-top:5px}
+.zbm-news-item>svg{flex:none;color:var(--zaccent)}
+@media(max-width:767px){.zbm-home .zbm-section{padding-block:28px}.zbm-news-grid{grid-template-columns:1fr}.zbm-news-item{gap:10px;padding:10px;min-height:90px}.zbm-news-icon{width:48px;height:48px}.zbm-news-copy h3{font-size:14px}}
