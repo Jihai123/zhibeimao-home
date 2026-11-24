@@ -168,3 +168,18 @@ html[data-zbm-theme="light"] .zbm-live .text-rose-300 {color:#b42348}
 @media(max-width:767px){.zbm-wrap{width:calc(100% - 32px)}.zbm-hero-inner{grid-template-columns:1fr;min-height:auto;padding:39px 0 18px;gap:8px}.zbm-hero h1{font-size:clamp(40px,10vw,58px);margin:15px 0}.zbm-hero-copy p{font-size:15px;margin-bottom:22px}.zbm-art{height:265px}.zbm-orb,html[data-zbm-theme="light"] .zbm-orb{width:46%;max-width:220px}.zbm-ringstats{top:0;right:0}.zbm-chips{bottom:14px}.zbm-chips span{font-size:10px;padding:7px 9px}.zbm-quick{grid-template-columns:repeat(2,minmax(0,1fr));margin-bottom:18px}.zbm-quick a{font-size:12px;padding:13px;border-bottom:1px solid var(--zline)}.zbm-quick a:nth-child(2){border-right:0}.zbm-quick a:nth-child(n+3){border-bottom:0}.zbm-quick a svg:last-child{display:none}.zbm-section{padding:35px 0}.zbm-section-head p{font-size:13px}.zbm-three,.zbm-api-panel{grid-template-columns:1fr}.zbm-card{padding:20px;transform:none!important}.zbm-feature-art{height:85px}.zbm-api-panel{padding:22px;gap:20px}.zbm-toolgrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.zbm-tool{min-height:0;padding:14px}.zbm-tool:last-child{grid-column:span 2}.zbm-tool h3{font-size:15px}.zbm-tool p{font-size:12px}.zbm-tool .zbm-cardfoot{padding-top:12px}.zbm-energy{display:none}.zbm-theme-switch button{padding:5px 7px}.zbm-theme-switch button span{display:none}}
 @media(hover:none),(pointer:coarse){.zbm-card{transform:none!important}.zbm-card:after{display:none}}
 @media(prefers-reduced-motion:reduce){.zbm-home *,.zbm-home *:before,.zbm-home *:after,.zbm-theme-switch *{animation:none!important;transition:none!important;scroll-behavior:auto!important}.zbm-card,.zbm-enter{transform:none!important;clip-path:none!important}}
+
+/* Compact portfolio, intentionally secondary to the AI homepage. */
+.zbm-product-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.zbm-product{display:flex;align-items:center;gap:12px;min-width:0;min-height:76px;padding:13px 15px;border:1px solid var(--zline);border-radius:13px;background:var(--zpanel);transition:background .25s var(--zcurve),border-color .25s var(--zcurve)}
+.zbm-product:hover{background:var(--zhover);border-color:var(--zline2)}
+.zbm-product .zbm-glyph{width:36px;height:36px;border-radius:10px}
+.zbm-product-copy{display:flex;flex-direction:column;min-width:0;flex:1;gap:3px}
+.zbm-product-copy strong{font-size:14px;font-weight:650;color:var(--zink);line-height:1.4}
+.zbm-product-copy small{font-size:12px;color:var(--zmuted);line-height:1.5}
+.zbm-product>svg{color:var(--zmuted);flex:none}
+.zbm-portfolio .zbm-section-head h2{font-size:clamp(24px,2.2vw,30px)}
+.zbm-route-row span{display:inline-flex;align-items:center;gap:5px}
+.zbm-ringstat b{font-size:17px;top:21px;letter-spacing:-.045em}
+@media(max-width:767px){.zbm-product-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.zbm-product{gap:8px;padding:10px;min-height:72px}.zbm-product .zbm-glyph{width:29px;height:29px}.zbm-product-copy strong{font-size:12px}.zbm-product-copy small{font-size:11px}.zbm-product>svg{display:none}}
+@media(max-width:350px){.zbm-product-grid{grid-template-columns:1fr}}
