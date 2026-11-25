@@ -83,6 +83,7 @@ async function verifyBaiduAnalytics(browser) {
       assert.deepEqual(requests, enabled ? [scriptUrl] : [], hostname + ': unexpected Baidu requests');
       console.log('PASS Baidu Analytics', hostname, requests.length);
     } finally {
+      await page.unrouteAll({ behavior: 'wait' });
       await page.close();
     }
   }
