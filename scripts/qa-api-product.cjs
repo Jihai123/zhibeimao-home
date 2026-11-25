@@ -42,6 +42,52 @@ async function visit(page, pathname, label) {
   console.log('PASS', label, widths);
 }
 
+async function verifyBaiduAnalytics(browser) {
+  const scriptUrl = 'https://hm.baidu.com/hm.js?8dbf8b58ca53a47a0654705d5db34f60';
+
+  for (const [hostname, enabled] of [
+    ['www.zhibeimao.com', true],
+    ['zhibeimao.com', false],
+    ['localhost', false],
+    ['127.0.0.1', false],
+    ['zhibeimao-home-git-analytics-preview.vercel.app', false],
+    ['helpwork.zhibeimao.com', false],
+    ['www.zhibeimao.com.example.test', false]
+  ]) {
+    const origin = new URL(base);
+    origin.hostname = hostname;
+    const page = await browser.newPage();
+    try {
+      // Serve the same local production build on each browser hostname.
+      await page.route(origin.origin + '/**', async (route) => {
+        const url = new URL(route.request().url());
+        const response = await route.fetch({ url: new URL(url.pathname + url.search, base).href });
+        await route.fulfill({ response });
+      });
+
+      // Observe the browser request without contacting Baidu or recording test PVs.
+      const requests = [];
+      await page.route('https://hm.baidu.com/**', async (route) => {
+        requests.push(route.request().url());
+        await route.fulfill({ contentType: 'application/javascript', body: '' });
+      });
+
+      const [response] = await Promise.all([
+        page.goto(new URL('/about', origin).href, { waitUntil: 'domcontentloaded' }),
+        enabled ? page.waitForResponse(scriptUrl, { timeout: 10000 }) : null
+      ]);
+      assert.equal(response?.status(), 200, hostname + ': expected the app page');
+      await page.locator('#baidu-tongji').waitFor({ state: 'attached' });
+      const initialized = await page.evaluate(() => Array.isArray(window._hmt));
+      assert.equal(initialized, enabled, hostname + ': unexpected Baidu initialization');
+      assert.deepEqual(requests, enabled ? [scriptUrl] : [], hostname + ': unexpected Baidu requests');
+      console.log('PASS Baidu Analytics', hostname, requests.length);
+    } finally {
+      await page.close();
+    }
+  }
+}
+
 async function run() {
   fs.mkdirSync(output, { recursive: true });
 
@@ -62,6 +108,7 @@ async function run() {
   console.log('PASS: SEO discovery endpoints and four canonical sitemap URLs');
   const browser = await chromium.launch({ channel: 'chrome', headless: true, args: ['--no-sandbox'] });
   try {
+    await verifyBaiduAnalytics(browser);
     for (const width of [320, 390, 1280]) {
       const page = await browser.newPage({ viewport: { width, height: 844 }, deviceScaleFactor: 1 });
       const isMobile = width < 768;

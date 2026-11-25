@@ -24,8 +24,10 @@ export default function RootLayout({
         <SiteFooter />
         <Script id="baidu-tongji" strategy="afterInteractive">
           {`
-            window._hmt = window._hmt || [];
             (function() {
+              if (window.location.hostname !== "www.zhibeimao.com") return;
+
+              window._hmt = window._hmt || [];
               var hm = document.createElement("script");
               hm.src = "https://hm.baidu.com/hm.js?8dbf8b58ca53a47a0654705d5db34f60";
               var s = document.getElementsByTagName("script")[0];
