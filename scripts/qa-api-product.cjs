@@ -5,6 +5,15 @@ const { chromium } = require('playwright');
 
 const base = process.env.QA_BASE_URL || 'http://127.0.0.1:3000';
 const output = path.join(process.cwd(), 'qa-artifacts');
+const analyticsHosts = [
+  ['www.zhibeimao.com', true],
+  ['zhibeimao.com', false],
+  ['localhost', false],
+  ['127.0.0.1', false],
+  ['zhibeimao-home-git-analytics-preview.vercel.app', false],
+  ['helpwork.zhibeimao.com', false],
+  ['www.zhibeimao.com.example.test', false]
+];
 
 async function visit(page, pathname, label) {
   const errors = [];
@@ -45,26 +54,11 @@ async function visit(page, pathname, label) {
 async function verifyBaiduAnalytics(browser) {
   const scriptUrl = 'https://hm.baidu.com/hm.js?8dbf8b58ca53a47a0654705d5db34f60';
 
-  for (const [hostname, enabled] of [
-    ['www.zhibeimao.com', true],
-    ['zhibeimao.com', false],
-    ['localhost', false],
-    ['127.0.0.1', false],
-    ['zhibeimao-home-git-analytics-preview.vercel.app', false],
-    ['helpwork.zhibeimao.com', false],
-    ['www.zhibeimao.com.example.test', false]
-  ]) {
+  for (const [hostname, enabled] of analyticsHosts) {
     const origin = new URL(base);
     origin.hostname = hostname;
     const page = await browser.newPage();
     try {
-      // Serve the same local production build on each browser hostname.
-      await page.route(origin.origin + '/**', async (route) => {
-        const url = new URL(route.request().url());
-        const response = await route.fetch({ url: new URL(url.pathname + url.search, base).href });
-        await route.fulfill({ response });
-      });
-
       // Observe the browser request without contacting Baidu or recording test PVs.
       const requests = [];
       await page.route('https://hm.baidu.com/**', async (route) => {
@@ -107,7 +101,17 @@ async function run() {
       'sitemap.xml is missing canonical URL: ' + pagePath);
   }
   console.log('PASS: SEO discovery endpoints and four canonical sitemap URLs');
-  const browser = await chromium.launch({ channel: 'chrome', headless: true, args: ['--no-sandbox'] });
+  // Point the test hostnames at the isolated Next build while keeping the browser URL intact.
+  const buildHost = new URL(base).hostname;
+  const hostRules = analyticsHosts
+    .filter(([hostname]) => hostname !== buildHost)
+    .map(([hostname]) => 'MAP ' + hostname + ' ' + buildHost)
+    .join(', ');
+  const browser = await chromium.launch({
+    channel: 'chrome',
+    headless: true,
+    args: ['--no-sandbox', '--no-proxy-server', '--host-resolver-rules=' + hostRules]
+  });
   try {
     await verifyBaiduAnalytics(browser);
     for (const width of [320, 390, 1280]) {
