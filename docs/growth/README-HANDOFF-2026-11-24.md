@@ -68,6 +68,12 @@
 - 已知搜索需求主要为“工作性价比”“这班值不值得上”及品牌/历史名称“zhi zhuayuya”；**不是AI导航或API流量**。不要误将jobtest的流量计入AI导航首页，更不能因Bing高点击就取消主站获客任务。
 - 下一步优先保护jobtest已有排名，查Bing受影响具体URL后最小修复历史重复元描述，核实IndexNow，而不是全站盲目改标题、删除历史页或在jobtest强推不相关API商业广告。
 
+## 6B. 2026-11-25 Bing SEO Summary：规则总量确认、具体URL尚缺
+- 用户又上传 `chatgpt5x.com_SEOAnalysisSummary_2026_11_25.csv`，共9项规则。**这份CSV第一列虽然名为URL，实为告警名称**，没有具体被影响的页面地址。
+- 规则影响页计数：**Description过短184、重复165、标题过短28、过长4、缺H1有6、多H1有1、图片ALT缺失5**；IndexNow配置与高质量反向链接不足各是**站点级提醒**（Page count=0，不是页面故障数）。7项页面规则计数相加393是重复可能存在的“规则×页面”命中，不是393个不同URL。
+- **先下载Bing Recommendations里重复Description、短Description的URL明细**，再和104条PageTraffic数据关联，优先保护jobtest已有点击、对www历史模板做风险分层。未取得URL明细前不批量改页面、也不承诺Bing告警已清除。
+- 具体审计与处理顺序：[2026-11-25 Bing SEO Summary解析](./2026-11-25-bing-seo-summary.md)。官方操作：Recommendations → 对应项目 Investigate → Download all。
+  
 ## 7. 下次应直接做什么（不要重新规划）
 
 - **D01 11/25**：先看Issue #27最新执行评论，核对今天是否已自动运行；直接读取/询问现有百度统计、GA4（如果有权限）及百度/Bing/GSC站长后台六格状态；若被挡，一次性列出最小只读授权动作；同步复核公开模型价格目录价格与首稿、确认至少一个合规开发者渠道与一个大众渠道账号权限。完成一项继续下一项。
