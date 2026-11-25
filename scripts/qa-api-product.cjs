@@ -57,8 +57,21 @@ async function verifyBaiduAnalytics(browser) {
   for (const [hostname, enabled] of analyticsHosts) {
     const origin = new URL(base);
     origin.hostname = hostname;
+    if (hostname.endsWith('.vercel.app')) origin.protocol = 'https:';
     const page = await browser.newPage();
     try {
+      // Serve the isolated build under the requested hostname, including HTTPS-only Vercel hosts.
+      await page.route(origin.origin + '/**', async (route) => {
+        const request = route.request();
+        if (!['document', 'script'].includes(request.resourceType())) {
+          await route.abort();
+          return;
+        }
+        const url = new URL(request.url());
+        const response = await page.request.get(new URL(url.pathname + url.search, base).href);
+        await route.fulfill({ response });
+      });
+
       // Observe the browser request without contacting Baidu or recording test PVs.
       const requests = [];
       await page.route('https://hm.baidu.com/**', async (route) => {
@@ -67,7 +80,7 @@ async function verifyBaiduAnalytics(browser) {
       });
 
       const [response] = await Promise.all([
-        page.goto(new URL('/about', origin).href, { waitUntil: 'domcontentloaded' }),
+        page.goto(new URL('/about', origin).href, { waitUntil: 'load' }),
         enabled ? page.waitForResponse(scriptUrl, { timeout: 10000 }) : null
       ]);
       assert.equal(response?.status(), 200, hostname + ': expected the app page');
@@ -77,7 +90,7 @@ async function verifyBaiduAnalytics(browser) {
       assert.deepEqual(requests, enabled ? [scriptUrl] : [], hostname + ': unexpected Baidu requests');
       console.log('PASS Baidu Analytics', hostname, requests.length);
     } finally {
-      await page.unrouteAll({ behavior: 'wait' });
+      await page.unrouteAll({ behavior: 'ignoreErrors' });
       await page.close();
     }
   }
@@ -101,17 +114,7 @@ async function run() {
       'sitemap.xml is missing canonical URL: ' + pagePath);
   }
   console.log('PASS: SEO discovery endpoints and four canonical sitemap URLs');
-  // Point the test hostnames at the isolated Next build while keeping the browser URL intact.
-  const buildHost = new URL(base).hostname;
-  const hostRules = analyticsHosts
-    .filter(([hostname]) => hostname !== buildHost)
-    .map(([hostname]) => 'MAP ' + hostname + ' ' + buildHost)
-    .join(', ');
-  const browser = await chromium.launch({
-    channel: 'chrome',
-    headless: true,
-    args: ['--no-sandbox', '--no-proxy-server', '--host-resolver-rules=' + hostRules]
-  });
+  const browser = await chromium.launch({ channel: 'chrome', headless: true, args: ['--no-sandbox'] });
   try {
     await verifyBaiduAnalytics(browser);
     for (const width of [320, 390, 1280]) {
