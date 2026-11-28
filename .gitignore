@@ -32,3 +32,9 @@ scripts/growth-ops/permission-acceptance.md
 ops/credentials.json
 *.key
 *.pem
+
+# growth-ops report artifacts (never credentials)
+scripts/growth-ops/两站真实运营数据日报.md
+scripts/growth-ops/授权验收清单.md
+scripts/growth-ops/probe-evidence.json
+scripts/growth-ops/token-lifecycle-evidence.json

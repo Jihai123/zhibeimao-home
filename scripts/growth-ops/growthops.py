@@ -69,10 +69,45 @@ def safe_error(text: str) -> str:
     return text
 
 
+def _proxy() -> str:
+    """Return the machine's proxy if one is configured. Never logged or printed."""
+    p = ""
+    try:
+        p = subprocess.run(
+            ["git", "config", "--get", "http.proxy"],
+            capture_output=True, text=True, errors="replace", timeout=10,
+        ).stdout.strip()
+    except Exception:
+        pass
+    if not p:
+        for k in ("HTTPS_PROXY", "https_proxy", "HTTP_PROXY", "http_proxy",
+                  "ALL_PROXY", "all_proxy"):
+            p = (os.environ.get(k) or "").strip()
+            if p:
+                break
+    return p
+
+
+def _parse_curl(raw: str):
+    m = re.search(r"__STATUS__(\d+)\s*$", raw)
+    status = int(m.group(1)) if m else 0
+    payload = raw[: m.start()].strip() if m else raw.strip()
+    try:
+        return status, json.loads(payload)
+    except Exception:
+        return status, {"raw": safe_error(payload)}
+
+
 def curl(method: str, url: str, *, headers: list[str] | None = None,
          data: str | None = None, timeout: int = 45):
-    """Return (http_status, parsed_json_or_text). Uses the machine's working proxy chain."""
-    args = ["curl", "-sS", "--max-time", str(timeout), "--retry", "2",
+    """Return (http_status, parsed_json_or_text).
+
+    Tries the direct path first (needed for Baidu/Bing origins), then falls back
+    to the machine proxy on a connection-level failure (needed for Google APIs).
+    stdout is decoded with replacement so non-UTF-8 upstream bytes cannot crash
+    the reader thread and get misreported as a network outage.
+    """
+    args = ["curl", "-sS", "--max-time", str(timeout), "--retry", "1",
             "--retry-delay", "1", "--retry-all-errors", "-A", UA,
             "-X", method, "-w", "\n__STATUS__%{http_code}"]
     for h in headers or []:
@@ -83,23 +118,32 @@ def curl(method: str, url: str, *, headers: list[str] | None = None,
         os.close(fd)
         Path(tmp).write_text(data, encoding="utf-8")
         args += ["--data-binary", "@" + tmp]
-    args.append(url)
+
+    def run(extra: list[str]) -> str:
+        try:
+            r = subprocess.run(args + extra + [url], capture_output=True,
+                               text=True, errors="replace", timeout=timeout + 30)
+            return r.stdout or ""
+        except Exception:
+            return ""
+
     try:
-        r = subprocess.run(args, capture_output=True, text=True, timeout=timeout + 30)
+        raw = run([])
+        status, parsed = _parse_curl(raw)
+        if status == 0:
+            px = _proxy()
+            if px:
+                raw2 = run(["--proxy", px])
+                status2, parsed2 = _parse_curl(raw2)
+                if status2 != 0:
+                    return status2, parsed2
+        return status, parsed
     finally:
         if tmp:
             try:
                 os.remove(tmp)
             except OSError:
                 pass
-    raw = r.stdout or ""
-    m = re.search(r"__STATUS__(\d+)\s*$", raw)
-    status = int(m.group(1)) if m else 0
-    payload = raw[: m.start()].strip() if m else raw.strip()
-    try:
-        return status, json.loads(payload)
-    except Exception:
-        return status, {"raw": safe_error(payload)}
 
 
 # ---------------------------------------------------------------------------
