@@ -28,6 +28,8 @@ jobs:
         run: node scripts/test-credit-pricing.cjs
       - name: Verify structured data and canonical/social metadata
         run: node scripts/verify-structured-data.cjs
+      - name: Verify developer copy UX and troubleshooting content
+        run: node scripts/verify-copy-ux.cjs
       - name: Build and type-check
         run: npm run build
       - name: Install browser QA runner
