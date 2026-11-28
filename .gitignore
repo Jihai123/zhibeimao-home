@@ -24,3 +24,11 @@ pnpm-debug.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# growth-ops generated artifacts (may contain operational data, never credentials)
+scripts/growth-ops/snapshots/
+scripts/growth-ops/permission-acceptance.json
+scripts/growth-ops/permission-acceptance.md
+ops/credentials.json
+*.key
+*.pem
