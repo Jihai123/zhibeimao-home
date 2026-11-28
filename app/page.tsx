@@ -44,7 +44,20 @@ function FeatureArt({ index }: {index:number}) {
 export const metadata = {
   title: '指北猫 - AI 工具导航 · AI 在线体验 · AI API 模型服务',
   description: '指北猫是一站式 AI 发现、体验与应用服务平台，提供 AI 工具导航、全球 AI 模型能力总榜、行业资讯、在线 AI 对话与视觉创作，以及兼容 OpenAI 的 API 接入和模型价格查询。',
-  alternates: { canonical: 'https://www.zhibeimao.com/' }
+  alternates: { canonical: 'https://www.zhibeimao.com/' },
+  openGraph: {
+    title: '指北猫 - AI 工具导航 · AI 在线体验 · AI API 模型服务',
+    description: '发现好用的 AI 工具，体验主流大模型，获取前沿资讯；从在线对话到 API 接入，让 AI 更容易融入工作与创作。',
+    url: 'https://www.zhibeimao.com/',
+    type: 'website',
+    siteName: '指北猫',
+    locale: 'zh_CN'
+  },
+  twitter: {
+    card: 'summary',
+    title: '指北猫 - AI 工具导航 · AI 在线体验',
+    description: '发现好用的 AI 工具，体验主流大模型，从在线对话到 API 接入。'
+  }
 };
 
 export const revalidate = 900;

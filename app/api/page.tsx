@@ -18,6 +18,8 @@ import { ModelCatalog } from '@/components/ModelCatalog';
 import { CreditPricingSection } from '@/components/CreditPricingSection';
 import { getPublicModelCatalog } from '@/lib/model-catalog';
 import { apiBaseUrl } from '@/data/api-product';
+import { StructuredData } from '@/components/StructuredData';
+import { apiPageSchema, apiBreadcrumbSchema } from '@/lib/structured-data';
 
 export const metadata: Metadata = {
   title: '智享AI API｜统一模型 API 接入服务',
@@ -28,6 +30,11 @@ export const metadata: Metadata = {
     description: '统一 API 地址，连接主流 AI 模型。提供模型选择、按需购买与开发接入指南。',
     url: 'https://www.zhibeimao.com/api',
     type: 'website'
+  },
+  twitter: {
+    card: 'summary',
+    title: '智享AI API｜统一模型 API 接入服务',
+    description: 'OpenAI 兼容接口，一个 Key 连接主流 AI 模型，查看模型目录与接入文档。'
   }
 };
 
@@ -50,6 +57,7 @@ export default async function ApiProductPage() {
 
   return (
     <main className="mx-auto w-full min-w-0 max-w-7xl px-4 pb-16 pt-5 sm:px-6 md:px-8 md:pt-9">
+      <StructuredData data={[apiPageSchema, apiBreadcrumbSchema]} />
       <section className="relative isolate overflow-hidden rounded-[26px] border border-white/10 bg-[#10172b] px-5 py-9 shadow-[0_20px_80px_rgba(0,0,0,0.18)] sm:px-8 md:rounded-[32px] md:px-10 md:py-14 lg:px-12">
         <div aria-hidden="true" className="pointer-events-none absolute -right-28 -top-32 -z-10 h-[450px] w-[450px] rounded-full bg-cyan-500/15 blur-[110px]" />
         <div aria-hidden="true" className="pointer-events-none absolute -bottom-48 left-0 -z-10 h-[350px] w-[350px] rounded-full bg-violet-600/15 blur-[110px]" />
