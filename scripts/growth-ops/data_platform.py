@@ -430,15 +430,23 @@ def bing_fetch(d: dict) -> dict:
 # ================================================== 5. BAIDU SEARCH RESOURCE
 def ziyuan_fetch(d: dict) -> dict:
     c = cfg(d, "baidu_ziyuan")
-    tok = c.get("token")
-    authenticated = filled(tok)
+    per = c.get("sites") or {}
+    # Baidu issues a push token per verified site; track both sites separately.
+    per_site = {name: bool(isinstance(v, dict) and filled(v.get("token")))
+                for name, v in per.items()}
+    for name in SITES:
+        per_site.setdefault(name, False)
+    authenticated = any(per_site.values()) or filled(c.get("token"))
     return {"platform": "baidu_ziyuan",
             "status": "NO_READ_API" if authenticated else "BLOCKED",
             "auth": {"status": "OK" if authenticated else "BLOCKED",
-                     "mechanism": "static push token (no expiry, rotate in console)",
-                     "capability": "URL 主动推送 only"},
+                     "mechanism": "static per-site push token (no expiry, rotate in console)",
+                     "capability": "URL 主动推送 only",
+                     "per_site_token_configured": per_site,
+                     "both_sites_enrolled": bool(all(per_site.get(s) for s in SITES))},
             "reason": "百度搜索资源平台没有公开的流量/索引量/关键词读取 API；token 仅允许推送 URL。"
-                      "索引量、抓取量、关键词数据只能在平台后台人工导出，自动链路不可得。",
+                      "索引量、抓取量、关键词数据只能在平台后台人工导出，自动链路不可得。"
+                      "两个主站需要各自在平台后台单独生成推送 token。",
             "sites": {s: {"7d": unknown("no public read API"),
                           "30d": unknown("no public read API")} for s in SITES}}
 
