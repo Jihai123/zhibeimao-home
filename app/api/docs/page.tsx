@@ -6,6 +6,7 @@ import { siteLinks } from '@/data/site-links';
 import { StoreAttributionLink } from '@/components/StoreAttributionLink';
 import { alternativeApiBaseUrl, apiBaseUrl } from '@/data/api-product';
 import { StructuredData } from '@/components/StructuredData';
+import { CopyButton } from '@/components/CopyButton';
 import {
   apiFaq,
   apiFaqSchema,
@@ -56,9 +57,48 @@ const pythonExample = [
   'print(response.choices[0].message.content)'
 ].join('\n');
 
+const modelsExample = "curl 'https://api.zhibeimao.com/v1/models' -H 'Authorization: Bearer YOUR_API_KEY'";
+
 const endpoints = [
   { method: 'GET', path: '/v1/models', detail: '获取当前 API Key 可用的模型列表' },
   { method: 'POST', path: '/v1/chat/completions', detail: '按 OpenAI 兼容格式发起模型对话' }
+];
+
+// Troubleshooting content is derived only from the configuration and interface
+// notes already present on this page. No invented error codes or promises.
+const apiTroubleshooting = [
+  {
+    symptom: '鉴权失败 / 提示 Key 无效',
+    checks: [
+      '请求头是否为 Authorization: Bearer <你的 API Key>（可复制上方请求头）',
+      'Base URL 是否填写完整并以 /v1 结尾，且没有误用备选地址',
+      'Key 是否仍有可用额度，可在余额查询页面确认'
+    ]
+  },
+  {
+    symptom: '提示模型不存在或不可用',
+    checks: [
+      '先用 GET /v1/models 查询当前 Key 实际可用的模型 ID',
+      '填写完整模型 ID，包含 basic/ 或 standard/ 等线路前缀',
+      '换用目录内其他线路或模型再试，不同线路可用范围可能不同'
+    ]
+  },
+  {
+    symptom: '请求长时间无响应',
+    checks: [
+      '先用上方最小 cURL 示例验证基础连通性，再逐步增加参数',
+      '在客户端设置合理超时与重试上限，避免无限等待',
+      '确认使用的是本页列出的接口路径，而非其他协议格式的路径'
+    ]
+  },
+  {
+    symptom: '接入成功但结果不符合预期',
+    checks: [
+      '确认所选模型支持当前调用格式（OpenAI / Responses / Messages / Gemini）',
+      '核对多模态、图片或视频任务是否走对应接口，而非 /v1/chat/completions',
+      '费用与能力以实时模型目录和账户账单为准，本页不承诺特定效果'
+    ]
+  }
 ];
 
 const additionalEndpoints = [
@@ -96,6 +136,7 @@ export default function ApiDocsPage() {
           { href: '#client-setup', label: '客户端配置' },
           { href: '#models', label: '模型列表' },
           { href: '#endpoints', label: '接口参考' },
+          { href: '#troubleshooting', label: '报错自检' },
           { href: '#faq', label: '常见问题' }
         ].map((item) => (
           <a key={item.href} href={item.href} className="rounded-full border border-white/15 bg-white/[0.04] px-3 py-2 text-slate-200 transition hover:border-cyan-300/40 hover:text-white">
@@ -111,13 +152,19 @@ export default function ApiDocsPage() {
             <p className="text-xs uppercase tracking-wider text-slate-400">API Base URL</p>
             <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
               <code className="block min-w-0 break-all select-all text-sm font-semibold text-cyan-200">{baseUrl}</code>
-              <span className="text-xs text-slate-400">选择并复制接口地址</span>
+              <CopyButton text={baseUrl} label="复制地址" compact />
             </div>
-            <p className="mt-2 text-xs text-slate-400">备选：{alternativeApiBaseUrl}</p>
+            <div className="mt-2 flex flex-wrap items-center justify-between gap-2">
+              <p className="text-xs text-slate-400">备选：{alternativeApiBaseUrl}</p>
+              <CopyButton text={alternativeApiBaseUrl} label="复制备选" compact />
+            </div>
           </div>
           <div className="rounded-xl border border-white/10 bg-slate-950/70 p-4">
             <p className="text-xs uppercase tracking-wider text-slate-400">Authentication</p>
-            <code className="mt-3 block break-all text-sm text-cyan-200">Authorization: Bearer YOUR_API_KEY</code>
+            <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
+              <code className="min-w-0 break-all text-sm text-cyan-200">Authorization: Bearer YOUR_API_KEY</code>
+              <CopyButton text="Authorization: Bearer YOUR_API_KEY" label="复制请求头" compact />
+            </div>
             <p className="mt-2 text-xs text-slate-400">不要将真实 Key 提交到公开代码仓库或浏览器前端。</p>
           </div>
         </div>
@@ -136,11 +183,11 @@ export default function ApiDocsPage() {
         <p className="mt-3 text-sm leading-7 text-slate-300">以下示例采用 <code className="text-cyan-200">gpt-5.6-terra</code>。调用前请通过模型列表接口确认当前 Key 可用的模型 ID。</p>
         <div className="mt-5 grid min-w-0 gap-4">
           <div className="surface-panel min-w-0 overflow-hidden rounded-2xl">
-            <div className="flex items-center justify-between gap-2 border-b border-white/10 px-5 py-3 text-sm font-semibold text-slate-200"><span>cURL · OpenAI 兼容对话</span><span className="text-xs font-normal text-slate-400">代码示例</span></div>
+            <div className="flex items-center justify-between gap-2 border-b border-white/10 px-5 py-3 text-sm font-semibold text-slate-200"><span>cURL · OpenAI 兼容对话</span><CopyButton text={curlExample} label="复制 cURL" compact /></div>
             <pre className="max-w-full overflow-x-auto p-4 text-xs leading-7 text-cyan-100 sm:p-5 md:text-sm"><code>{curlExample}</code></pre>
           </div>
           <div className="surface-panel overflow-hidden rounded-2xl">
-            <div className="flex items-center justify-between gap-2 border-b border-white/10 px-5 py-3 text-sm font-semibold text-slate-200"><span>Python · OpenAI SDK</span><span className="text-xs font-normal text-slate-400">代码示例</span></div>
+            <div className="flex items-center justify-between gap-2 border-b border-white/10 px-5 py-3 text-sm font-semibold text-slate-200"><span>Python · OpenAI SDK</span><CopyButton text={pythonExample} label="复制 Python" compact /></div>
             <pre className="max-w-full overflow-x-auto p-4 text-xs leading-7 text-cyan-100 sm:p-5 md:text-sm"><code>{pythonExample}</code></pre>
             <p className="px-5 pb-5 text-xs leading-6 text-slate-400">先安装 openai SDK，并通过服务器环境变量 AI_API_KEY 保存 Key。</p>
           </div>
@@ -174,7 +221,13 @@ export default function ApiDocsPage() {
             首次使用先在 <Link href="/api#models" className="text-cyan-200 underline underline-offset-4">模型价格目录</Link> 对比，并填写完整的模型 ID。
             基础线路适合日常任务，偶尔可能出现响应波动；如遇问题可尝试其他可用线路。
           </p>
-          <pre className="mt-4 max-w-full overflow-x-auto rounded-xl bg-slate-950/80 p-4 text-xs leading-7 text-cyan-100 md:text-sm"><code>{"curl 'https://api.zhibeimao.com/v1/models' -H 'Authorization: Bearer YOUR_API_KEY'"}</code></pre>
+          <div className="mt-4 overflow-hidden rounded-xl bg-slate-950/80">
+            <div className="flex items-center justify-between gap-2 border-b border-white/10 px-4 py-2 text-xs text-slate-300">
+              <span>查询可用模型</span>
+              <CopyButton text={modelsExample} label="复制命令" compact />
+            </div>
+            <pre className="max-w-full overflow-x-auto p-4 text-xs leading-7 text-cyan-100 md:text-sm"><code>{modelsExample}</code></pre>
+          </div>
         </div>
       </section>
 
@@ -210,8 +263,25 @@ export default function ApiDocsPage() {
         <p className="mt-3 text-xs leading-6 text-slate-400">不同模型支持的接口格式与功能范围可能不同。请根据所选模型的能力说明和账户权限使用相应接口。</p>
       </section>
 
+      <section id="troubleshooting" className="mt-10 scroll-mt-24" aria-labelledby="troubleshooting-title">
+        <h2 id="troubleshooting-title" className="text-xl font-bold text-white md:text-2xl">06 / 接入报错自检</h2>
+        <p className="mt-3 text-sm leading-7 text-slate-300">以下检查项全部整理自本页已有的配置说明与接口参考，按顺序逐项核对即可定位多数接入问题。具体错误码与返回内容以接口实际结果为准。</p>
+        <div className="surface-panel mt-5 overflow-hidden rounded-2xl">
+          <div className="divide-y divide-white/10">
+            {apiTroubleshooting.map((item) => (
+              <div key={item.symptom} className="grid gap-2 px-5 py-4 md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.6fr)]">
+                <h3 className="text-sm font-semibold text-slate-100">{item.symptom}</h3>
+                <ul className="list-disc space-y-1 pl-5 text-xs leading-6 text-slate-300 md:text-sm">
+                  {item.checks.map((check) => <li key={check}>{check}</li>)}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section id="faq" className="mt-10 scroll-mt-24" aria-labelledby="faq-title">
-        <h2 id="faq-title" className="text-xl font-bold text-white md:text-2xl">06 / 接入常见问题</h2>
+        <h2 id="faq-title" className="text-xl font-bold text-white md:text-2xl">07 / 接入常见问题</h2>
         <p className="mt-3 text-sm leading-7 text-slate-300">以下问题整理自本页接入说明与模型目录，具体能力、可用模型及计费请以实时目录和账户账单为准。</p>
         <div className="surface-panel mt-5 divide-y divide-white/10 overflow-hidden rounded-2xl">
           {apiFaq.map((item) => (

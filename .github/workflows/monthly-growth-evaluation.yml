@@ -1,0 +1,49 @@
+name: 30-day growth evaluation
+
+# 1st of each month, 11:00 Asia/Shanghai. Opens one evaluation issue with a
+# real production snapshot and an evidence-only framework. Analytics values
+# remain UNKNOWN until read-only credentials are configured.
+on:
+  schedule:
+    - cron: '0 3 1 * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  evaluate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Capture public production snapshot
+        run: python3 scripts/growth-seo-audit.py growth-snapshot.json
+      - name: Build 30-day evaluation document
+        run: python3 scripts/make-growth-review.py growth-snapshot.json monthly growth-evaluation.md
+      - name: Open 30-day evaluation issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const month = new Date().toISOString().slice(0, 7);
+            const body = fs.readFileSync('growth-evaluation.md', 'utf8');
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `30 天增长评估 ${month}`,
+              body,
+              labels: []
+            });
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: monthly-growth-evaluation-${{ github.run_id }}
+          path: |
+            growth-snapshot.json
+            growth-evaluation.md
+          retention-days: 90
