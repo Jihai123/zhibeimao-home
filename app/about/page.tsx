@@ -4,10 +4,26 @@ import Link from 'next/link';
 import { ArrowLeft, ArrowRight, Mail, MessageSquareText } from 'lucide-react';
 
 import { siteLinks } from '@/data/site-links';
+import { StructuredData } from '@/components/StructuredData';
+import { aboutPageSchema, aboutBreadcrumbSchema } from '@/lib/structured-data';
 
 export const metadata: Metadata = {
   title: '智享AI工具导航 介绍 | 指北猫',
-  description: '了解指北猫与智享AI工具导航的产品定位、运营理念、服务边界和联系方式。我们持续整理实用 AI 工具、公开数据及接入指南，为用户提供清晰可核验的信息。'
+  description: '了解指北猫与智享AI工具导航的产品定位、运营理念、服务边界和联系方式。我们持续整理实用 AI 工具、公开数据及接入指南，为用户提供清晰可核验的信息。',
+  alternates: { canonical: 'https://www.zhibeimao.com/about' },
+  openGraph: {
+    title: '智享AI工具导航 介绍 | 指北猫',
+    description: '了解指北猫与智享AI工具导航的产品定位、运营理念、服务边界和联系方式。',
+    url: 'https://www.zhibeimao.com/about',
+    type: 'website',
+    siteName: '指北猫',
+    locale: 'zh_CN'
+  },
+  twitter: {
+    card: 'summary',
+    title: '智享AI工具导航 介绍 | 指北猫',
+    description: '指北猫的产品定位、服务边界与联系方式。'
+  }
 };
 
 const externalLinkProps = {
@@ -25,6 +41,7 @@ const qrResources = [
 export default function AboutPage() {
   return (
     <main className="mx-auto w-full max-w-5xl px-4 py-6 md:px-8 md:py-8">
+      <StructuredData data={[aboutPageSchema, aboutBreadcrumbSchema]} />
       <section className="surface-panel rounded-3xl p-6 md:p-8">
         <Link href="/" className="inline-flex items-center gap-1 text-sm text-cyan-300 transition-colors hover:text-cyan-200">
           <ArrowLeft className="h-4 w-4" />

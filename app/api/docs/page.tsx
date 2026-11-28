@@ -5,11 +5,31 @@ import { ArrowLeft, ArrowRight, BookOpen, KeyRound, ShieldAlert, Terminal } from
 import { siteLinks } from '@/data/site-links';
 import { StoreAttributionLink } from '@/components/StoreAttributionLink';
 import { alternativeApiBaseUrl, apiBaseUrl } from '@/data/api-product';
+import { StructuredData } from '@/components/StructuredData';
+import {
+  apiFaq,
+  apiFaqSchema,
+  docsBreadcrumbSchema,
+  docsPageSchema
+} from '@/lib/structured-data';
 
 export const metadata: Metadata = {
   title: 'API 接入文档与快速开始｜指北猫',
   description: '智享AI API 开发者接入文档：配置 API Base URL 与 Key，查询可用模型和余额，复制 OpenAI SDK、curl、Python 等示例，并了解不同模型格式、调用能力及常见问题。',
-  alternates: { canonical: 'https://www.zhibeimao.com/api/docs' }
+  alternates: { canonical: 'https://www.zhibeimao.com/api/docs' },
+  openGraph: {
+    title: 'API 接入文档与快速开始｜指北猫',
+    description: '配置 API Base URL 与 Key，查询可用模型，复制 OpenAI SDK、curl 与 Python 示例，查看接口参考和接入常见问题。',
+    url: 'https://www.zhibeimao.com/api/docs',
+    type: 'article',
+    siteName: '指北猫',
+    locale: 'zh_CN'
+  },
+  twitter: {
+    card: 'summary',
+    title: 'API 接入文档与快速开始｜指北猫',
+    description: 'OpenAI 兼容接口配置、调用示例、模型查询与接入常见问题。'
+  }
 };
 
 const baseUrl = apiBaseUrl;
@@ -55,6 +75,7 @@ const additionalEndpoints = [
 export default function ApiDocsPage() {
   return (
     <main className="mx-auto w-full max-w-6xl px-4 py-8 md:px-8 md:py-12">
+      <StructuredData data={[docsPageSchema, docsBreadcrumbSchema, apiFaqSchema]} />
       <Link href="/api" className="inline-flex items-center gap-2 text-sm text-cyan-200 hover:text-white">
         <ArrowLeft className="h-4 w-4" /> 返回 API 产品首页
       </Link>
@@ -74,7 +95,8 @@ export default function ApiDocsPage() {
           { href: '#first-call', label: '调用示例' },
           { href: '#client-setup', label: '客户端配置' },
           { href: '#models', label: '模型列表' },
-          { href: '#endpoints', label: '接口参考' }
+          { href: '#endpoints', label: '接口参考' },
+          { href: '#faq', label: '常见问题' }
         ].map((item) => (
           <a key={item.href} href={item.href} className="rounded-full border border-white/15 bg-white/[0.04] px-3 py-2 text-slate-200 transition hover:border-cyan-300/40 hover:text-white">
             {item.label}
@@ -186,6 +208,30 @@ export default function ApiDocsPage() {
           </div>
         </details>
         <p className="mt-3 text-xs leading-6 text-slate-400">不同模型支持的接口格式与功能范围可能不同。请根据所选模型的能力说明和账户权限使用相应接口。</p>
+      </section>
+
+      <section id="faq" className="mt-10 scroll-mt-24" aria-labelledby="faq-title">
+        <h2 id="faq-title" className="text-xl font-bold text-white md:text-2xl">06 / 接入常见问题</h2>
+        <p className="mt-3 text-sm leading-7 text-slate-300">以下问题整理自本页接入说明与模型目录，具体能力、可用模型及计费请以实时目录和账户账单为准。</p>
+        <div className="surface-panel mt-5 divide-y divide-white/10 overflow-hidden rounded-2xl">
+          {apiFaq.map((item) => (
+            <div key={item.question} className="px-5 py-4">
+              <h3 className="text-sm font-semibold text-slate-100 md:text-base">{item.question}</h3>
+              <p className="mt-2 break-words text-xs leading-7 text-slate-300 md:text-sm">{item.answer}</p>
+            </div>
+          ))}
+        </div>
+        <div className="mt-4 flex flex-wrap gap-3 text-sm">
+          <Link href="/api#models" className="inline-flex items-center gap-2 rounded-xl border border-white/15 px-4 py-2 text-slate-200 transition hover:bg-white/5">
+            查看模型价格目录 <ArrowRight className="h-4 w-4" />
+          </Link>
+          <a href={siteLinks.apiKeyBalance} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-xl border border-white/15 px-4 py-2 text-slate-200 transition hover:bg-white/5">
+            查询余额与消费明细
+          </a>
+          <a href="https://www.chatgpt5x.com/guides/ai-tools-or-api/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-xl border border-white/15 px-4 py-2 text-slate-200 transition hover:bg-white/5">
+            延伸阅读：网页工具还是 API？看选型指南
+          </a>
+        </div>
       </section>
 
       <section className="surface-panel mt-10 rounded-2xl p-5 md:p-7" aria-label="接入注意事项">

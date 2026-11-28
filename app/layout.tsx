@@ -4,6 +4,8 @@ import { SiteFooter } from '@/components/SiteFooter';
 import { SiteHeader } from '@/components/SiteHeader';
 import './globals.css';
 import { AttributionCapture } from '@/components/StoreAttributionLink';
+import { StructuredData } from '@/components/StructuredData';
+import { siteGraphSchema } from '@/lib/structured-data';
 
 export const metadata: Metadata = {
   title: '指北猫 - AI决策平台 | 新股分析 · 养老金测算 · AI工具推荐',
@@ -22,6 +24,7 @@ export default function RootLayout({
         <SiteHeader />
         {children}
         <SiteFooter />
+        <StructuredData data={siteGraphSchema} />
         <Script id="baidu-tongji" strategy="afterInteractive">
           {`
             (function() {
