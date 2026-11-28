@@ -100,13 +100,22 @@ def main():
         "GET /api/docs bytes=%d, structured_data=%s" % (len(html.encode("utf-8")),
                                                         "application/ld+json" in html))
 
-    # 6. chatgpt5x production read
-    r = sh(["curl", "-sSL", "--max-time", "90", "-A", "Mozilla/5.0",
-            "https://www.chatgpt5x.com/guides/ai-tools-or-api/"])
-    guide = r.stdout or ""
+    # 6. chatgpt5x production read (this origin is genuinely flaky; bounded retry
+    #    distinguishes a transient transport failure from a real outage).
+    guide, attempts, transient = "", 0, 0
+    for attempts in range(1, 4):
+        r = sh(["curl", "-sSL", "--max-time", "90", "-A", "Mozilla/5.0",
+                "https://www.chatgpt5x.com/guides/ai-tools-or-api/"])
+        guide = r.stdout or ""
+        if "AI工具网页使用还是API接入" in guide:
+            break
+        transient += 1
+        import time
+        time.sleep(3)
     add("智享AI 生产页面读取", "PASS" if "AI工具网页使用还是API接入" in guide else "FAIL",
-        "GET guide bytes=%d, status_marker=%s" % (len(guide.encode("utf-8")),
-                                                  "AI工具网页使用还是API接入" in guide))
+        "GET guide bytes=%d, attempts=%d, transient_failures=%d, status_marker=%s" %
+        (len(guide.encode("utf-8")), attempts, transient,
+         "AI工具网页使用还是API接入" in guide))
 
     # 7. SSH deploy permission (no key stored locally by default)
     r = sh(["ssh", "-o", "BatchMode=yes", "-o", "ConnectTimeout=8",
@@ -157,8 +166,20 @@ def main():
         print("%-34s %-12s %s" % (r["item"], r["status"], r["evidence"][:110]))
     print("\ncounts:", report["counts"])
     print("written:", ROOT / "permission-acceptance.md")
-    # Masked presence summary (no values)
-    print("credential presence:", {k: mask(v) for k, v in creds.items() if not k.startswith("_")})
+    # Only credential-bearing fields are counted; public site URLs in the
+    # template are deliberately excluded so "configured" is never misleading.
+    sensitive_keys = {"token", "api_key", "secret_key", "access_token", "refresh_token",
+                      "service_account_json_path", "private_key_path"}
+    def filled(o):
+        n = 0
+        if isinstance(o, dict):
+            for k, v in o.items():
+                if str(k).startswith("_"):
+                    continue
+                n += (1 if (k in sensitive_keys and isinstance(v, str) and v.strip()) else 0) + filled(v)
+        return n
+    print("credential_fields_filled:", filled(creds),
+          "(site URLs/hostnames in the template are non-secret and excluded)")
     return 0
 
 
